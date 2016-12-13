@@ -1,0 +1,15 @@
+<root>
+    <styles>
+       <include src="file://{resources}/styles/custom_game/ability_panel.css" />
+    </styles>   
+
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/ability_panel.js" />
+    </scripts>
+        
+     <Panel class="abilityManager">
+            <Button id="abManager" class="ManagerPanel" onactivate="LevelUp()">
+                   <Label text="ClickHere!" />
+            </Button>
+     </Panel>
+</root>

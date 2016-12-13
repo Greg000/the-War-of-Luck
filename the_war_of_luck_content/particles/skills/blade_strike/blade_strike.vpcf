@@ -1,0 +1,80 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_OscillateVector"
+			m_RateMin = [ 0.0, 1000.0, 0.0 ]
+			m_RateMax = [ 0.0, 1000.0, 0.0 ]
+			m_FrequencyMax = [ 3.0, 1.0, 1.0 ]
+			m_flEndTime_min = 100.0
+			m_flEndTime_max = 100.0
+			m_flOscAdd = 0.0
+		},
+		{
+			_class = "C_OP_OscillateVector"
+			m_RateMin = [ 1000.0, 0.0, 0.0 ]
+			m_RateMax = [ 1000.0, 0.0, 0.0 ]
+			m_flEndTime_min = 100.0
+			m_flEndTime_max = 100.0
+		},
+		{
+			_class = "C_OP_SpinUpdate"
+		},
+		{
+			_class = "C_OP_SpinYaw"
+			m_nSpinRateDegrees = 200
+		},
+		{
+			_class = "C_OP_BasicMovement"
+			m_fDrag = 0.8
+		},
+		{
+			_class = "C_OP_Decay"
+		},
+	]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderModels"
+			m_ModelList = 
+			[
+				{
+					m_model = resource:"models/items/bounty_hunter/bounty_scout_shoulder/bounty_scout_shoulder.vmdl"
+				},
+			]
+			m_bIgnoreNormal = true
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 0.5
+			m_flRadiusMax = 0.5
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMax = 0.0
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMin = -20.0
+			m_flDegreesMax = 20.0
+			m_nFieldOutput = 20
+		},
+		{
+			_class = "C_INIT_CreateWithinSphere"
+			m_fRadiusMax = 1.0
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_ContinuousEmitter"
+			m_flEmissionDuration = 1.0
+			m_flEmitRate = 5.0
+		},
+	]
+}

@@ -1,0 +1,6 @@
+"CustomHeroList"
+{
+	"npc_dota_hero_skeleton_king"				"1"
+
+	
+}

@@ -1,0 +1,103 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_BasicMovement"
+			m_fDrag = 0.408
+		},
+		{
+			_class = "C_OP_RemapVelocityToVector"
+			m_nFieldOutput = 21
+			m_bNormalize = true
+		},
+		{
+			_class = "C_OP_SpinUpdate"
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_InterpolateRadius"
+			m_flStartTime = 0.95
+			m_flEndScale = 0.0
+		},
+		{
+			_class = "C_OP_Decay"
+		},
+	]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderModels"
+			m_ModelList = 
+			[
+				{
+					m_model = resource:"models/particle/legion_duel_arcana_banner.vmdl"
+				},
+			]
+			m_bOrientZ = true
+			m_nManualFrameField = 18
+			m_nLOD = 1
+			m_flAnimationRate = 60.0
+			m_bAnimated = true
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 0.75
+			m_flRadiusMax = 0.75
+		},
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMin = 5.2
+			m_fLifetimeMax = 5.2
+		},
+		{
+			_class = "C_INIT_NormalAlignToCP"
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMax = 0.0
+			m_flDegrees = 180.0
+			m_nFieldOutput = 20
+			m_bRandomlyFlipDirection = false
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 1
+		},
+	]
+	m_Constraints = 
+	[
+		{
+			_class = "C_OP_ConstrainDistanceToPath"
+			m_flMaxDistance0 = 0.0
+			m_PathParameters = 
+			{
+				m_nStartControlPointNumber = 1
+			}
+			m_flTravelTime = 0.2
+		},
+	]
+	m_nConstantSequenceNumber1 = 1
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/skills/rain_of_arrows/flag_firefire.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/skills/rain_of_arrows/land_effect.vpcf"
+			m_flDelay = 0.15
+		},
+		{
+			m_ChildRef = resource:"particles/skills/rain_of_arrows/flag_crack.vpcf"
+			m_flDelay = 0.2
+		},
+	]
+}

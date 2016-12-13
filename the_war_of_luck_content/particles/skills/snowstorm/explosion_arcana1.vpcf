@@ -1,0 +1,76 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 1
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_SetControlPointPositions"
+			m_vecCP1Pos = [ -328.0, 490.0, 1600.0 ]
+			m_nCP4 = 3
+			m_vecCP2Pos = [ 0.0, 0.0, 32.0 ]
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_h_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_g_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_b_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_c_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_ice_debris_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.35
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_dust_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_swirl_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/groundshards_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.2
+			m_ChildRef = resource:"particles/skills/snowstorm/skybeam_arcana1.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/skills/snowstorm/skybeamglow_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.3
+			m_ChildRef = resource:"particles/skills/snowstorm/brightcore_arcana1.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_e_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/darkcore_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/explosion_flashbeam_arcana1.vpcf"
+		},
+		{
+			m_flDelay = 0.4
+			m_ChildRef = resource:"particles/skills/snowstorm/cracks_arcana.vpcf"
+		},
+	]
+}

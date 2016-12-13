@@ -1,0 +1,9 @@
+.abilityManager {
+    position: 0 50% 0; 
+    width: 10%;
+    height: 6%;
+    border-top: 0px solid #333;
+    border-bottom: 0px solid #333;
+    background-size: 100% 100%;
+    background-image: url("s2r://panorama/images/custom_game/shop_button_panel_background.png");
+}

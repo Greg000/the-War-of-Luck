@@ -1,0 +1,1672 @@
+// Dota2 Editor
+// Get latest version: https://github.com/zombieJ/nw-dota2editor
+
+"DOTAUnits"
+{
+	"Version"		"1"
+
+	"Crystal Maiden"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Ice Shard"
+		"Ability2"	"Frost Aura"
+		"Ability3"	"Cyclone"
+		"Ability4"	"SnowStorm"
+		"Ability5"	"HeroFlag"
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"	"35"
+		"AttackDamageMax"	"41"
+		"AttackRate"	"1.7"
+		"AttackAnimationPoint"	"0.5"
+		"AttackRange"	"700"
+		"AttackRangeBuffer"	"120"
+		"Model"	"models\heroes\crystal_maiden\crystal_maiden_arcana.vmdl"
+		"ConsideredHero"	"1"
+		"HasInventory"	"1"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"311"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"40"
+				}
+			}
+		}
+		"StatusHealth"	"530"
+		"StatusHealthRegen"	"0.3"
+		"StatusMana"	"600"
+		"StatusManaRegen"	"0.8"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"315"
+		"ArmorPhysical"	"6"
+		"MagicalResistance"	"25"
+		"SoundSet"	"Hero_Crystal"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+		"ProjectileModel"	"particles\units\heroes\hero_crystalmaiden\maiden_base_attack.vpcf"
+		"ProjectileSpeed"	"1000"
+		"HasAggressiveStance"	"1"
+		"MovementTurnRate"	"0.5"
+	}
+
+	"Commander"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Base attack"
+		"Ability2"	"Rain_of_Arrows"
+		"Ability3"	"Charge_aura"
+		"Ability4"	"Take the Head"
+		"Ability5"	"Heroic"
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\legion_commander\legion_commander.vmdl"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackRange"	"500"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"312"
+		"AttackRate"	"1.55"
+		"AttackAnimationPoint"	"0.35"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"6192"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"6191"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"6192"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"6193"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"8823"
+				}
+			}
+		}
+		"ProjectileModel"	"particles\skills\commander_base_attack\spear.vpcf"
+		"HasInventory"	"1"
+		"ConsideredHero"	"1"
+		"ModelScale"	"1.5"
+		"AttackDamageMin"	"27"
+		"AttackDamageMax"	"28"
+		"AttackRangeBuffer"	"100"
+		"ProjectileSpeed"	"1200"
+		"ArmorPhysical"	"3"
+		"HasAggressiveStance"	"1"
+		"StatusHealth"	"550"
+		"StatusHealthRegen"	"1.2"
+		"StatusMana"	"350"
+		"StatusManaRegen"	"100"
+		"StatusStartingMana"	"200"
+		"HealthBarOffset"	"300"
+		"SoundSet"	"Hero_LegionCommander"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
+		"MagicalResistance"	"25"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+	}
+
+	"Ember"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Hammer"
+		"Ability2"	"Ashes"
+		"Ability3"	"Fire Dash"
+		"Ability4"	"Fire Slash"
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\ember_spirit\ember_spirit.vmdl"
+		"HasInventory"	"1"
+		"ConsideredHero"	"1"
+		"StatusHealth"	"700"
+		"StatusHealthRegen"	"0.8"
+		"StatusMana"	"320"
+		"StatusManaRegen"	"1.2"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"7470"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"7472"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"7002"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"7003"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"7004"
+				}
+			}
+		}
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"320"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"34"
+		"AttackDamageMax"	"43"
+		"AttackRate"	"1.7"
+		"AttackAnimationPoint"	"0.5"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"30"
+		"ModelScale"	"1.4"
+		"SoundSet"	"Hero_Ember_Spirit"
+		"GameSoundsFile"	"soundevents\game_sounds_heroes\game_sounds_ember_spirit.vsndevts"
+		"HasAggressiveStance"	"1"
+		"ArmorPhysical"	"3.5"
+		"MagicalResistance"	"25"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+	}
+
+	"Dark Knight"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\abaddon\abaddon.vmdl"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"6408"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"6409"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"6410"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"6411"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"6412"
+				}
+				"Wearable6"
+				{
+					"ItemDef"	"522"
+				}
+			}
+		}
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"33"
+		"AttackDamageMax"	"35"
+		"AttackRate"	"1.7"
+		"AttackAnimationPoint"	"0.56"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"30"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"310"
+		"StatusHealth"	"650"
+		"StatusHealthRegen"	"0.3"
+		"StatusMana"	"250"
+		"ConsideredHero"	"1"
+		"HasInventory"	"1"
+		"HealthBarOffset"	"200"
+		"BoundsHullName"	"24"
+		"ModelScale"	"1"
+		"Level"	"6"
+		"CombatClassAttack"	"DOTA_COMBAT_CLASS_ATTACK_HERO"
+		"CombatClassDefend"	"DOTA_COMBAT_CLASS_DEFEND_HERO"
+		"UnitRelationShipClass"	"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_HERO"
+		"HasAggressiveStance"	"1"
+		"AttackAcquisitionRange"	"300"
+		"StatusManaRegen"	"0.7"
+		"VisionDaytimeRange"	"800"
+		"VisionNighttimeRange"	"1800"
+		"SoundSet"	"Hero_Abaddon"
+		"GameSoundsFile"	"soundevents\game_sounds_heroes\game_sounds_abaddon.vsndevts"
+		"ArmorPhysical"	"4.5"
+		"MagicalResistance"	"25"
+	}
+
+	"Dark Knight_clone"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\abaddon\abaddon.vmdl"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"6408"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"6409"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"6410"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"6411"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"6412"
+				}
+			}
+		}
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"33"
+		"AttackDamageMax"	"35"
+		"AttackRate"	"1.7"
+		"AttackAnimationPoint"	"0.4"
+		"AttackRange"	"160"
+		"AttackRangeBuffer"	"30"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"310"
+	}
+
+	// =================================================================================
+	// Creature: Gnoll Assassin
+	// =================================================================================
+	"npc_dota_creature_spear1"
+	{
+		// General
+		// ----------------------------------------------------------------
+		// Model.
+		"Model"	"models/creeps/neutral_creeps/n_creep_gnoll/n_creep_gnoll_frost.vmdl"
+		"BaseClass"	"npc_dota_creature"
+		"SoundSet"	"n_creep_Ranged"
+		"GameSoundsFile"	"soundevents/game_sounds_creeps.vsndevts"
+		"Level"	"1"
+		"ModelScale"	".9"
+		// Abilities
+		// ----------------------------------------------------------------
+		// Ability 1
+		"Ability1"	"Armor_Reduction"
+		// Ability 2
+		"Ability2"	""
+		// Ability 3
+		"Ability3"	""
+		// Ability 4
+		"Ability4"	""
+		// Armor
+		// ----------------------------------------------------------------
+		// Physical protection.
+		"ArmorPhysical"	"1"
+		// Attack
+		// ----------------------------------------------------------------
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		// Damage range min.
+		"AttackDamageMin"	"17"
+		// Damage range max.
+		"AttackDamageMax"	"19"
+		// Speed of attack.
+		"AttackRate"	"1.3"
+		// Normalized time in animation cycle to attack.
+		"AttackAnimationPoint"	"0.6"
+		// Range within a target can be acquired.
+		"AttackAcquisitionRange"	"800"
+		// Range within a target can be attacked.
+		"AttackRange"	"500"
+		// Particle system model for projectile.
+		"ProjectileModel"	"particles/neutral_fx/gnoll_base_attack.vpcf"
+		// Speed of projectile.
+		"ProjectileSpeed"	"1500"
+		// Bounds
+		// ----------------------------------------------------------------
+		"RingRadius"	"40"
+		"HealthBarOffset"	"170"
+		// Bounty
+		// ----------------------------------------------------------------
+		// Experience earn.
+		"BountyXP"	"0"
+		// Gold earned min.
+		"BountyGoldMin"	"0"
+		// Gold earned max.
+		"BountyGoldMax"	"0"
+		// Movement
+		// ----------------------------------------------------------------
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		// Speed.
+		"MovementSpeed"	"270"
+		// Status
+		// ----------------------------------------------------------------
+		// Base health.
+		"StatusHealth"	"150"
+		// Health regeneration rate.
+		"StatusHealthRegen"	"0.5"
+		// Base mana.
+		"StatusMana"	"0"
+		// Mana regeneration rate.
+		"StatusManaRegen"	"0.0"
+		// Vision
+		// ----------------------------------------------------------------
+		// Range of vision during day light.
+		"VisionDaytimeRange"	"800"
+		// Range of vision at night time.
+		"VisionNighttimeRange"	"800"
+		"CombatClassAttack"	"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"	"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"	"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		// Creature Data
+		// ----------------------------------------------------------------
+		"Creature"
+		{
+			// Level Up
+			"HPGain"	"50"
+			"DamageGain"	"2"
+			"ArmorGain"	"0.25"
+			"MagicResistGain"	"0.1"
+			"MoveSpeedGain"	"1"
+			"BountyGain"	"3"
+			"XPGain"	"15"
+		}
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"BoundsHullName"	"24"
+		"ConsideredHero"	"0"
+	}
+
+	"npc_dota_creature_rock"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Attack_Reflection"
+		"Ability2"	"Magic_Immune_Aura"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models/creeps/neutral_creeps/n_creep_golem_a/neutral_creep_golem_a.vmdl"
+		"Level"	"1"
+		"BountyXP"	"0"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"BoundsHullName"	"24"
+		"StatusHealth"	"1"
+		"AttackDamageMin"	"13"
+		"AttackDamageMax"	"15"
+		"AttackRate"	"2.7"
+		"AttackAnimationPoint"	"0.4"
+		"AttackRange"	"160"
+		"ArmorPhysical"	"2"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"250"
+		"StatusHealthRegen"	"1.0"
+		"VisionDaytimeRange"	"800"
+		"VisionNighttimeRange"	"800"
+		"StatusMana"	"75"
+		"StatusManaRegen"	"0.2"
+	}
+
+	"Majia"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Suiside"
+		"Ability2"	"No_Health_Bar"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models/creeps/neutral_creeps/n_creep_gnoll/n_creep_gnoll_frost.vmdl"
+		"ModelScale"	"1"
+		"StatusHealth"	"10"
+		"StatusHealthRegen"	"0"
+		"RingRadius"	"0"
+		"BoundsHullName"	"0"
+	}
+
+	"necro_archer"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Fear"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\creeps\item_creeps\i_creep_necro_archer\necro_archer.vmdl"
+		"ModelScale"	"0.5"
+	}
+
+	"Demon Golem"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\items\warlock\golem\obsidian_golem\obsidian_golem.vmdl"
+		"ModelScale"	"1"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"31"
+		"AttackDamageMax"	"35"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"30"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"300"
+		"HasAggressiveStance"	"1"
+		"StatusHealth"	"500"
+		"StatusHealthRegen"	"5"
+		"AttackRate"	"1.7"
+		"AttackAnimationPoint"	"0.4"
+		"ArmorPhysical"	"5"
+		"MagicalResistance"	"0"
+	}
+
+	"insight_dummy"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models/creeps/neutral_creeps/n_creep_gnoll/n_creep_gnoll_frost.vmdl"
+		"ModelScale"	"0.01"
+		"RingRadius"	"0"
+		"BoundsHullName"	"0"
+		"VisionDaytimeRange"	"600"
+		"VisionNighttimeRange"	"600"
+	}
+
+	"Test_Hero"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"HeroFlag"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\sven\sven.vmdl"
+		"ConsideredHero"	"1"
+		"Level"	"1"
+		"ModelScale"	"1"
+		"StatusHealth"	"200"
+		"StatusHealthRegen"	"200"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_NO_ATTACK"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_NONE"
+		"AttackDamageMin"	"25"
+		"AttackDamageMax"	"25"
+		"AttackRate"	"0.5"
+		"AttackAnimationPoint"	"0.4"
+		"AttackAcquisitionRange"	"500"
+		"AttackRange"	"1000"
+		"AttackRangeBuffer"	"20"
+		"MovementSpeed"	"522"
+		"UnitRelationShipClass"	"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_HERO"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"16"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"17"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"18"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"19"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"20"
+				}
+			}
+		}
+	}
+
+	"Bounty Hunter"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"throwing knife"
+		"Ability2"	"Evasion"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\bounty_hunter\bounty_hunter.vmdl"
+		"ConsideredHero"	"0"
+		"BountyXP"	"1000"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"	"43"
+		"AttackDamageMax"	"41"
+		"AttackRate"	"2"
+		"AttackRange"	"800"
+		"ArmorPhysical"	"3"
+		"MagicalResistance"	"0"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"330"
+		"StatusHealth"	"420"
+		"StatusHealthRegen"	"0.9"
+		"StatusMana"	"120"
+		"StatusManaRegen"	"0.3"
+		"StatusStartingMana"	"120"
+		"VisionDaytimeRange"	"1400"
+		"VisionNighttimeRange"	"1800"
+		"ProjectileModel"	"particles\neutral_fx\gnoll_base_attack.vpcf"
+		"ProjectileSpeed"	"1500"
+		"AttackAnimationPoint"	"0.38"
+		"AttackRangeBuffer"	"200"
+		"SoundSet"	"Hero_BountyHunter"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_bounty_hunter.vsndevts"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"4469"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"4452"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"4307"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"53"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"54"
+				}
+				"Wearable6"
+				{
+					"ItemDef"	"6525"
+				}
+			}
+		}
+	}
+
+	"Rock"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Attack_Reflection"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\creeps\neutral_creeps\n_creep_golem_a\neutral_creep_golem_a.vmdl"
+		"ConsideredHero"	"0"
+		"BountyXP"	"1000"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"28"
+		"AttackDamageMax"	"41"
+		"AttackRate"	"2"
+		"AttackRange"	"160"
+		"ArmorPhysical"	"5"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"StatusHealth"	"650"
+		"StatusHealthRegen"	"2"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"StatusStartingMana"	"0"
+		"VisionDaytimeRange"	"1600"
+		"VisionNighttimeRange"	"1000"
+		"HasInventory"	"0"
+		"AttackAnimationPoint"	"0.4"
+		"AttackRangeBuffer"	"30"
+		"GameSoundsFile"	"soundevents/game_sounds_creeps.vsndevts"
+		"SoundSet"	"n_creep_Melee"
+	}
+
+	"Dark Spirit"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Suicide"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\nevermore\nevermore.vmdl"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"BountyXP"	"1000"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"StatusHealth"	"300"
+		"StatusHealthRegen"	"0.9"
+		"StatusMana"	"200"
+		"StatusManaRegen"	"1.2"
+		"StatusStartingMana"	"200"
+		"VisionDaytimeRange"	"1600"
+		"VisionNighttimeRange"	"1600"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"	"60"
+		"AttackDamageMax"	"51"
+		"AttackRate"	"1.7"
+		"AttackRange"	"500"
+		"ArmorPhysical"	"3"
+		"MagicalResistance"	"0"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"300"
+		"ProjectileModel"	"particles\units\heroes\hero_batrider\batrider_base_attack.vpcf"
+		"ProjectileSpeed"	"1200"
+		"AttackRangeBuffer"	"300"
+		"AttackAcquisitionRange"	"800"
+		"AttackAnimationPoint"	"0.45"
+		"Creature"
+		{
+			"AttachWearables"	{}
+		}
+		"GameSoundsFile"	"soundevents\game_sounds_heroes\game_sounds_nevermore.vsndevts"
+		"SoundSet"	"Hero_Nevermore"
+	}
+
+	"Warrior"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"agitation"
+		"Ability2"	"Warrior Spirit"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\huskar\huskar.vmdl"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"268"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"269"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"270"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"271"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"272"
+				}
+			}
+		}
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"	"41"
+		"AttackDamageMax"	"40"
+		"AttackRate"	"1.8"
+		"AttackRange"	"500"
+		"ArmorPhysical"	"6"
+		"MagicalResistance"	"0"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"295"
+		"StatusHealth"	"550"
+		"StatusHealthRegen"	"0.5"
+		"StatusMana"	"100"
+		"StatusManaRegen"	"0.9"
+		"StatusStartingMana"	"100"
+		"ProjectileModel"	"particles\units\heroes\hero_huskar\huskar_base_attack.vpcf"
+		"ProjectileSpeed"	"1300"
+		"AttackAnimationPoint"	"0.4"
+		"AttackRangeBuffer"	"200"
+		"AttackAcquisitionRange"	"800"
+		"BountyXP"	"1000"
+		"SoundSet"	"Hero_Huskar"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_huskar.vsndevts"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+	}
+
+	"Swordsman"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	"capture"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\juggernaut\juggernaut.vmdl"
+		"ConsideredHero"	"0"
+		"ModelScale"	"0.85"
+		"SoundSet"	"Hero_Juggernaut"
+		"GameSoundsFile"	"soundevents\game_sounds_heroes\game_sounds_juggernaut.vsndevts"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"37"
+		"AttackDamageMax"	"39"
+		"AttackRate"	"1.43"
+		"AttackAnimationPoint"	"0.32"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"48"
+		"ArmorPhysical"	"2"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"310"
+		"StatusHealth"	"550"
+		"StatusHealthRegen"	"1.3"
+		"StatusMana"	"137"
+		"StatusManaRegen"	"0.3"
+		"StatusStartingMana"	"137"
+		"VisionDaytimeRange"	"1400"
+		"VisionNighttimeRange"	"1000"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"6"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"7"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"8"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"9"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"62"
+				}
+			}
+			"DisableClumpingBehavior"	"1"
+		}
+		"MagicalResistance"	"0"
+		"HasInventory"	"0"
+		"BoundsHullName"	"24"
+		"HealthBarOffset"	"200"
+		"RingRadius"	"30"
+		"BountyXP"	"0"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"Level"	"1"
+		"MovementTurnRate"	"0.5"
+		"HasAggressiveStance"	"1"
+		"CombatClassAttack"	"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"	"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+	}
+
+	"Pudge"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Dismember"
+		"Ability2"	"Plague Aura"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\pudge\pudge.vmdl"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"470"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"258"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"259"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"260"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"261"
+				}
+				"Wearable6"
+				{
+					"ItemDef"	"262"
+				}
+				"Wearable7"
+				{
+					"ItemDef"	"391"
+				}
+				"Wearable8"
+				{
+					"ItemDef"	"47"
+				}
+			}
+		}
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"31"
+		"AttackDamageMax"	"32"
+		"AttackRate"	"1.9"
+		"AttackAnimationPoint"	"0.4"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"20"
+		"ArmorPhysical"	"3"
+		"MagicalResistance"	"15"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"300"
+		"HasAggressiveStance"	"1"
+		"StatusHealth"	"750"
+		"StatusHealthRegen"	"2"
+		"StatusMana"	"230"
+		"StatusManaRegen"	"0.7"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"SoundSet"	"Hero_Pudge"
+		"GameSoundsFile"	"soundevents\game_sounds_heroes\game_sounds_pudge.vsndevts"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+		"StatusStartingMana"	"230"
+	}
+
+	"Earth"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Earth_baseAttack"
+		"Ability2"	"enchant_totem_datadriven"
+		"Ability3"	"newAbility_5"
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\earthshaker\earthshaker.vmdl"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"19"
+		"AttackDamageMax"	"32"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"300"
+		"AttackRange"	"128"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"5777"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"5756"
+				}
+			}
+		}
+		"StatusHealth"	"600"
+		"StatusHealthRegen"	"0.7"
+		"StatusMana"	"130"
+		"StatusManaRegen"	"0.2"
+		"AttackRate"	"1.86"
+		"AttackAnimationPoint"	"0.66"
+		"AttackRangeBuffer"	"30"
+		"ArmorPhysical"	"2"
+		"MagicalResistance"	"0"
+		"SoundSet"	"Hero_Earthshaker"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+	}
+
+	"Clockwreck"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Strafe"
+		"Ability2"	"Mechanial Armor"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\rattletrap\rattletrap.vmdl"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"231"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"446"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"484"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"485"
+				}
+			}
+		}
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"295"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"BoundsHullName"	"24"
+		"StatusHealth"	"600"
+		"StatusHealthRegen"	"0"
+		"StatusMana"	"200"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"27"
+		"AttackDamageMax"	"29"
+		"AttackRate"	"1.5"
+		"AttackAnimationPoint"	"0.3"
+		"AttackRange"	"160"
+		"AttackRangeBuffer"	"20"
+		"HasAggressiveStance"	"1"
+		"SoundSet"	"Hero_Rattletrap"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts"
+		"StatusManaRegen"	"1"
+		"StatusStartingMana"	"200"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+	}
+
+	"Meepo"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Desprado"
+		"Ability2"	"capture"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\meepo\meepo.vmdl"
+	}
+
+	"Jade"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Jade_skin"
+		"Ability2"	"Jade's Brillance"
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\obsidian_destroyer\obsidian_destroyer.vmdl"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_FLY"
+		"MovementSpeed"	"280"
+		"AttackDamageMin"	"12"
+		"AttackDamageMax"	"15"
+		"AttackRate"	"0.8"
+		"AttackAnimationPoint"	"0.35"
+		"AttackRange"	"650"
+		"AttackRangeBuffer"	"100"
+		"ProjectileModel"	"particles\units\heroes\hero_brewmaster\brewmaster_hurl_boulder.vpcf"
+		"ProjectileSpeed"	"950"
+		"HasAggressiveStance"	"0"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"ModelScale"	"1"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"5208"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"5209"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"5210"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"5211"
+				}
+			}
+		}
+		"SoundSet"	"Hero_ObsidianDestroyer"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		"StatusHealth"	"670"
+		"StatusHealthRegen"	"0"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"StatusStartingMana"	"0"
+		"VisionDaytimeRange"	"1400"
+		"VisionNighttimeRange"	"1600"
+	}
+
+	"Satyr"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\creeps\neutral_creeps\n_creep_satyr_a\n_creep_satyr_a.vmdl"
+		"StatusHealth"	"1250"
+		"StatusHealthRegen"	"0.3"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"StatusStartingMana"	"0"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"25"
+		"AttackDamageMax"	"29"
+		"AttackRate"	"1.65"
+		"AttackAnimationPoint"	"0.5"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"40"
+		"ArmorPhysical"	"3"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"295"
+		"SoundSet"	"n_creep_Melee"
+		"GameSoundsFile"	"soundevents/game_sounds_creeps.vsndevts"
+	}
+
+	"Skeleton"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"fire_array"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\wraith_king\wraith_king.vmdl"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"7211"
+				}
+			}
+		}
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+	}
+
+	"Slark"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\slark\slark.vmdl"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"21"
+		"AttackDamageMax"	"25"
+		"AttackRate"	"1.47"
+		"AttackAnimationPoint"	"0.5"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"30"
+		"ArmorPhysical"	"2"
+		"MagicalResistance"	"0"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"325"
+		"HasAggressiveStance"	"1"
+		"StatusHealth"	"570"
+		"StatusHealthRegen"	"0.24"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"StatusStartingMana"	"0"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"336"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"353"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"354"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"355"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"356"
+				}
+				"Wearable6"
+				{
+					"ItemDef"	"538"
+				}
+			}
+		}
+		"SoundSet"	"Hero_Slark"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_slark.vsndevts"
+	}
+
+	"Phantom Assassin"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"blade_xxx"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\phantom_assassin\phantom_assassin.vmdl"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"StatusMana"	"200"
+		"StatusManaRegen"	"0.5"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"137"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"138"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"139"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"140"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"141"
+				}
+			}
+		}
+		"AttackDamageMin"	"17"
+		"AttackDamageMax"	"19"
+		"AttackRate"	"1.52"
+		"AttackAnimationPoint"	"0.37"
+		"AttackRange"	"128"
+		"AttackRangeBuffer"	"50"
+		"ArmorPhysical"	"1"
+		"MagicalResistance"	"0"
+		"MovementSpeed"	"300"
+		"StatusHealth"	"480"
+		"StatusHealthRegen"	"480"
+		"StatusStartingMana"	"200"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"HealthBarOffset"	"200"
+		"SoundSet"	"Hero_PhantomAssassin"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+	}
+
+	"Fighter of Madness"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	"Bloodthirsty"
+		"Ability3"	"Magic Resistance"
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\axe\axe.vmdl"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"HealthBarOffset"	"200"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRange"	"150"
+		"AttackRate"	"1.428"
+		"AttackAnimationPoint"	"0.5"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"320"
+		"AttackDamageMin"	"21"
+		"AttackDamageMax"	"24"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"2"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"3"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"4"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"5"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"8653"
+				}
+			}
+		}
+		"StatusHealth"	"830"
+		"StatusHealthRegen"	"0.5"
+	}
+
+	"Ursa"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\ursa\ursa.vmdl"
+		"ModelScale"	"1.2"
+		"Level"	"1"
+		"HasInventory"	"0"
+		"ConsideredHero"	"1"
+		"BountyXP"	"0"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"HealthBarOffset"	"350"
+		"BoundsHullName"	"DOTA_HULL_SIZE_HERO"
+		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts"
+		"SoundSet"	"Hero_Ursa"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"31"
+		"AttackDamageMax"	"33"
+		"AttackRate"	"1.7"
+		"AttackAnimationPoint"	"0.3"
+		"AttackRange"	"165"
+		"AttackRangeBuffer"	"20"
+		"ArmorPhysical"	"3"
+		"MagicalResistance"	"0"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"300"
+		"HasAggressiveStance"	"1"
+		"StatusHealth"	"850"
+		"StatusHealthRegen"	"0.3"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"StatusStartingMana"	"0"
+		"VisionDaytimeRange"	"1500"
+		"VisionNighttimeRange"	"1500"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"85"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"86"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"87"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"88"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"584"
+				}
+			}
+		}
+		"MovementTurnRate"	"0.25"
+	}
+}
