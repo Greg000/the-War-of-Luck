@@ -1,6 +1,7 @@
 THE WAR OF LUCK 
 ========
 Do you believe in your luck? Even in the worst situation?</br>
+-------
 If you answer is "Yes and Yes!", well, you may be the next hero in the war of luck!</br>
 -------
 ![](https://github.com/Greg000/the-War-of-Luck/raw/master/GIFS/COVER.jpg)
