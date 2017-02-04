@@ -19,4 +19,19 @@ function modifier_revenge_lua:IsDebuff()
 	return true
 end
 
-function
+function modifier_revenge_lua:IsPermanent()
+	return true
+end
+
+function modifier_revenge_lua:IsPurgable()
+	return  false
+end
+
+function modifier_revenge_lua:GetEffectName()
+	return "particles/skills/revenge/regenge.vpcf"
+end
+
+function modifier_revenge_lua:GetEffectAttachType()
+	return PATTACH_OVERHEAD_FOLLOW
+end
+

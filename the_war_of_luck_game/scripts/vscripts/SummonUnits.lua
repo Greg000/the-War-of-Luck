@@ -22,18 +22,21 @@ function SummonUnits:Precache()
 				 
 
 	self.UnitsTable = {
-				--[[[1] = "Dark Spirit",
-				[2] = "Gnoll Assassin",
+				[1] = "Dark Spirit",
+				[2] = "Bounty Hunter",
 				[3] = "Rock",
 				[4] = "Warrior",
-				[5] = "Swordman",
+				[5] = "Swordsman",
 				[6] = "Pudge",
 				[7] = "Earth",
 				[8] = "Clockwreck",
-				[9] = "Satyr"
-				[10] = "Jade"]]--
-				[1] = "Ursa"
-			
+				[9] = "Satyr",
+				[10] = "Jade",
+				[11] = "Ursa",
+				[12] = "Slark",
+				[13] = "Phantom Assassin",
+				[14] = "Fighter of Madness",
+				[15] = "Meepo"
 				
 		
 
@@ -83,6 +86,9 @@ function SummonUnits:Precache()
 	
 end
 
+
+
+
 function SummonUnits:Allocate(keys)
 	local pID = keys.player
 	print("pp0",pID)
@@ -95,15 +101,21 @@ function SummonUnits:Allocate(keys)
 			if self.hero_entities[i].occupied ~= true then
 				target_entity = self.hero_entities[i]
 				self.hero_entities[i].occupied = true
-				self:SummonCreepsWithHero(i,team,pID)
+				Timers:CreateTimer(0.2, function ()
+					self:SummonCreepsWithHero(i,team,keys)
+					hero:SetAbsOrigin(target_entity:GetAbsOrigin())
+					return nil
+				end
+				)
 				break
 			else
 				i = i+1
 			end
 		end
-		local player = EntIndexToHScript(pID)
-    	local hero = player:GetAssignedHero()
-		hero:SetAbsOrigin(target_entity:GetAbsOrigin())
+
+		
+		
+		
 
 	elseif team == 3 then 
 		local d_player_count = PlayerResource:GetPlayerCountForTeam(team)
@@ -111,15 +123,19 @@ function SummonUnits:Allocate(keys)
 			if self.d_hero_entities[i].occupied ~= true then
 				target_entity = self.d_hero_entities[i]
 				self.d_hero_entities[i].occupied = true
-				self:SummonCreepsWithHero(i,team,pID)
+				Timers:CreateTimer(0.2, function ()
+						self:SummonCreepsWithHero(i,team,keys)
+						hero:SetAbsOrigin(target_entity:GetAbsOrigin())
+					return nil
+				end
+				)
 				break
 			else
 				i = i+1
 			end
 		end
-		local player = EntIndexToHScript(pID)
-    	local hero = player:GetAssignedHero()
-		hero:SetAbsOrigin(target_entity:GetAbsOrigin())
+	
+		
 	end
 end
 
@@ -136,7 +152,11 @@ function SummonUnits:ReAllocate(keys)
 			if self.hero_entities[i].occupied ~= true then
 				target_entity = self.hero_entities[i]
 				self.hero_entities[i].occupied = true
-				self:R_SummonCreepsWithHero(i,team,pID)
+				Timers:CreateTimer(0.2, function ()
+						self:R_SummonCreepsWithHero(i,team,keys)
+					return nil
+				end
+				)
 			break
 			else
 				i = i+1
@@ -149,8 +169,12 @@ function SummonUnits:ReAllocate(keys)
 			if self.d_hero_entities[i].occupied ~= true then
 				target_entity = self.d_hero_entities[i]
 				self.d_hero_entities[i].occupied = true
-				self:SummonCreepsWithHero(i,team,pID)
-				break
+				Timers:CreateTimer(0.2, function ()
+						self:R_SummonCreepsWithHero(i,team,keys)
+					return nil
+				end
+				)
+			break
 			else
 				i = i+1
 			end
@@ -165,35 +189,51 @@ function SummonUnits:ReAllocate(keys)
 end
 
 
-function SummonUnits:SummonCreepsWithHero (Index,team,pID)
+function SummonUnits:SummonCreepsWithHero (Index,team,keys)
 	local unitToSummon = self.UnitsTable[RandomInt(1, table.getn(self.UnitsTable))]
-	local player = EntIndexToHScript(pID)
-    local hero = player:GetAssignedHero()
+	print(unitToSummon)
+	local hero = EntIndexToHScript(keys.heroindex)
+	local pID = hero:GetPlayerID() 
+	local player = hero:GetPlayerOwner()
 	local playerOwnerId = hero:GetPlayerOwnerID()
 	if team == 2 then
 		CreepEntities = self.r_Ent[Index]
 		for _,ent in pairs(CreepEntities) do
 			local creep = CreateUnitByName(unitToSummon, ent:GetAbsOrigin(), true, player, player, 2)
+			Notifications:TopToAll({text="?", duration=5.0})
 			creep:SetControllableByPlayer(playerOwnerId, false)
 			creep:SetForwardVector(Vector(0,-1,0))
 		end
-		PlayerResource:SetCameraTarget(pID, CreepEntities[1])
+		Timers:CreateTimer(0.1, function()
+			PlayerResource:SetCameraTarget(pID, CreepEntities[1])
+      		return nil
+    	end
+  		)
 	elseif team == 3 then
 		CreepEntities = self.d_Ent[Index]
 		for _,ent in pairs(CreepEntities) do
 			local creep = CreateUnitByName(unitToSummon, ent:GetAbsOrigin(), true, player, player, 3)
+			Notifications:TopToAll({text="!", duration=5.0})
 			creep:SetControllableByPlayer(playerOwnerId, false)
 			creep:SetForwardVector(Vector(0,1,0))
 		end
-		PlayerResource:SetCameraTarget(pID, CreepEntities[1])
+		Timers:CreateTimer(0.1, function()
+			PlayerResource:SetCameraTarget(playerOwnerId, CreepEntities[1])
+      		return nil
+    	end
+  		)
+		
+
 	end
 end
 
 
-function SummonUnits:R_SummonCreepsWithHero (Index,team,pID)
+function SummonUnits:R_SummonCreepsWithHero (Index,team,keys)
 	local unitToSummon = self.UnitsTable[RandomInt(1, table.getn(self.UnitsTable))]
-	local player = PlayerResource:GetPlayer(pID)
-    local hero = player:GetAssignedHero()
+	print(unitToSummon)
+	local hero = EntIndexToHScript(keys.entindex_killed)
+	local pID = hero:GetPlayerID() 
+	local player = hero:GetPlayerOwner()
 	local playerOwnerId = hero:GetPlayerOwnerID()
 	if team == 2 then
 		CreepEntities = self.r_Ent[Index]

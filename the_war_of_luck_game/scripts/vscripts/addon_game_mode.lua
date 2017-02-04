@@ -45,6 +45,7 @@ function Precache( context )
         PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_weapon_runed_scythe/phantom_assassin_attack_blur_crit_runed_scythe.vpcf", context )
         PrecacheResource( "particle", "particles/skills/rain_of_arrows/rain_of_arrows_flag.vpcf", context )
         PrecacheResource( "particle", "particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_morphling/morphling_base_attack.vpcf", context )
         
        
 
@@ -78,6 +79,14 @@ function Precache( context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_chaos_knight.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts", context )  
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_bounty_hunter.vsndevts", context )   
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_tidehunter.vsndevts", context ) 
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_morphling.vsndevts", context ) 
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_enchantress.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_meepo.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_pugna.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts", context )
+
+        PrecacheResource( "model", "models/heroes/morphling/morphling.vmdl", context )
 end
 
 function PrecacheEveryThingFromKV( context )
@@ -132,15 +141,15 @@ function LuckyWarGameMode:InitGameMode()
 
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap(LuckyWarGameMode, "FilterExecuteOrder" ), self )
         GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap(LuckyWarGameMode, "Damagafilter_heroic" ), self )
-        GameRules:GetGameModeEntity():SetCameraDistanceOverride(1200)
+        GameRules:GetGameModeEntity():SetCameraDistanceOverride(1800)
 	--Initialize OrderFilter
 
-
+        GameRules:SetHeroSelectionTime(5.0)
+        GameRules:SetCustomGameSetupRemainingTime(0.0)
         GameRules:SetPreGameTime( 5.0)--set the pregame time
 
         SummonUnits:Precache()
 
-        LuckyWarGameMode.InitialPick = true
         
 
 end
@@ -173,7 +182,14 @@ function LuckyWarGameMode:OnEntityKilled( keys )
                                                 local pID = deadUnit:GetPlayerID()
                                                 print("bigPid",pID)
                                                 SummonUnits:Precache()
-                                                SummonUnits:ReAllocate(keys)
+
+                                                for pID = 0,9 do
+                                                        print(pID, PlayerResource:IsValidPlayer(pID))
+                                                        if PlayerResource:IsValidPlayer(pID) then
+                                                                DeepPrintTable( keys )
+                                                                SummonUnits:ReAllocate( keys )
+                                                        end
+                                                end
                                                 print("huanyingxiong")
                                                 deadHeroCount = nil
                                         return nil
@@ -416,13 +432,16 @@ function LuckyWarGameMode:LevelUp1(args)
 end
 
 function LuckyWarGameMode:OnPlayerPickHero(keys)
-        if LuckyWarGameMode.InitialPick == true then
+        local hero = EntIndexToHScript(keys.heroindex)
+	local pID = hero:GetPlayerID() 
+	local player = hero:GetPlayerOwner()
+        if player.InitialPick ~= false then
                 DeepPrintTable(keys)
                 print("HeroPicked")
                 SummonUnits:Allocate(keys)
         end
 
-        LuckyWarGameMode.InitialPick = false
+        player.InitialPick = false
 
 end
 

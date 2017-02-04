@@ -14,7 +14,6 @@ end
 
 function modifier_fountain_regeneration_lua:GetActivityTranslationModifiers( params )
         if self:GetParent() == self:GetCaster() then
-        	print("???????????")
                 return "fountain_regeneration"
         end
  
@@ -23,7 +22,7 @@ end
 
 
 function modifier_fountain_regeneration_lua:GetModifierHealthRegenPercentage( params )
-		self.f_reg_hp = 7
+		self.f_reg_hp = 0
 		print(self.f_reg_hp)
         return self.f_reg_hp
 end
@@ -33,4 +32,16 @@ end
 function modifier_fountain_regeneration_lua:GetModifierTotalPercentageManaRegen( params )
 		self.f_reg_mp = 7
         return self.f_reg_mp
+end
+
+function modifier_fountain_regeneration_lua:GetEffectName( params )
+        return "particles/world_shrine/radiant_shrine_regen.vpcf"
+end
+
+function modifier_fountain_regeneration_lua:GetEffectAttachType( params)        
+        return 1
+end
+
+function modifier_fountain_regeneration_lua:GetTexture( params)
+        return "fountain_heal"
 end

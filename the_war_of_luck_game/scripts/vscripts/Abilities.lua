@@ -24,38 +24,7 @@ function Suiside_effect(keys)
 	
 end
 
-function Regeneration_buff(keys)
-	local time = 0
-	local targets = keys.target_entities
-	ability = keys.ability
-	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("Regeneration_buff_timer"),
-			function ()
-				
-				if time < 8 then
-					print("Success")
-					for i,j in pairs (targets) do
-						print("inside")
-						ability:ApplyDataDrivenModifier(j, j, "modifier_Regeneration", {duration = 10000}) 
-						
 
-						if IsValidEntity(unit) and unit:IsAlive() then  
-                         	local damageTable = {victim=j,    
-                                                 attacker=caster,        
-                                                 damage=keys.ability:GetLevelSpecialValueFor("Heal", 1),      
-                                                 damage_type=keys.ability:GetAbilityDamageType()}   
-                           	ApplyDamage(damageTable) 
-                        end
-
-					end
-
-					time = time + 0.5
-					return 1
-				else
-					return nil
-				end
-			end,
-			0.5)	
-end
 
 function SummonNecro(keys)
 	local caster = keys.caster
@@ -448,7 +417,7 @@ end
 function TestHero( keys )
 	local caster = keys.caster
 	local target_point = keys.target_points[1]
-	CreateUnitByName("Test_Hero", target_point, true, nil, nil, 2) 
+	CreateUnitByName("Test_Hero", target_point, true, nil, nil, 3) 
 
 	-- body
 end
@@ -658,14 +627,15 @@ function Cyclone_lift( keys )
 	local times = 0
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("Cyclone_timer"),
 		function ( )
-			if times < 5 then
+			if times < 10 then
 				local currentPosi = target:GetAbsOrigin()
-				target:SetAbsOrigin(Vector(currentPosi.x,currentPosi.	y,currentPosi.z + maxHeight/10))
+				print("lifting",target:GetAbsOrigin())
+				target:SetAbsOrigin(Vector(currentPosi.x,currentPosi.y,currentPosi.z + maxHeight/10))
 			end
 			times = times+1
 		return 0.03
 		end,0.03)
-	
+	--spend 0.3s dropping in total
 end
 
 function Cyclone_drop( keys )
@@ -676,14 +646,15 @@ function Cyclone_drop( keys )
 	local times = 0
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("Cyclone_timer"),
 		function ( )
-			if times < 5 then
+			if times < 10 then
 				local currentPosi = target:GetAbsOrigin()
+				print("dropping",target:GetAbsOrigin())
 				target:SetAbsOrigin(Vector(currentPosi.x,currentPosi.y,currentPosi.z - maxHeight/10))
 			end
 			times = times+1
 		return 0.03
 		end,0.03)
-	
+	--spend 0.3s dropping in total
 end
 
 function Cyclone_Rotate( keys )
@@ -795,7 +766,8 @@ end
 function Dark_Form( keys )
 	local caster = keys.caster 
 	--caster:StartGestureWithPlaybackRate( ACT_DOTA_SPAWN, 0.8 )  
-
+	local ability = keys.ability
+	local bonus_hp = ability:GetLevelSpecialValueFor("bonus_hp", ability:GetLevel() - 1)
 	local times = 0
 	--[[GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("shadow_form_timer"),
 		function()
@@ -807,8 +779,8 @@ function Dark_Form( keys )
 				return 0.1 
 			end
 		end,0.1)]]--
-	caster:SetMaxHealth(caster:GetMaxHealth()+600)
-	caster:SetHealth(caster:GetHealth()+600)
+	caster:SetMaxHealth(caster:GetMaxHealth() + bonus_hp)
+	caster:SetHealth(caster:GetHealth()+ bonus_hp)
 end
 
 function Dark_Form_end( keys )
@@ -820,7 +792,7 @@ end
 
 function Invisibility ( keys )
 	local caster = keys.caster 
-	caster:AddNewModifier(caster, nil, "modifier_invisible",{duration = 3})
+	caster:AddNewModifier(caster, nil, "modifier_invisible",{})
 end
 
 function Invisibility_CD ( keys )
@@ -836,7 +808,8 @@ function Strafe( keys )
 			local Particle = ParticleManager:CreateParticle("particles/skills/strafe/bullet.vpcf",1,caster)
 			ParticleManager:SetParticleControl(Particle, 1, EndPosi)
 			
-
+			local ability = keys.ability
+			local damage = ability:GetLevelSpecialValueFor("damage", ability:GetLevel()-1)
 			local times = 0
 			local bHit = false
 			GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("Strafe_exe_timer"),
@@ -848,7 +821,7 @@ function Strafe( keys )
 							local victim = units[1]
 							ParticleManager:CreateParticle("particles/skills/strafe/blood.vpcf",9,victim)
 							EmitSoundOn("Hero_Sniper.AssassinateDamage", victim)
-							ApplyDamage({victim = victim, attacker = caster, damage = 50,	damage_type = DAMAGE_TYPE_MAGICAL })
+							ApplyDamage({victim = victim, attacker = caster, damage = damage,	damage_type = DAMAGE_TYPE_MAGICAL })
 							bHit = true
 							ParticleManager:DestroyParticle(Particle, true)
 						end
@@ -868,9 +841,7 @@ function Strafe( keys )
 	local ability = keys.ability
 	local projectile_particle = keys.particle
 	local distance = ability:GetLevelSpecialValueFor("Distance", 0)
-	local path_radius = ability:GetLevelSpecialValueFor("Radius",0)
-	local nVelocity = ability:GetLevelSpecialValueFor("velocity",0)
-	local visionRadius = ability:GetLevelSpecialValueFor("vision",0)
+
 
 	local basicVector = (point - caster:GetAbsOrigin()):Normalized()
 
@@ -879,7 +850,7 @@ function Strafe( keys )
 	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("Strafe_timer1"),
 		function ()
 			if times ==  0 then 
-				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,-30,0),caster:GetAbsOrigin()+basicVector*1500)
+				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,-30,0),caster:GetAbsOrigin()+basicVector*distance)
 				Strafe_Exe.new(caster, EndPosi,ability)
 				EmitSoundOn("Hero_Sniper.ShrapnelShoot", caster)
 				times = times +1
@@ -887,7 +858,7 @@ function Strafe( keys )
 			end
 
 			if times == 1 then 
-				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,-15,0),caster:GetAbsOrigin()+basicVector*1500)
+				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,-15,0),caster:GetAbsOrigin()+basicVector*distance)
 				Strafe_Exe.new(caster, EndPosi,ability)
 				EmitSoundOn("Hero_Sniper.ShrapnelShoot", caster)
 				times = times +1
@@ -895,7 +866,7 @@ function Strafe( keys )
 			end
 
 			if times == 2 then 
-				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,0,0),caster:GetAbsOrigin()+basicVector*1500)
+				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,0,0),caster:GetAbsOrigin()+basicVector*distance)
 				Strafe_Exe.new(caster, EndPosi,ability)
 				EmitSoundOn("Hero_Sniper.ShrapnelShoot", caster)
 				times = times +1
@@ -903,7 +874,7 @@ function Strafe( keys )
 			end
 			
 			if times == 3 then
-				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,15,0),caster:GetAbsOrigin()+basicVector*1500)
+				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,15,0),caster:GetAbsOrigin()+basicVector*distance)
 				Strafe_Exe.new(caster, EndPosi,ability)
 				EmitSoundOn("Hero_Sniper.ShrapnelShoot", caster)
 				times = times +1
@@ -911,7 +882,7 @@ function Strafe( keys )
 			end
 			
 			if times == 4 then
-				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,30,0),caster:GetAbsOrigin()+basicVector*1500)
+				local EndPosi = RotatePosition(caster:GetAbsOrigin(),QAngle(0,30,0),caster:GetAbsOrigin()+basicVector*distance)
 				Strafe_Exe.new(caster, EndPosi,ability)
 				EmitSoundOn("Hero_Sniper.ShrapnelShoot", caster)
 				times = times +1
@@ -934,15 +905,15 @@ end
 function Desprado ( keys )
 	local caster = keys.caster
 	local ability = keys.ability
-	local friendunits = FindUnitsInRadius(caster:GetTeamNumber(), currentPosi , nil, 300, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+	local friendunits = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin() , nil, 600, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
 	local unitscount = table.getn(friendunits)
-	if unitscount > 0 and unitscount <= 2 then
+	if unitscount > 1 and unitscount <= 3 then
 		caster:RemoveModifierByName("modifier_Desprado_0")
 		caster:RemoveModifierByName("modifier_Desprado_3andless")
 		ability:ApplyDataDrivenModifier(caster, caster, "modifier_Desprado_3andless", {})
 	end 
 
-	if unitscount == 0 then
+	if unitscount == 1 then
 		caster:RemoveModifierByName("modifier_Desprado_0")
 		caster:RemoveModifierByName("modifier_Desprado_3andless")
 		ability:ApplyDataDrivenModifier(caster,caster,"modifier_Desprado_0",{})
@@ -972,6 +943,18 @@ function Heroic_particle(keys)
 		end
 	end
 end
+
+function Heroic_particle_2(keys)
+	local caster = keys.caster
+	local healthPercent = caster:GetHealthPercent()
+
+			press = ParticleManager:CreateParticle("particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", 1, caster)
+			Timers:CreateTimer(function()
+				ParticleManager:SetParticleControlOrientation(press, 1, caster:GetForwardVector(),caster:GetRightVector(), caster:GetUpVector())
+     		 return 0.03
+    		end)
+end
+
 
 function Heroic_particle_Removal(keys)
 	print("Removal")
@@ -1189,4 +1172,263 @@ function Iron_Flesh( keys )
 	local caster = keys.caster
 	local ability = keys.ability
 	ability:ApplyDataDrivenModifier(caster, caster, "modifier_Iron_Flesh", {})
+end
+
+function Tide_Blade( keys )
+	local caster	= keys.caster
+	local ability	= keys.ability
+	local point		= keys.target_points[1]
+
+	local radius			= keys.radius
+	local maxDist			= keys.max_distance
+	local orbSpeed			= keys.orb_speed
+	local visionRadius		= keys.orb_vision
+	local visionDuration	= keys.vision_duration
+	local numExtraVisions	= keys.num_extra_visions
+
+	local travelDuration	= maxDist / orbSpeed
+	local extraVisionInterval = travelDuration / numExtraVisions
+
+	local casterOrigin		= caster:GetAbsOrigin()
+	local targetDirection	= ( ( point - casterOrigin ) * Vector(1,1,0) ):Normalized()
+	local projVelocity		= targetDirection * orbSpeed
+
+	local startTime		= GameRules:GetGameTime()
+	local endTime		= startTime + travelDuration
+
+	local numExtraVisionsCreated = 0
+	local isKilled		= false
+
+	-- Make Ethereal Jaunt active
+
+
+	-- Create linear projectile
+	local projID = ProjectileManager:CreateLinearProjectile( {
+		Ability				= ability,
+		EffectName			= "particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf",
+		vSpawnOrigin		= caster:GetAbsOrigin(),
+		fDistance			= 1500,
+		fStartRadius		= 200,
+		fEndRadius			= 200,
+		Source				= caster,
+		bHasFrontalCone		= false,
+		bReplaceExisting	= false,    
+		iUnitTargetTeam		= DOTA_UNIT_TARGET_TEAM_ENEMY,
+		iUnitTargetFlags	= DOTA_UNIT_TARGET_FLAG_NONE,
+		iUnitTargetType		= DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		fExpireTime			= endTime,
+		bDeleteOnHit		= false,
+		vVelocity			= projVelocity,
+		bProvidesVision		= true,
+		iVisionRadius		= 1000,
+		iVisionTeamNumber	= caster:GetTeamNumber(),
+
+    })
+
+end
+
+function Tide_Pull( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local speed = ability:GetLevelSpecialValueFor("speed", ability:GetLevel()-1)
+	local maxDistance = ability:GetLevelSpecialValueFor("distance", ability:GetLevel()-1)
+	local actualDistance = caster:GetAbsOrigin() - target:GetAbsOrigin()
+	local distance = 0
+	if maxDistance > actualDistance:Length2D() then
+		distance = actualDistance:Length2D()
+	else
+		distance = maxDistance
+	end
+
+
+	local endTime = GameRules:GetGameTime() + distance/speed 
+	local direction = (caster:GetAbsOrigin() - target:GetAbsOrigin()):Normalized()
+
+	local tide_pull_proj = ProjectileManager:CreateLinearProjectile( {
+		Ability				= ability,
+		EffectName			= keys.particle,
+		vSpawnOrigin		= target:GetAbsOrigin(),
+		fDistance			= distance,
+		fStartRadius		= 200,
+		fEndRadius			= 200,
+		Source				= target,
+		bHasFrontalCone		= false,
+		bReplaceExisting	= false,    
+		iUnitTargetTeam		= DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+		iUnitTargetFlags	= DOTA_UNIT_TARGET_FLAG_NONE,
+		iUnitTargetType		= DOTA_UNIT_TARGET_HERO,
+		fExpireTime			= endTime,
+		bDeleteOnHit		= true,
+		vVelocity			= direction*speed,
+		bProvidesVision		= true,
+		iVisionRadius		= 1000,
+		iVisionTeamNumber	= caster:GetTeamNumber(),
+
+    })	
+	-- THEN ADD MODIFIERS TO TARGET 
+	ability:ApplyDataDrivenModifier(caster, target, "modifier_tide_pull_target", {})
+
+
+	local times = 0
+	Timers:CreateTimer(function()
+      	local currentPosi = target:GetAbsOrigin()
+	  	local nextPosi = target:GetAbsOrigin() + speed*direction/30
+		local gap = (caster:GetAbsOrigin() - target:GetAbsOrigin()):Length2D()
+
+		if times < distance / speed * 30 and gap > (speed/30 +80) then
+	  		target:SetAbsOrigin(nextPosi)
+			print(nextPosi)
+			times = times +1
+      		return 0.03
+		else
+			ParticleManager:DestroyParticle(tide_pull_proj, true )
+			FindClearSpaceForUnit(target, target:GetAbsOrigin(), false)
+			target:RemoveModifierByName("modifier_tide_pull_target")
+			return nil
+		end
+    end
+  )
+
+end
+
+function Water_element (keys)
+	local caster = keys.caster
+	local ability = keys.ability
+
+	local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() -1 )
+	local backPosition  = caster:GetAbsOrigin() - caster:GetForwardVector():Normalized() * 300
+	local posi_1 = RotatePosition(caster:GetAbsOrigin(),QAngle(0,45,0),backPosition)
+	local posi_2 = RotatePosition(caster:GetAbsOrigin(),QAngle(0,-45,0),backPosition)
+	local posi_3 = RotatePosition(caster:GetAbsOrigin(),QAngle(0,0,0),backPosition)
+	
+	local posiTable = { posi_1, posi_2, posi_3 }
+	local unitTable = {"Water_element_1","Water_element_2", "Water_element_3"}
+	local element_number = ability:GetLevelSpecialValueFor("number", ability:GetLevel()-1)
+
+
+	for i = 0, element_number - 1  do
+		local element = CreateUnitByName(unitTable[ability:GetLevel()],posiTable[i+1] , true , caster:GetPlayerOwner() , caster:GetPlayerOwner(), caster:GetTeamNumber())
+		element:SetControllableByPlayer(caster:GetPlayerID(), false)
+		element:SetForwardVector(caster:GetForwardVector())
+	
+	Timers:CreateTimer(duration, function()
+		element:ForceKill(false)
+      return nil
+    end
+  	)
+		local water = ParticleManager:CreateParticle("particles/units/heroes/hero_morphling/morphling_adaptive_strike.vpcf", 8, caster)
+		ParticleManager:SetParticleControl(water, 1, element:GetAbsOrigin())
+	end
+
+end
+
+function Multiattack ( keys )
+	print("attack！")
+	local attacker = keys.caster
+	local targets = keys.target_entities
+	local ability = keys.ability
+	local target_number = ability:GetLevelSpecialValueFor("number", ability:GetLevel() - 1 )
+	print(target_number)
+	print(table.getn(targets))
+	for i = 0, target_number do
+		if targets[i+1] ~= nil then
+			print(targets[i+1]:GetUnitName())
+			local projectile_info = 
+			{
+				EffectName = "particles/units/heroes/hero_windrunner/windrunner_base_attack.vpcf",
+				Ability = ability,
+				vSpawnOrigin = attacker:GetAbsOrigin(),
+				Target = targets[i+1],
+				Source = attacker,
+				bHasFrontalCone = false,
+				iMoveSpeed = 1250,
+				bReplaceExisting = false,
+				bProvidesVision = false
+			}
+			ProjectileManager:CreateTrackingProjectile(projectile_info)
+		end
+	end
+end
+
+function Multiattack_damage( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+
+	local damage_table = {}
+
+	damage_table.attacker = caster
+	damage_table.victim = target
+	damage_table.damage_type = DAMAGE_TYPE_PHYSICAL
+	damage_table.damage = caster:GetAttackDamage()
+
+	ApplyDamage(damage_table)
+end
+
+function Regeneration(keys)
+	local caster = keys.caster
+	local target_point = keys.target_points[1]
+	local dummy = CreateUnitByName("Regeneration_dummy", target_point, true, nil, nil, 2) 
+	dummy:EmitSoundParams("Hero_Enchantress.NaturesAttendantsCast", 1, 50, 0)
+	Timers:CreateTimer(3, function()
+      	dummy:RemoveSelf()
+    end
+  )
+end
+
+function Regeneration_effect( keys )
+	local point	= keys.target_points[1]
+	local rune = ParticleManager:CreateParticle("particles/skills/regeneration/regeneration_rune.vpcf", 8, caster)
+	ParticleManager:SetParticleControl(rune, 0, point)
+	ParticleManager:SetParticleControl(rune, 2, Vector(point.x, point.y, point.z + 20))
+end
+
+function Entangling_shot ( keys )
+	local caster = keys.caster 
+	local point = keys.target_points[1]
+	local ability = keys.ability
+	local distance = ability:GetLevelSpecialValueFor("distance", ability:GetLevel()-1)
+	local speed = ability:GetLevelSpecialValueFor("speed", ability:GetLevel()-1)
+	local endTime = GameRules:GetGameTime() + distance/speed 
+	local direction = (point - caster:GetAbsOrigin()):Normalized()
+	
+	local projectileTable =
+	{
+		EffectName = keys.particle,
+		Ability = ability,
+		vSpawnOrigin = caster:GetAbsOrigin(),
+		vVelocity = direction * speed,
+		fDistance = distance,
+		fStartRadius = 200,
+		fEndRadius = 200,
+		Source = caster,
+		bHasFrontalCone = false,
+		bReplaceExisting = true,
+		bDeleteOnHit = false,
+		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+		iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+		iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		iVisionRadius = 200,
+		iVisionTeamNumber = caster:GetTeamNumber()
+	}
+	local arrow = ProjectileManager:CreateLinearProjectile( projectileTable )
+	
+end
+
+function Abyss_corruption( keys )
+	local target = keys.target
+	local caster = keys.caster
+	local playerid = caster:GetPlayerID()
+	print(playerid)
+	target:SetControllableByPlayer(playerid, false)
+	target:SetTeam(caster:GetTeamNumber())
+end
+
+function Abyss_corruption_effect( keys )
+	local target = keys.target
+	local caster = keys.caster
+	local position = target:GetAbsOrigin()
+	local explo = ParticleManager:CreateParticle("particles/skills/abyss_corruption/explosion.vpcf", 8, target)
+	ParticleManager:SetParticleControl(explo, 0, Vector(position.x, position.y, position.z+10))
 end

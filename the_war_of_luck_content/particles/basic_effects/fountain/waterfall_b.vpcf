@@ -1,0 +1,68 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_nTopology = "PARTICLE_TOPOLOGY_POINTS"
+	m_ConstantNormal = [ 1.0, 0.0, 0.0 ]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderRopes"
+			m_flTextureVWorldSize = 300.0
+			m_flTextureVScrollRate = 600.0
+			m_nOrientationType = 3
+			m_hTexture = resource:"materials/particle/beam_banner_seemless_white.vtex"
+			m_bAdditive = true
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMin = [ 179, 243, 255, 255 ]
+			m_ColorMax = [ 87, 221, 255, 255 ]
+		},
+		{
+			_class = "C_INIT_VelocityRandom"
+			m_LocalCoordinateSystemSpeedMin = [ 0.0, 0.0, -50.0 ]
+			m_LocalCoordinateSystemSpeedMax = [ 0.0, 0.0, -50.0 ]
+		},
+		{
+			_class = "C_INIT_CreateWithinSphere"
+		},
+		{
+			_class = "C_INIT_CreateSequentialPath"
+			m_flNumToAssign = 20.0
+			m_PathParams = 
+			{
+				m_nEndControlPointNumber = 1
+			}
+		},
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 97.0
+			m_flRadiusMax = 103.0
+		},
+		{
+			_class = "C_INIT_NormalOffset"
+			m_OffsetMin = [ 44.9, -44.9, 0.0 ]
+			m_OffsetMax = [ 45.1, -45.1, 0.0 ]
+		},
+		{
+			_class = "C_INIT_RandomAlpha"
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_ContinuousEmitter"
+			m_flEmissionDuration = 0.2
+		},
+	]
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_SetControlPointPositions"
+			m_vecCP1Pos = [ 0.0, 0.0, 510.0 ]
+		},
+	]
+}
