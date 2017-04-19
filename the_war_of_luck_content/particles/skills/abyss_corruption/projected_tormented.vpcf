@@ -112,9 +112,11 @@
 	[
 		{
 			m_ChildRef = resource:"particles/skills/abyss_corruption/projected_scorch_b_tormented.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/skills/abyss_corruption/projected_scorch_tormented.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/skills/abyss_corruption/mark_tormented.vpcf"

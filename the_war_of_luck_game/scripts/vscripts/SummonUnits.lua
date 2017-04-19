@@ -29,14 +29,14 @@ function SummonUnits:Precache()
 				[5] = "Swordsman",
 				[6] = "Pudge",
 				[7] = "Earth",
-				[8] = "Clockwreck",
+				[8] = "Clockwerk",
 				[9] = "Satyr",
 				[10] = "Jade",
 				[11] = "Ursa",
 				[12] = "Slark",
 				[13] = "Phantom Assassin",
 				[14] = "Fighter of Madness",
-				[15] = "Meepo"
+				[15] = "Jade"
 				
 		
 
@@ -89,25 +89,25 @@ end
 
 
 
-function SummonUnits:Allocate(keys)
+function SummonUnits:Allocate(keys) -- move the hero to the target position.
 	local pID = keys.player
 	print("pp0",pID)
 	local hero = EntIndexToHScript(keys.heroindex)
 	local target_entity = nil
 	local team = hero:GetTeamNumber()
-	if team == 2 then
-		local r_player_count = PlayerResource:GetPlayerCountForTeam(team)
+	if team == 2 then --Radiant
+		local r_player_count = PlayerResource:GetPlayerCountForTeam(team) -- check how many players, i.e. how many heroes needs to move.
 		for i = 1, r_player_count+1 do 
-			if self.hero_entities[i].occupied ~= true then
+			if self.hero_entities[i].occupied ~= true then --if the position is occupied by another hero?
 				target_entity = self.hero_entities[i]
 				self.hero_entities[i].occupied = true
 				Timers:CreateTimer(0.2, function ()
-					self:SummonCreepsWithHero(i,team,keys)
 					hero:SetAbsOrigin(target_entity:GetAbsOrigin())
+					self:SummonCreepsWithHero(i,team,keys) -- once the hero is done, summons creeps in the respective area. 
 					return nil
 				end
 				)
-				break
+				break -- if the hero has a place to go, then jumps out.
 			else
 				i = i+1
 			end
@@ -116,7 +116,7 @@ function SummonUnits:Allocate(keys)
 		
 		
 		
-
+	--Dire, same as above.
 	elseif team == 3 then 
 		local d_player_count = PlayerResource:GetPlayerCountForTeam(team)
 		for i = 1, d_player_count+1 do 
@@ -139,13 +139,13 @@ function SummonUnits:Allocate(keys)
 	end
 end
 
-function SummonUnits:ReAllocate(keys)
+function SummonUnits:ReAllocate(keys) -- respawns a new hero when the next round starts.
 	local hero = EntIndexToHScript(keys.entindex_killed)
 	local pID = hero:GetPlayerID()
-	print("pp",pID)
 	local target_entity = nil
 	local team = hero:GetTeamNumber()
-	print("dead","team",team)
+
+	--radiant
 	if team == 2 then
 		local r_player_count = PlayerResource:GetPlayerCountForTeam(team)
 		for i = 1, r_player_count+1 do 
@@ -153,16 +153,17 @@ function SummonUnits:ReAllocate(keys)
 				target_entity = self.hero_entities[i]
 				self.hero_entities[i].occupied = true
 				Timers:CreateTimer(0.2, function ()
-						self:R_SummonCreepsWithHero(i,team,keys)
+						self:R_SummonCreepsWithHero(i,team,keys) -- uses a different function because keys are different.
 					return nil
 				end
 				)
-			break
+			break --jumps out.
 			else
 				i = i+1
 			end
 		end
 
+	--dire
 	elseif team == 3 then
 		local d_player_count = PlayerResource:GetPlayerCountForTeam(team)
 		for i = 1, d_player_count+1 do 
@@ -180,9 +181,8 @@ function SummonUnits:ReAllocate(keys)
 			end
 		end
 	end
-    local heroName = self.hero[RandomInt(1, table.getn(self.hero))]
-	print(table.getn(self.hero))
-	print("heroname",heroName)
+
+    local heroName = self.hero[RandomInt(1, table.getn(self.hero))] -- chooses a random hero.
 	newHero = PlayerResource:ReplaceHeroWith(pID, heroName, 0, 0)
 	newHero:SetAbsOrigin(target_entity:GetAbsOrigin())
 	
@@ -191,29 +191,29 @@ end
 
 function SummonUnits:SummonCreepsWithHero (Index,team,keys)
 	local unitToSummon = self.UnitsTable[RandomInt(1, table.getn(self.UnitsTable))]
-	print(unitToSummon)
 	local hero = EntIndexToHScript(keys.heroindex)
 	local pID = hero:GetPlayerID() 
 	local player = hero:GetPlayerOwner()
 	local playerOwnerId = hero:GetPlayerOwnerID()
+	hero.creepName = unitToSummon
+
 	if team == 2 then
-		CreepEntities = self.r_Ent[Index]
+		CreepEntities = self.r_Ent[Index] -- gets 6 entities(which represents the position).
 		for _,ent in pairs(CreepEntities) do
 			local creep = CreateUnitByName(unitToSummon, ent:GetAbsOrigin(), true, player, player, 2)
-			Notifications:TopToAll({text="?", duration=5.0})
 			creep:SetControllableByPlayer(playerOwnerId, false)
 			creep:SetForwardVector(Vector(0,-1,0))
 		end
 		Timers:CreateTimer(0.1, function()
-			PlayerResource:SetCameraTarget(pID, CreepEntities[1])
+			PlayerResource:SetCameraTarget(pID, CreepEntities[1]) -- semmingly out of function. 
       		return nil
     	end
   		)
+
 	elseif team == 3 then
 		CreepEntities = self.d_Ent[Index]
 		for _,ent in pairs(CreepEntities) do
 			local creep = CreateUnitByName(unitToSummon, ent:GetAbsOrigin(), true, player, player, 3)
-			Notifications:TopToAll({text="!", duration=5.0})
 			creep:SetControllableByPlayer(playerOwnerId, false)
 			creep:SetForwardVector(Vector(0,1,0))
 		end
@@ -230,11 +230,12 @@ end
 
 function SummonUnits:R_SummonCreepsWithHero (Index,team,keys)
 	local unitToSummon = self.UnitsTable[RandomInt(1, table.getn(self.UnitsTable))]
-	print(unitToSummon)
 	local hero = EntIndexToHScript(keys.entindex_killed)
 	local pID = hero:GetPlayerID() 
 	local player = hero:GetPlayerOwner()
 	local playerOwnerId = hero:GetPlayerOwnerID()
+	hero.creepName = unitToSummon
+
 	if team == 2 then
 		CreepEntities = self.r_Ent[Index]
 		for _,ent in pairs(CreepEntities) do
@@ -254,18 +255,17 @@ function SummonUnits:R_SummonCreepsWithHero (Index,team,keys)
 	end
 end
 
-function SummonUnits:Invulnerability(deadUnit)
+function SummonUnits:Invulnerability(deadUnit) --freezes all the remining targets.
 	local units = FindUnitsInRadius(deadUnit:GetTeamNumber(), Vector(0,0,0), nil, 20000, 2, 63, 0, 0, false)
 	for _,unit in pairs(units) do
-		print(unit:GetUnitName())
 		unit:AddNewModifier(unit, nil, "modifier_invulneral_lua", {})
-		 Timers:CreateTimer(4.5, function()
+		Timers:CreateTimer(4.5, function()
 		 	unit:RemoveSelf()
 		 end)
 	end
 end
 
-function SummonUnits:KillRemnant(deadUnit)
+function SummonUnits:KillRemnant(deadUnit) -- kills all units of the losing team.
 	local units = FindUnitsInRadius(deadUnit:GetTeamNumber(), Vector(0,0,0), nil, 20000, 1, 63, 0, 0, false)
 	for _,unit in pairs(units) do
 		print(unit:GetUnitName())

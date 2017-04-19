@@ -1,0 +1,223 @@
+.baseHud
+{
+    width:100%;
+    height:100%;
+}
+.mainContainer
+{
+    align:center center;
+    width: 600px;
+    height: 800px;
+    transition-property: opacity;
+    transition-duration: 0.75s;
+}
+
+#image1
+{
+    width: 400px;
+    height: 650px;
+    position: 100px 0px 0px;
+    transition-property: opacity;
+    transition-duration: 0.75s;
+    box-shadow: fill #000000df -1px -1px 10px 3px ;
+}
+
+
+#voting_back
+{
+    width:400px;
+    height:650px;
+    opacity:0.7;
+}
+
+#voting_title
+{
+    width:400px;
+    position: 0px 8% 0px;
+    text-align:center;
+    font-family:Helvetica;
+    font-size: 40px;
+}
+
+#timer
+{
+    position:305px 0px 0px;
+    height:75px;
+    width:120px;
+}
+
+#timerlabel
+{
+    height:100px;
+    width:120px;
+    text-align: center;
+    padding:10%;
+    font-size: 35px;
+}
+
+#vote_box_1
+{
+    width:250px;
+    height:300px;
+    position: 75px 20% 0px;
+}
+
+#vote_box_2
+{
+    width:250px;
+    height:300px;
+    position: 75px 35.5% 0px;
+}
+
+
+#vote_box_3
+{
+    width:250px;
+    height:300px;
+    position: 75px 51% 0px;
+}
+#vote_box_4
+{
+    width:250px;
+    height:300px;
+    position: 75px 66.5% 0px;
+}
+
+#vote_box_5
+{
+    width:250px;
+    height:300px;
+    position: 75px 82% 0px;
+}
+
+.level_text{
+    position: 60px -3px 0px;
+    font-size: 20;
+}
+
+.voting_count
+{
+    position: 0px 65px -1px;
+}
+
+
+#level1
+{
+    width:250px;
+    height:60px;
+    position: 0px 0px 0px;
+    background-image:url("file://{images}/custom_game/voting/button.png");
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: fill #000000ff 0px 0px 5px 0px ;
+    text-align: center;
+    transition: brightness 0.15s ease-in-out 0.0s;
+    opacity:0.7;
+}
+
+#level1:active
+{
+    box-shadow: inset #000000ff 1px 1px 2px 2px;
+}
+
+#level1:hover
+{
+    brightness:1.5;
+}
+
+#level2
+{
+    width:250px;
+    height:60px;
+    background-image:url("file://{images}/custom_game/voting/button.png");
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: fill #000000ff 0px 0px 5px 0px ;
+    text-align: center;
+    transition: brightness 0.15s ease-in-out 0.0s;
+    opacity:0.7;
+
+}
+
+#level2:hover
+{
+    brightness:1.5;
+}
+
+
+#level2:active
+{
+    box-shadow: inset #000000ff 1px 1px 2px 2px;
+}
+
+#level3
+{
+    width:250px;
+    height:60px;
+    background-image:url("file://{images}/custom_game/voting/button.png");
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: fill #000000ff 0px 0px 5px 0px ;
+    text-align: center;
+    transition: brightness 0.15s ease-in-out 0.0s;
+    opacity:0.7;
+}
+
+#level3:active
+{
+    box-shadow: inset #000000ff 1px 1px 2px 2px;
+}
+
+#level3:hover
+{
+    brightness:1.5;
+}
+
+#level4
+{
+    width:250px;
+    height:60px;
+    background-image:url("file://{images}/custom_game/voting/button.png");
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: fill #000000ff 0px 0px 5px 0px ;
+    text-align: center;
+    transition: brightness 0.15s ease-in-out 0.0s;
+    opacity:0.7;
+}
+
+#level4:active
+{
+    box-shadow: inset #000000ff 1px 1px 2px 2px;
+}
+
+#level4:hover
+{
+    brightness:1.5;
+}
+
+
+#level5
+{
+    width:250px;
+    height:60px;
+    background-image:url("file://{images}/custom_game/voting/button.png");
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: fill #000000ff 0px 0px 5px 0px ;
+    text-align: center;
+    transition: brightness 0.15s ease-in-out 0.0s;
+    opacity:0.7;
+}
+
+#level5:active
+{
+    box-shadow: inset #000000ff 1px 1px 2px 2px;
+}
+
+#level5:hover
+{
+    brightness:1.5;
+}
+
+

@@ -4,7 +4,7 @@
 	m_bShouldHitboxesFallbackToRenderBounds = false
 	m_nMaxParticles = 64
 	m_flConstantRadius = 64.0
-	m_ConstantColor = [ 150, 44, 139, 255 ]
+	m_ConstantColor = [ 57, 0, 32, 255 ]
 	m_bShouldSort = false
 	m_Renderers = 
 	[
@@ -69,6 +69,11 @@
 			m_flInitialRadius = 1.0
 			m_bEvenDistribution = true
 			m_flParticlesPerOrbit = 31.5
+		},
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMin = [ 114, 0, 60, 255 ]
+			m_ColorMax = [ 34, 0, 0, 255 ]
 		},
 	]
 	m_Emitters = 

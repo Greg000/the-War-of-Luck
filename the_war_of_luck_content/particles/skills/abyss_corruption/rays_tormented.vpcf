@@ -9,7 +9,6 @@
 		{
 			_class = "C_OP_RenderTrails"
 			m_nSequenceCombineMode = "SEQUENCE_COMBINE_MODE_USE_SEQUENCE_0"
-			m_bAdditive = true
 			m_flOverbrightFactor = 2.0
 			m_hTexture = resource:"materials/particle/particle_cone_gradient_2.vtex"
 			m_bIgnoreDT = true
@@ -45,7 +44,7 @@
 		},
 		{
 			_class = "C_OP_ColorInterpolate"
-			m_ColorFade = [ 30, 128, 108, 255 ]
+			m_ColorFade = [ 0, 0, 0, 255 ]
 			m_flFadeStartTime = 0.5
 		},
 	]
@@ -73,8 +72,8 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMin = [ 92, 42, 221, 255 ]
-			m_ColorMax = [ 79, 36, 188, 255 ]
+			m_ColorMin = [ 126, 21, 80, 255 ]
+			m_ColorMax = [ 188, 36, 86, 255 ]
 		},
 		{
 			_class = "C_INIT_OffsetVectorToVector"

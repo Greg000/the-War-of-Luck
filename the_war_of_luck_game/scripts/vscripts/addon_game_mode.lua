@@ -3,6 +3,8 @@ require("lib/notifications")
 require("functions")
 require("rune_system")
 require("SummonUnits")
+require("lib/Voting")
+require("lib/rounds")
 if LuckyWarGameMode == nil then
 	LuckyWarGameMode = class({})
 end
@@ -85,6 +87,7 @@ function Precache( context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_meepo.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_pugna.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts", context )
 
         PrecacheResource( "model", "models/heroes/morphling/morphling.vmdl", context )
 end
@@ -126,6 +129,7 @@ function Activate()
 	GameRules.Event = LuckyWarGameMode()
 	GameRules.Event:InitGameMode()
         CustomGameEventManager:RegisterListener("LevelUp",Dynamic_Wrap(LuckyWarGameMode, 'LevelUp1'))--UIUIUIUIUI
+        event = CustomGameEventManager:RegisterListener("SetLevel",Dynamic_Wrap(LuckyWarGameMode,'SetLevel'))
 end
 
 function LuckyWarGameMode:InitGameMode()
@@ -146,7 +150,7 @@ function LuckyWarGameMode:InitGameMode()
 
         GameRules:SetHeroSelectionTime(5.0)
         GameRules:SetCustomGameSetupRemainingTime(0.0)
-        GameRules:SetPreGameTime( 5.0)--set the pregame time
+        GameRules:SetPreGameTime( 20)--set the pregame time
 
         SummonUnits:Precache()
 
@@ -157,7 +161,7 @@ end
 -- Evaluate the state of the game
 function LuckyWarGameMode:OnThink()
 
-        StartCreatingRunes()
+        --StartCreatingRunes()
 
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		--print( "Template addon script is running." )
@@ -172,28 +176,37 @@ function LuckyWarGameMode:OnEntityKilled( keys )
         if deadHeroCount == nil then deadHeroCount = {} end
         if deadHeroCount[deadUnit:GetTeamNumber()] == nil then deadHeroCount[deadUnit:GetTeamNumber()] = 0 end
         if deadUnit:IsHero() then
-                deadHeroCount[deadUnit:GetTeamNumber()] = deadHeroCount[deadUnit:GetTeamNumber()] +1
-                if deadHeroCount[deadUnit:GetTeamNumber()] == PlayerResource:GetPlayerCountForTeam(deadUnit:GetTeamNumber()) then
+                deadHeroCount[deadUnit:GetTeamNumber()] = deadHeroCount[deadUnit:GetTeamNumber()] +1 
+                if deadHeroCount[deadUnit:GetTeamNumber()] == PlayerResource:GetPlayerCountForTeam(deadUnit:GetTeamNumber()) then --check whether all heroes in the team have died.
                         for i = 0,10 do
                                 if PlayerResource:IsValidPlayer(i) then
+                                		--firstly kills all remnant of the losing team, and freezes other units. 
                                         SummonUnits:Invulnerability(deadUnit)
                                         SummonUnits:KillRemnant(deadUnit)
+
+                                        --  the next round starts after the delay
                                         Timers:CreateTimer(5, function()
                                                 local pID = deadUnit:GetPlayerID()
-                                                print("bigPid",pID)
                                                 SummonUnits:Precache()
-
-                                                for pID = 0,9 do
+                                                --new heroes/creeps
+                                                for pID = 0,10 do
                                                         print(pID, PlayerResource:IsValidPlayer(pID))
                                                         if PlayerResource:IsValidPlayer(pID) then
                                                                 DeepPrintTable( keys )
                                                                 SummonUnits:ReAllocate( keys )
                                                         end
                                                 end
-                                                print("huanyingxiong")
+                                                --new heroes and creeps have been respawned. Restore all previous data.
                                                 deadHeroCount = nil
                                         return nil
                                         end)
+                                        --check if all rounds have run over, if not , update rounds number on UI.
+                                        if Rounds:CheckAllRoundsOver() then
+                                                Timers:CreateTimer(5, function()
+                                                        Rounds:UpdateRounds()
+                                                return nil
+                                                end)
+                                        end
                                 end
                         end
                 end
@@ -202,7 +215,7 @@ end
 
 function LuckyWarGameMode:Damagafilter_heroic( filterTable)
         local attackerIndex = filterTable["entindex_attacker_const"]
-	local victimIndex = filterTable["entindex_victim_const"]
+		local victimIndex = filterTable["entindex_victim_const"]
         if attackerIndex then
                 local attacker = EntIndexToHScript(attackerIndex)
         end
@@ -222,17 +235,13 @@ function LuckyWarGameMode:Damagafilter_heroic( filterTable)
         end
 end 
 function LuckyWarGameMode:FilterExecuteOrder( filterTable )
---DeepPrintTable(filterTable)  --多用这个来print各种表，能学会挺多，下面比如什么position_x 都在这个filterTable里，print一下就知道这里面有什么了
         local f = filterTable
-        --对lua不熟悉的人注意一下，“=”并不是“复制粘贴”，这里我们更改了f这个table的值，其实也就更改了filterTable，在c语言里面来说大概就是复制了一个指针，而不是复制了一个数组，这里这样写只是为了少打几个字 -_-||
-        
- 
-        if f.order_type ==  DOTA_UNIT_ORDER_MOVE_TO_POSITION then --如果下达的指令类型是移动到某个地点（这个常量表也在一楼的wiki上能查到，网页按Ctrl + F是搜索）
-                local unit = EntIndexToHScript(f.units["0"]) --单位
-                if unit:FindModifierByName("modifier_ChaosStrike_buff") then --在这种情况下这个单位就是移动的单位，查找他是否有上面那个技能的debuff
+        if f.order_type ==  DOTA_UNIT_ORDER_MOVE_TO_POSITION then --recognizes order type
+                local unit = EntIndexToHScript(f.units["0"])
+                if unit:FindModifierByName("modifier_ChaosStrike_buff") then --checks whether the unit has the buff.
                         local v = Vector(f.position_x,f.position_y,f.position_z)
-                        local r_v = RotatePosition(unit:GetAbsOrigin(),QAngle(0,180,0),v) --把v这个坐标围绕unit的位置坐标在水平面上旋转180°
-                        --以下这些是防止新生成的坐标超出了地图的界限
+                        local r_v = RotatePosition(unit:GetAbsOrigin(),QAngle(0,180,0),v) --rotates the target point.
+                        --map bound.
                         if r_v.x > GetWorldMaxX() then
                                 r_v.x = GetWorldMaxX()
                         end
@@ -245,39 +254,45 @@ function LuckyWarGameMode:FilterExecuteOrder( filterTable )
                         if r_v.y < GetWorldMinY() then
                                 r_v.y = GetWorldMinY()
                         end
---更改原来的指令指向的坐标
+                        --put new values into the table.
                         f.position_x = r_v.x
                         f.position_y = r_v.y
                 end
         end
-        return true--对于return有三种情况，一种false，就等于指令被过滤不生效（本例子情况下就是点击了移动但是不移动），一种是true，并且不做更改，等于没有过滤器一样，还有一种就是上面那样更改了表中的几个值再返回true，那么生效的就是更改后的指令（本例子情况下就是移动了，但是移动的目的地变了）
+        return true
 end
  
 
 function LuckyWarGameMode:OnGameRulesStateChange( keys )
     print("OnGameRulesStateChange")
  
-    --获取游戏进度
+    --gets game state
     local newState = GameRules:State_Get()
  
-    --游戏开始
+    --game begins
     if newState==DOTA_GAMERULES_STATE_GAME_IN_PROGRESS  then
-        print(PlayerResource:GetPlayerCount())
-        for pID = 0,9 do
-                print(pID, PlayerResource:IsValidPlayer(pID))
-                if PlayerResource:IsValidPlayer(pID) then
-                        --SummonUnits(pID)
-                end
-        end
-        --SummonUnits()
+        
+        GameRules:GetGameModeEntity():SetTopBarTeamValue(DOTA_TEAM_GOODGUYS,10)
+        GameRules:GetGameModeEntity():SetTopBarTeamValuesOverride(true)
+        CustomGameEventManager:Send_ServerToAllClients( "luckywar_toggle_vote", {visible = false} )
+    	--sends notifications to all players.
+    	Notifications:TopToAll(
+    		{
+    			text = "Round Starts!",
+    			duration = 5,
+    			class = nil, 
+    			style={color="red", ["font-size"]="60px"},
+    			continue= true
+    		})
+
+    	--gives ability points to all heroes
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            unit:SetAbilityPoints(6)
+            unit:SetAbilityPoints(10)
         end
 
-        for _,unit in pairs( Entities:FindAllByName("Lucky Guardian")) do
-                local team = unit:GetTeamNumber()
-                Guardians[team] = unit
-        end
+        --display round number on client PUI
+        CustomGameEventManager:Send_ServerToAllClients( "luckywar_initiate_rounds_number", {TotalRound = Voting:GetTotalRoundsNumber()} )
+
     end
 
 
@@ -287,24 +302,18 @@ function LuckyWarGameMode:OnGameRulesStateChange( keys )
         LinkLuaModifier( "modifier_fountain_regeneration_lua", "modifier_fountain_regeneration_lua.lua", LUA_MODIFIER_MOTION_NONE )
         LinkLuaModifier( "modifier_invulneral_lua", LUA_MODIFIER_MOTION_NONE )
         
-        --regist necessary modifiers
+        --regists necessary modifiers
+        
 
+      	Allunits = FindUnitsInRadius(2, Vector(0,0,0), nil, 20000, 3, 63, 0, 0, false)
+      	print("1..", table.getn(Allunits))
+      	for _,unit in pairs(Allunits) do
+      		print(unit:GetUnitName())
+      	end 	
 
-         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            for i = 0,20 do
-            local  ability =  unit:GetAbilityByIndex(i)
-                if ability ~= nil then
+        StartVotingTimer(15)
 
-                    if ability:GetAbilityName() == "Initialization" then
-
-                        ability:UpgradeAbility(true)
-                        ability:CastAbility()
-                        break
-                    end
-                end
-            end
-         end
-
+              
     end
 end
 
@@ -376,7 +385,7 @@ function TeleportEnemy( DiedUnit )
                 end,1)
 end
 
-function StartCreatingRunes ()
+function StartCreatingRunes () -- rune system is temporarily abolished.
         if  times == nil then
                 times = 0
         end
@@ -423,26 +432,16 @@ function StartCreatingRunes ()
 end     
 
 
-function LuckyWarGameMode:LevelUp1(args)
-        print(args["key1"])
-        local pID = args["key1"]
-        local hero = PlayerResource:GetSelectedHeroEntity(pID)
-        local newHero = HeroList:GetHero(1)
-        PlayerResource:ReplaceHeroWith(pID, "npc_dota_hero_juggernaut", 0, 0)
-end
-
 function LuckyWarGameMode:OnPlayerPickHero(keys)
-        local hero = EntIndexToHScript(keys.heroindex)
+    local hero = EntIndexToHScript(keys.heroindex)
 	local pID = hero:GetPlayerID() 
 	local player = hero:GetPlayerOwner()
-        if player.InitialPick ~= false then
-                DeepPrintTable(keys)
-                print("HeroPicked")
-                SummonUnits:Allocate(keys)
-        end
-
+    if player.InitialPick ~= false then
+        DeepPrintTable(keys)
+        print("HeroPicked")
+        SummonUnits:Allocate(keys)
+    end
         player.InitialPick = false
-
 end
 
 --[[function LuckyWarGameMode:RemoveWearables(keys)
@@ -474,3 +473,26 @@ end
         end
     end
 end]]--
+
+function LuckyWarGameMode:SetLevel(Level)
+        local ButtonIndex = Level["key1"]
+        Voting:NewVote(ButtonIndex)
+        print(Level["key1"])
+end
+
+function  StartVotingTimer(maxTime)
+        print("starttimer")
+        Timers:CreateTimer(function()
+        if maxTime >= 0 then
+                CustomGameEventManager:Send_ServerToAllClients( "luckywar_start_timer", {time = maxTime} )
+                maxTime = maxTime -1
+                print(maxTime)
+                return 1.0
+        else 
+                CustomGameEventManager:Send_ServerToAllClients("luckywar_toggle_vote",{visible = false})
+                Voting:ReturnVoteResult()
+        end
+    end
+  )
+
+end

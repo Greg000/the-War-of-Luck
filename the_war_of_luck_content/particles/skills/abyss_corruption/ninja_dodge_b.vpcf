@@ -86,7 +86,7 @@
 		},
 		{
 			_class = "C_INIT_CreateWithinSphere"
-			m_fRadiusMax = 90.0
+			m_fRadiusMax = 50.0
 			m_vecDistanceBias = [ 1.0, 1.0, 0.0 ]
 		},
 		{

@@ -1,0 +1,17 @@
+.baseHud{
+    width: 200px;
+    height: 200px;
+    position: 0 13% 0;
+}
+
+#RoundsTitle{
+    color:#dededeff;
+    position: 10% 15% 0;
+    text-shadow: 1px 1px 1px 2.5 #333333b0;
+}
+
+#RoundsLabel{
+    color:#dededeff;
+    position: 60% 15% 0;
+    text-shadow: 1px 1px 1px 2.5 #333333b0;
+}

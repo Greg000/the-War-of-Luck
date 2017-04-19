@@ -36,6 +36,7 @@
 		{
 			_class = "C_OP_ColorInterpolate"
 			m_ColorFade = [ 49, 0, 210, 255 ]
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_OP_FadeOut"
@@ -80,8 +81,8 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMax = [ 249, 153, 223, 255 ]
-			m_ColorMin = [ 245, 189, 230, 255 ]
+			m_ColorMax = [ 66, 9, 41, 255 ]
+			m_ColorMin = [ 84, 0, 61, 255 ]
 		},
 		{
 			_class = "C_INIT_RandomRadius"

@@ -1,0 +1,70 @@
+<root>
+  <styles>
+    <include src="file://{resources}/styles/dotastyles.css" />
+    <include src="file://{resources}/styles/custom_game/voting.css" />
+  </styles>
+  
+  <scripts>
+    <include src="file://{resources}/scripts/custom_game/voting.js" /> 
+  </scripts>
+  
+  <Panel hittest="false" class="baseHud">
+    <Panel id="mainContainer" class="mainContainer">
+    <!--<Button id="button">
+        <Label text="????" />
+    </Button>
+    <Panel id="button2" class ="hidden" >
+        <Label text="!!!!" />
+    </Panel>-->
+        <Panel id="image1">
+            <Panel id="voting_back">
+                <Image id="voting_back"  src="file://{images}/custom_game/voting/voting_back.png" scaling="stretch-to-fit-preserve-aspect" />
+            </Panel>
+            <Label id="voting_title" text="Vote for Rounds" />
+            <Panel id="timer">
+                <Label id="timerlabel" text="timer"/>
+            </Panel>
+
+            <Panel id ="vote_box_1">
+                <!--<Image class="voting_count"  src="file://{images}/custom_game/voting/vote_count_back.png" scaling="stretch-to-fit-preserve-aspect" /> -->
+                <Button id="level1" class="button" onactivate="SetLevel(1)">
+                    <Label class="level_text" text="10 Rounds" />
+                </Button>
+            </Panel>
+            
+            <Panel id ="vote_box_2">
+                <!--<Image class="voting_count"  src="file://{images}/custom_game/voting/vote_count_back.png" scaling="stretch-to-fit-preserve-aspect" />-->
+                <Button id="level2" class="button" onactivate="SetLevel(2)">
+                    <Label class="level_text" text="20 Rounds" />
+                </Button>
+            </Panel>
+            
+            <Panel id ="vote_box_3">
+                <!--<Image class="voting_count"  src="file://{images}/custom_game/voting/vote_count_back.png" scaling="stretch-to-fit-preserve-aspect" />-->
+                <Button id="level3" class="button" onactivate="SetLevel(3)">
+                    <Label class="level_text" text="30 Rounds" />
+                </Button>            
+            </Panel>
+
+                
+            <Panel id ="vote_box_4">
+                <!--<Image class="voting_count"  src="file://{images}/custom_game/voting/vote_count_back.png" scaling="stretch-to-fit-preserve-aspect" />-->
+                <Button id="level4" class="button" onactivate="SetLevel(4)">
+                    <Label class="level_text" text="40 Rounds" />
+                </Button>
+            </Panel>
+
+            <Panel id ="vote_box_5">
+                <!--<Image class="voting_count"  src="file://{images}/custom_game/voting/vote_count_back.png" scaling="stretch-to-fit-preserve-aspect" />-->
+                <Button id="level5" class="button" onactivate="SetLevel(5)">
+                    <Label class="level_text" text="50 Rounds" />
+                </Button>
+            </Panel>
+            
+        </Panel>
+
+       
+
+    </Panel>
+  </Panel>>
+</root>

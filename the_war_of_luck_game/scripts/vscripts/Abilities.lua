@@ -239,7 +239,7 @@ function Spinning(keys)
 				SpeedConstant =(-time*time + 1*time)/0.25
 				distance = nDis*SpeedConstant
 			
-				Reach = casterPosi + distance * vec
+				local Reach = casterPosi + distance * vec
 				ParticleManager:SetParticleControl(SpinningBlade,0,Vector(Reach.x,Reach.y,128))
 				time = time+0.01
 
@@ -1324,13 +1324,10 @@ function Water_element (keys)
 end
 
 function Multiattack ( keys )
-	print("attack！")
 	local attacker = keys.caster
 	local targets = keys.target_entities
 	local ability = keys.ability
 	local target_number = ability:GetLevelSpecialValueFor("number", ability:GetLevel() - 1 )
-	print(target_number)
-	print(table.getn(targets))
 	for i = 0, target_number do
 		if targets[i+1] ~= nil then
 			print(targets[i+1]:GetUnitName())
@@ -1432,3 +1429,268 @@ function Abyss_corruption_effect( keys )
 	local explo = ParticleManager:CreateParticle("particles/skills/abyss_corruption/explosion.vpcf", 8, target)
 	ParticleManager:SetParticleControl(explo, 0, Vector(position.x, position.y, position.z+10))
 end
+
+function Unholy_power( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local target_master = keys.target
+	local targets = FindUnitsInRadius(target_master:GetTeamNumber(), target_master:GetAbsOrigin(), nil, 500, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+	local targetNumber_max = ability:GetLevelSpecialValueFor("number", ability:GetLevel() - 1 ) - 1 
+	local realNumber = table.getn(targets)
+	local finalNumber = 0
+	if realNumber > targetNumber_max then
+		finalNumber = targetNumber_max
+	else
+		finalNumber = realNumber
+	end
+	table.insert(targets, 1, target_master)
+	for i = 1, finalNumber + 1 do
+		local target = targets[i]
+		local casterPosi = caster:GetAbsOrigin()
+		local vForward = caster:GetForwardVector():Normalized() * 45
+		local offset = Vector( vForward.x, vForward.y, 200)
+		local link = ParticleManager:CreateParticle("particles/skills/unholy_power/link.vpcf", 	9, target)
+		local iHead = caster:ScriptLookupAttachment("attach_head")
+		print(iHead,"head")
+		local times = 0 
+		Timers:CreateTimer(function()
+			if times < 10 then
+    	 	 	local vec = caster:GetAttachmentOrigin( 4 )
+				ParticleManager:SetParticleControl(link, 1, vec)
+				times = times +1
+    	  		return 0.1
+    		end
+  		end)
+		ParticleManager:SetParticleControl(link, 15, Vector(101,11,45))
+		ParticleManager:SetParticleControl(link, 16, Vector(1,0,0))
+		ability:ApplyDataDrivenModifier(caster, target, "modifier_unholy_power", {})
+		ability:ApplyDataDrivenModifier(caster, target, "modifier_unholy_power_effect_2", {})
+	end
+	
+	
+end
+
+function Life_steal_apply( event )
+	-- Variables
+	local attacker = event.attacker
+	local target = event.target
+	print(target)
+	local ability = event.ability
+
+	if target.GetInvulnCount == nil  then
+		ability:ApplyDataDrivenModifier(attacker, attacker, "modifier_life_steal_2", {duration = 0.03})
+	end
+
+	local life_steal = ParticleManager:CreateParticle("particles/skills/life_steal/life_steal.vpcf", 0, attacker)
+
+end
+
+function Respawn( keys )
+	local caster = keys.caster
+	local player = PlayerResource:GetPlayer(caster:GetPlayerID())
+	local playerOwnerId = caster:GetPlayerOwnerID()
+	local creepName = caster.creepName
+	local ability = keys.ability
+	local number = ability:GetLevelSpecialValueFor("number", ability:GetLevel() - 1 )
+	print(creepName)
+	for i = 1,number do
+			local creep = CreateUnitByName(creepName, caster:GetAbsOrigin() + RandomVector(250), true, player, player, caster:GetTeamNumber())
+			ability:ApplyDataDrivenModifier(caster, creep, "modifier_respawn_ghost", {})
+			creep:SetControllableByPlayer(playerOwnerId, false)
+			creep:SetForwardVector(RandomVector(1))
+			local reIncar = ParticleManager:CreateParticle("particles/skills/respawn/reincarnate.vpcf", 0, creep)
+			ParticleManager:SetParticleControl(reIncar, 1 ,  Vector(0.3,0,0))
+		end
+
+	caster:RemoveAbility("Respawn")
+	local passive = caster:AddAbility("Respawn_passive")
+	passive:UpgradeAbility(false)
+end
+
+function Ambush_hide( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local start_point = caster:GetAbsOrigin()
+	local target_point = keys.target_points[1]
+	
+	ability:ApplyDataDrivenModifier(caster, caster, "modifier_ambush_hide", {duration = 1})
+	caster:AddNoDraw()
+	FindClearSpaceForUnit( caster, target_point, true )
+	caster:AddNewModifier(caster, ability,  "modifier_phased", {duration  = 0.03} )
+	Timers:CreateTimer(1,function()
+		caster:RemoveNoDraw()
+		--after moving the caster, finds the unit around.
+		local attack_targets = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 500, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+		local attack_target = attack_targets[1]
+
+		--make sure the unit is alive and attack it.
+		if attack_target ~= nil then
+			if attack_target:IsAlive() then
+				local order = 
+				{
+					UnitIndex = caster:entindex(),
+					OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+					TargetIndex = attack_target:entindex()
+				}
+
+				ExecuteOrderFromTable(order)
+			end
+			
+		end
+	end
+  )
+  	local Hide_start = ParticleManager:CreateParticle("particles/econ/items/lanaya/lanaya_epit_trap/templar_assassin_epit_trap_explode.vpcf", PATTACH_WORLDORIGIN, nil) 
+	ParticleManager:SetParticleControl(Hide_start, 0, start_point)
+
+end
+
+function Ambush_initiate( keys )
+	local caster = keys.caster
+	local caster_location = caster:GetAbsOrigin()
+	local target_point = keys.target_points[1]
+	local ability = keys.ability
+	--local modifier = keys.modifier
+
+	-- Distance calculations
+	local speed = ability:GetLevelSpecialValueFor("speed", (ability:GetLevel() - 1))
+	local distance = (target_point - caster_location):Length2D()
+	print(distance,"distance_ambush")
+	local direction = (target_point - caster_location):Normalized()
+	local duration = distance/speed
+
+	-- Saving the data in the ability
+	ability.ambush_max_distance = distance
+	ability.ambush_travel_speed = speed * 1/30 -- 1/30 is how often the motion controller ticks
+	ability.ambush_travel_direction = direction
+	ability.ambush_traveled_distance = 0
+
+	-- Apply the invlunerability modifier to the caster
+	--ability:ApplyDataDrivenModifier(caster, caster, modifier, {duration = duration})
+end
+
+function Ambush_motion( keys ) --disposed temply
+	local caster = keys.caster
+	local ability = keys.ability
+
+	if ability.ambush_max_distance - ability.ambush_traveled_distance < ability.ambush_travel_speed then --Is this the last leap?
+		local small_leap_distance = ability.ambush_max_distance - ability.ambush_traveled_distance
+		caster:SetAbsOrigin(caster:GetAbsOrigin() + ability.ambush_travel_direction * small_leap_distance)
+		caster:InterruptMotionControllers(false) --Remove the motion controller
+	else	--if not, make a big leap.
+		caster:SetAbsOrigin(caster:GetAbsOrigin() + ability.ambush_travel_direction * ability.ambush_travel_speed)
+		ability.ambush_traveled_distance = ability.ambush_traveled_distance + ability.ambush_travel_speed
+	end
+end
+
+function Ambush_blink( keys )
+	local caster = keys.caster 
+	local ability = keys.ability 
+	local target_point = keys.target_points[1]
+	local max_distance = ability:GetLevelSpecialValueFor("max_distance", ability:GetLevel() - 1)
+
+	local target_distance = (target_point - caster:GetAbsOrigin()):Length2D()
+
+	if target_distance > max_distance then
+		target_distance = max_distance
+	end
+
+	ability.target_point = caster:GetAbsOrigin() + target_distance * (target_point - caster:GetAbsOrigin()):Normalized()
+	ability.start_point = caster:GetAbsOrigin()
+	caster:SetAbsOrigin(ability.target_point)	
+	FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), false)
+end
+
+function Ambush_trail( keys )
+	local caster = keys.caster
+	local ability = keys.ability 
+	local start_point = ability.start_point
+	local target_point = ability.target_point + caster:GetForwardVector()*200
+	local midPoint = start_point + (target_point-start_point)/2
+	local trail = ParticleManager:CreateParticle("particles/skills/ambush/ambush_two.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(trail, 0, midPoint)
+	ParticleManager:SetParticleControl(trail, 1, start_point)
+	ParticleManager:SetParticleControl(trail, 3, target_point)
+
+	local vCP0toCP1 =  target_point - midPoint
+	local vStandardX = Vector(1,0,0)
+	local cos = vCP0toCP1.x / (vCP0toCP1:Length2D() * vStandardX:Length2D())
+	local raw_angle = math.deg(math.acos(cos))
+	local angle = raw_angle
+
+	local PointAtUpperZone = target_point.y >= start_point.y
+
+	if PointAtUpperZone then
+		angle = raw_angle
+	else
+		angle = 360 - raw_angle
+	end
+
+	ParticleManager:SetParticleControl(trail, 2, Vector(0,0,angle+90))
+
+end
+
+function Retreat_motion( keys )
+	local ability = keys.ability
+	local caster = keys.caster 
+	caster:AddNoDraw()
+
+	local retreat_start_effect = ParticleManager:CreateParticle("particles/econ/items/lanaya/lanaya_epit_trap/templar_assassin_epit_trap_explode.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(retreat_start_effect, 0 , caster:GetAbsOrigin())
+	
+	local friendly_units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 20000, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)	
+	local target_unit = friendly_units[RandomInt(1,table.getn(friendly_units))]
+
+	if target_unit:IsAlive() then
+		caster:SetAbsOrigin(target_unit:GetAbsOrigin())
+		FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), false)
+	end
+
+end
+
+function Retreat_remove_no_draw( keys )
+	local caster = keys.caster
+	caster:Stop()
+	caster:RemoveNoDraw()
+
+	local retreat_end_effect = ParticleManager:CreateParticle("particles/skills/retreat/retreat_desti.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(retreat_end_effect, 0 , caster:GetAbsOrigin())
+end
+
+function Unarm ( keys )
+	local target_point = keys.target_points[1]
+	local unarm_ground_effect = ParticleManager:CreateParticle("particles/skills/unarm/unarm.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(unarm_ground_effect, 0 , target_point)
+	EmitSoundOnLocationWithCaster(target_point, "Hero_Invoker.DeafeningBlast", keys.caster)
+
+end
+
+function Unarm_motion ( keys )
+	local caster = keys.caster
+	local target_point = keys.target_points[1]
+	local start_point = caster:GetAbsOrigin()
+	local speed = 1500
+	local gravity = 800
+	local distance = (target_point-start_point):Length2D()
+	local travel_time = distance / speed
+
+	local vecCP2_lifetime = Vector (travel_time, 0 , 0)
+
+	local upwardFactor = gravity * travel_time / 2
+	local forwardFactor = (target_point - start_point):Normalized() * speed
+	local vecCP1_vel = Vector(forwardFactor.x, forwardFactor.y , upwardFactor)
+
+	local parabola = ParticleManager:CreateParticle("particles/skills/unarm/unarm_parabola.vpcf", PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(parabola, 0, start_point)
+	ParticleManager:SetParticleControl(parabola, 1, vecCP1_vel)
+	ParticleManager:SetParticleControl(parabola, 2, vecCP2_lifetime)
+
+	Timers:CreateTimer(travel_time, function()
+		ParticleManager:DestroyParticle(parabola, false)
+      	Unarm ( keys )
+    end
+  )
+end
+
+
+
+
