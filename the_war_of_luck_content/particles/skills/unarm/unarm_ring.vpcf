@@ -49,7 +49,7 @@
 			m_flFinalTextureOffsetV = 1.0
 			m_flRadiusScale = 0.5
 			m_bAdditive = true
-			m_flOverbrightFactor = 2.0
+			m_flOverbrightFactor = 4.0
 			m_hTexture = resource:"materials/particle/beam_shorewave001a.vtex"
 		},
 	]
@@ -62,11 +62,13 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
+			m_ColorMin = [ 255, 111, 49, 255 ]
+			m_ColorMax = [ 254, 150, 94, 255 ]
 		},
 		{
 			_class = "C_INIT_RandomLifeTime"
-			m_fLifetimeMin = 1.2
-			m_fLifetimeMax = 1.2
+			m_fLifetimeMin = 0.8
+			m_fLifetimeMax = 0.8
 		},
 		{
 			_class = "C_INIT_RingWave"
@@ -99,7 +101,7 @@
 	[
 		{
 			_class = "C_OP_InstantaneousEmitter"
-			m_nParticlesToEmit = 32
+			m_nParticlesToEmit = 64
 		},
 	]
 }

@@ -40,7 +40,6 @@
 		{
 			_class = "C_OP_RenderSprites"
 			m_nOrientationType = 2
-			m_flOverbrightFactor = 1.2
 			m_hTexture = resource:"materials/particle/circle_hollow01.vtex"
 		},
 	]
@@ -69,8 +68,9 @@
 	[
 		{
 			_class = "C_OP_ContinuousEmitter"
-			m_flEmissionDuration = 0.5
-			m_flEmitRate = 10.0
+			m_flEmissionDuration = 0.3
+			m_flEmitRate = 20.0
 		},
 	]
+	m_ConstantColor = [ 255, 228, 189, 255 ]
 }

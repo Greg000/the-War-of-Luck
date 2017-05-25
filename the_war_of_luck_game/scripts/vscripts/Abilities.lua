@@ -1656,15 +1656,39 @@ function Retreat_remove_no_draw( keys )
 	ParticleManager:SetParticleControl(retreat_end_effect, 0 , caster:GetAbsOrigin())
 end
 
-function Unarm ( keys )
+--note that unarm has been replaced with disarm.
+function Disarm ( keys )
 	local target_point = keys.target_points[1]
+	local ability = keys.ability
+	local caster = keys.caster
+	local radius = ability:GetLevelSpecialValueFor("radius", ability:GetLevel() -1 )
+	local targets = FindUnitsInRadius(caster:GetTeamNumber(), target_point, nil, radius, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+	
+	for i,unit in pairs (targets) do
+		ability:ApplyDataDrivenModifier(caster, unit, "modifier_disarm_buff", {})
+		
+		local knockbackProperties =
+    	{
+        center_x = target_point.x,
+        center_y = target_point.y,
+        center_z = target_point.z,
+        duration = 0.3,
+        knockback_duration = 0.3,
+        knockback_distance = 300 - (unit:GetAbsOrigin() - target_point):Length2D(),
+        knockback_height = 30
+    	}
+
+      	unit:AddNewModifier( unit, nil, "modifier_knockback", knockbackProperties )
+
+	end
 	local unarm_ground_effect = ParticleManager:CreateParticle("particles/skills/unarm/unarm.vpcf", PATTACH_WORLDORIGIN, nil)
 	ParticleManager:SetParticleControl(unarm_ground_effect, 0 , target_point)
-	EmitSoundOnLocationWithCaster(target_point, "Hero_Invoker.DeafeningBlast", keys.caster)
+	EmitSoundOnLocationWithCaster(target_point, "Hero_Antimage.ManaVoid", keys.caster)
+
 
 end
 
-function Unarm_motion ( keys )
+function Disarm_motion ( keys )
 	local caster = keys.caster
 	local target_point = keys.target_points[1]
 	local start_point = caster:GetAbsOrigin()
@@ -1686,11 +1710,40 @@ function Unarm_motion ( keys )
 
 	Timers:CreateTimer(travel_time, function()
 		ParticleManager:DestroyParticle(parabola, false)
-      	Unarm ( keys )
+      	Disarm ( keys )
     end
   )
 end
 
 
+function Laser_Strike_Effect( keys )
+	local caster = keys.caster
+	local point = keys.target_points[1]
+	local particle = keys.particle
+	
+	local laser = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(laser, 0, point)
+end
 
+function Chemist_Reset_Hp( keys )
+	--[[local caster = keys.caster
+	local ability = keys.ability
+	local hp_reduction = ability:GetLevelSpecialValueFor("hp_reduction", ability:GetLevel() - 1)
+	print(hp_reduction)
+	local current_max_hp = caster:GetMaxHealth()
+	caster:ModifyHealth(hp_reduction, ability, false, 0)
+	caster:SetMaxHealth(0)
+	print(caster:GetMaxHealth())]]--
+	local caster = keys.caster 
+	LinkLuaModifier("modifier_chemist_lua", LUA_MODIFIER_MOTION_NONE )
+	caster:AddNewModifier(caster, nil, "modifier_chemist_lua", {duration = 3 })
+	print(caster:GetMaxHealth(),"Ability, maxhealth")
+end
 
+function Network_effect_timer( keys )
+	local caster = keys.caster
+	Timers:CreateTimer(function()
+				ParticleManager:CreateParticle("particles/skills/network/network.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
+     		 return 2.5
+    		end)
+end

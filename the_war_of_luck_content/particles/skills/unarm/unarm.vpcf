@@ -29,7 +29,7 @@
 			m_flDelay = 0.15
 		},
 		{
-			m_ChildRef = resource:"particles/skills/unarm/unarm_debri.vpcf"
+			m_ChildRef = resource:"particles/skills/unarm/unarm_spark.vpcf"
 		},
 	]
 }

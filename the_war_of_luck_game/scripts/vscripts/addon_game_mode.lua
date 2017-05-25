@@ -88,6 +88,9 @@ function Precache( context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_pugna.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_alchemist.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_bane.vsndevts", context )
 
         PrecacheResource( "model", "models/heroes/morphling/morphling.vmdl", context )
 end
@@ -145,6 +148,7 @@ function LuckyWarGameMode:InitGameMode()
 
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap(LuckyWarGameMode, "FilterExecuteOrder" ), self )
         GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap(LuckyWarGameMode, "Damagafilter_heroic" ), self )
+        GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap(LuckyWarGameMode, "Damagafilter_network" ), self )
         GameRules:GetGameModeEntity():SetCameraDistanceOverride(1800)
 	--Initialize OrderFilter
 
@@ -234,6 +238,44 @@ function LuckyWarGameMode:Damagafilter_heroic( filterTable)
                 return true
         end
 end 
+
+function LuckyWarGameMode:Damagafilter_network( filterTable)
+        local attackerIndex = filterTable["entindex_attacker_const"]
+	local victimIndex = filterTable["entindex_victim_const"]
+        
+
+        local victim = EntIndexToHScript(victimIndex)
+        if victim:FindModifierByName("modifier_network") == nil then
+                return true
+        else
+                local ability = victim:FindModifierByName("modifier_network"):GetAbility()
+                local caster = ability:GetCaster()
+                local reduction_ratio = ability:GetLevelSpecialValueFor("reduction_ratio", ability:GetLevel() - 1)
+                local other_units= FindUnitsInRadius(victim:GetTeamNumber(), victim:GetAbsOrigin(), nil, 2000, 1, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+                print(table.getn(other_units),"others")
+                local other_units_in_network = {}
+                for _,unit in pairs(other_units) do
+                        if unit:FindModifierByName("modifier_network") ~= nil then
+                                table.insert(other_units_in_network, unit)
+                        end
+                end
+                local number_in_network = table.getn(other_units_in_network)
+                for _,unit in pairs(other_units_in_network) do
+                        local damageTable = {victim = unit,    
+                                                 attacker = caster,        
+                                                 damage = filterTable["damage"] * (1 - reduction_ratio) / number_in_network,    
+                                                 damage_type = DAMAGE_TYPE_HP_REMOVAL,
+                                                 ability = ability,
+                                                 damage_flags = DOTA_DAMAGE_FLAG_HPLOSS}
+                        ApplyDamage(damageTable)
+                end
+
+                filterTable["damage"] = filterTable["damage"] * reduction_ratio
+
+                return true
+        end
+end 
+
 function LuckyWarGameMode:FilterExecuteOrder( filterTable )
         local f = filterTable
         if f.order_type ==  DOTA_UNIT_ORDER_MOVE_TO_POSITION then --recognizes order type
