@@ -30,7 +30,7 @@ end
 --------------------------------------------------------------------------------
  
 function modifier_fountain_regeneration_lua:GetModifierTotalPercentageManaRegen( params )
-		self.f_reg_mp = 7
+		self.f_reg_mp = 1.5
         return self.f_reg_mp
 end
 

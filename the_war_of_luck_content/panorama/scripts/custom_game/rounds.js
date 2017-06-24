@@ -15,6 +15,8 @@ function SetInitialRoundsNumber( data ){
 
 function UpdateRoundsNumber( data){
     var rounds_number = data.rounds_number
+    var TotalRound = data.TotalRound
+    var RoundsLabel = $("#RoundsLabel")
     rounds_number += " / "
     rounds_number +=  TotalRound.toString()
     RoundsLabel.text = rounds_number

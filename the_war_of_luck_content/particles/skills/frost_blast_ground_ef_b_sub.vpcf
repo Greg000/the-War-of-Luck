@@ -1,0 +1,143 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_SetSingleControlPointPosition"
+			m_nCP1 = 5
+			m_vecCP1Pos = [ 0.0, 140.0, 0.0 ]
+			m_nHeadLocation = 4
+		},
+		{
+			_class = "C_OP_SetSingleControlPointPosition"
+			m_nCP1 = 6
+			m_vecCP1Pos = [ 0.0, -140.0, 0.0 ]
+			m_nHeadLocation = 4
+		},
+		{
+			_class = "C_OP_Decay"
+		},
+		{
+			_class = "C_OP_BasicMovement"
+		},
+		{
+			_class = "C_OP_PositionLock"
+			m_nControlPointNumber = 4
+			m_bLockRot = true
+		},
+		{
+			_class = "C_OP_DistanceCull"
+			m_nControlPoint = 1
+			m_flDistance = 600.0
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_FadeInSimple"
+		},
+		{
+			_class = "C_OP_FadeOutSimple"
+		},
+		{
+			_class = "C_OP_SetCPOrientationToPointAtCP"
+			m_nOutputCP = 4
+		},
+	]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderModels"
+			m_ModelList = 
+			[
+				{
+					m_model = resource:"models/heroes/crystal_maiden/crystal_maiden_ice.vmdl"
+				},
+			]
+			m_hOverrideMaterial = resource:"materials/models/props_structures/solid_white.vmat"
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_CreateSequentialPath"
+			m_flNumToAssign = 12.0
+			m_PathParams = 
+			{
+				m_nStartControlPointNumber = 5
+				m_nEndControlPointNumber = 6
+			}
+		},
+		{
+			_class = "C_INIT_CreateWithinSphere"
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 0.5
+			m_flRadiusMax = 0.5
+		},
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMin = 3.0
+			m_fLifetimeMax = 3.0
+		},
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMin = [ 255, 239, 73, 255 ]
+			m_ColorMax = [ 225, 150, 65, 255 ]
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_PositionPlaceOnGround"
+			m_flOffset = 5.0
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMax = 0.0
+			m_flDegrees = -90.0
+			m_nFieldOutput = 20
+			m_bRandomlyFlipDirection = false
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMin = -20.0
+			m_flDegreesMax = 20.0
+			m_bRandomlyFlipDirection = false
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMin = -20.0
+			m_flDegreesMax = 20.0
+			m_nFieldOutput = 12
+			m_bRandomlyFlipDirection = false
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ -10.0, -10.0, 0.0 ]
+			m_OffsetMax = [ 10.0, 10.0, 0.0 ]
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_ContinuousEmitter"
+			m_flEmissionDuration = 0.2
+			m_flEmitRate = 61.0
+		},
+	]
+}

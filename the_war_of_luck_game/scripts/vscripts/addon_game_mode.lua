@@ -91,6 +91,9 @@ function Precache( context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_alchemist.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_bane.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/fast_freeze.vsndevts", context )
 
         PrecacheResource( "model", "models/heroes/morphling/morphling.vmdl", context )
 end
@@ -152,9 +155,9 @@ function LuckyWarGameMode:InitGameMode()
         GameRules:GetGameModeEntity():SetCameraDistanceOverride(1800)
 	--Initialize OrderFilter
 
-        GameRules:SetHeroSelectionTime(5.0)
+        --[[GameRules:SetHeroSelectionTime(5.0)
         GameRules:SetCustomGameSetupRemainingTime(0.0)
-        GameRules:SetPreGameTime( 20)--set the pregame time
+        GameRules:SetPreGameTime( 20)--set the pregame time]]--
 
         SummonUnits:Precache()
 
@@ -182,7 +185,7 @@ function LuckyWarGameMode:OnEntityKilled( keys )
         if deadUnit:IsHero() then
                 deadHeroCount[deadUnit:GetTeamNumber()] = deadHeroCount[deadUnit:GetTeamNumber()] +1 
                 if deadHeroCount[deadUnit:GetTeamNumber()] == PlayerResource:GetPlayerCountForTeam(deadUnit:GetTeamNumber()) then --check whether all heroes in the team have died.
-                        for i = 0,10 do
+                        --[[for i = 0,10 do
                                 if PlayerResource:IsValidPlayer(i) then
                                 		--firstly kills all remnant of the losing team, and freezes other units. 
                                         SummonUnits:Invulnerability(deadUnit)
@@ -212,8 +215,73 @@ function LuckyWarGameMode:OnEntityKilled( keys )
                                                 end)
                                         end
                                 end
+                        end]]--
+                        --check if all rounds have run over, if not , update rounds number on UI.
+                        if Rounds:CheckAllRoundsOver() then
+                                Timers:CreateTimer(5, function()
+                                        Rounds:UpdateRounds()
+                                return nil
+                                end)
+                                SummonUnits:Invulnerability(deadUnit)
+                                SummonUnits:KillRemnant(deadUnit)
+                                --all units have been removed, now start a new round.
+                                SummonUnits:Precache()
+                                for i = 0, DOTA_MAX_TEAM_PLAYERS do
+                                        if PlayerResource:IsValidPlayer(i) then
+                                                Timers:CreateTimer(5, function()
+                                                        keys.player_id = i
+                                                        SummonUnits:Allocate(keys)
+                                                        --[[Timers:CreateTimer(1,function()
+                                                                for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+                                                                        unit:SetAbilityPoints(10)
+                                                                        unit:SetRespawnsDisabled(true)
+                                                                        return nil
+                                                                end
+                                                        end)]]--
+                                                        --new heroes and creeps have been respawned. Restore all previous data.
+                                                        deadHeroCount = nil
+                                                return nil
+                                                end)
+                                        end
+                                end
+                                
+
                         end
                 end
+        end
+
+        if deadUnit:GetUnitName() == "Test_Hero" then
+                        if Rounds:CheckAllRoundsOver() then
+                                Timers:CreateTimer(5, function()
+                                        Rounds:UpdateRounds()
+                                return nil
+                                end)
+                                SummonUnits:Invulnerability(deadUnit)
+                                SummonUnits:KillRemnant(deadUnit)
+                                --all units have been removed, now start a new round.
+                                SummonUnits:Precache()
+                                for i = 0, DOTA_MAX_TEAM_PLAYERS do
+                                        if PlayerResource:IsValidPlayer(i) then
+                                                Timers:CreateTimer(5, function()
+                                                        keys.player_id = i
+                                                        SummonUnits:Allocate(keys)
+                                                        Timers:CreateTimer(1,function()
+                                                                for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+                                                                        unit:SetAbilityPoints(10)
+                                                                        unit:SetRespawnsDisabled(true)
+                                                                        return nil
+                                                                end
+                                                        end)
+                                                        --new heroes and creeps have been respawned. Restore all previous data.
+                                                        deadHeroCount = nil
+                                                return nil
+                                                end)
+                                        end
+                                end
+                                
+
+                        end
+
         end      
 end
 
@@ -240,19 +308,29 @@ function LuckyWarGameMode:Damagafilter_heroic( filterTable)
 end 
 
 function LuckyWarGameMode:Damagafilter_network( filterTable)
+
+        local dummy = _G.network_dummy
         local attackerIndex = filterTable["entindex_attacker_const"]
 	local victimIndex = filterTable["entindex_victim_const"]
         
 
         local victim = EntIndexToHScript(victimIndex)
+        local attacker = nil
+        if attackerIndex ~= nil then
+                attacker = EntIndexToHScript(attackerIndex)
+        end
         if victim:FindModifierByName("modifier_network") == nil then
                 return true
         else
+
+        if attacker == dummy then
+                return true
+        end
+
                 local ability = victim:FindModifierByName("modifier_network"):GetAbility()
                 local caster = ability:GetCaster()
                 local reduction_ratio = ability:GetLevelSpecialValueFor("reduction_ratio", ability:GetLevel() - 1)
                 local other_units= FindUnitsInRadius(victim:GetTeamNumber(), victim:GetAbsOrigin(), nil, 2000, 1, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
-                print(table.getn(other_units),"others")
                 local other_units_in_network = {}
                 for _,unit in pairs(other_units) do
                         if unit:FindModifierByName("modifier_network") ~= nil then
@@ -262,12 +340,12 @@ function LuckyWarGameMode:Damagafilter_network( filterTable)
                 local number_in_network = table.getn(other_units_in_network)
                 for _,unit in pairs(other_units_in_network) do
                         local damageTable = {victim = unit,    
-                                                 attacker = caster,        
+                                                 attacker =     dummy,        
                                                  damage = filterTable["damage"] * (1 - reduction_ratio) / number_in_network,    
-                                                 damage_type = DAMAGE_TYPE_HP_REMOVAL,
-                                                 ability = ability,
-                                                 damage_flags = DOTA_DAMAGE_FLAG_HPLOSS}
+                                                 damage_type = DAMAGE_TYPE_PURE,
+                                                 ability = ability}
                         ApplyDamage(damageTable)
+                        --print("damageTable",damageTable.damage)
                 end
 
                 filterTable["damage"] = filterTable["damage"] * reduction_ratio
@@ -314,6 +392,20 @@ function LuckyWarGameMode:OnGameRulesStateChange( keys )
     --game begins
     if newState==DOTA_GAMERULES_STATE_GAME_IN_PROGRESS  then
         
+        for i = 0, DOTA_MAX_TEAM_PLAYERS  do
+                if PlayerResource:IsValidPlayer(i) then
+                        --local player = EntIndexToHScript(i) -- +- 1?
+                        
+                        --newHero = PlayerResource:ReplaceHeroWith(i, heroName, 0, 0)
+                        keys.player_id = i
+                        --keys.heroindex = newHero:entindex()
+                        --sasaSummonUnits:TestPID( keys )
+                        SummonUnits:Allocate(keys)
+                        --new heroes and creeps have been respawned. Restore all previous data
+                end
+        end
+
+
         GameRules:GetGameModeEntity():SetTopBarTeamValue(DOTA_TEAM_GOODGUYS,10)
         GameRules:GetGameModeEntity():SetTopBarTeamValuesOverride(true)
         CustomGameEventManager:Send_ServerToAllClients( "luckywar_toggle_vote", {visible = false} )
@@ -475,15 +567,16 @@ end
 
 
 function LuckyWarGameMode:OnPlayerPickHero(keys)
-    local hero = EntIndexToHScript(keys.heroindex)
-	local pID = hero:GetPlayerID() 
+    --[[local hero = EntIndexToHScript(keys.heroindex)
+	local pID = hero:GetPlayerID()
+        print("playeridjune",pID)
 	local player = hero:GetPlayerOwner()
     if player.InitialPick ~= false then
         DeepPrintTable(keys)
         print("HeroPicked")
         SummonUnits:Allocate(keys)
     end
-        player.InitialPick = false
+        player.InitialPick = false]]--
 end
 
 --[[function LuckyWarGameMode:RemoveWearables(keys)

@@ -94,6 +94,11 @@ function FireStep(keys)
 
 end
 
+function Purifying_Fire(keys)
+	local target = keys.target
+	target:Purge(true, false, false, false, false)
+end
+
 function Forced_Attack(keys)
 	local target = keys.target
 	local caster = keys.caster
@@ -103,6 +108,19 @@ function Forced_Attack(keys)
 
 	target:SetModifierStackCount("modifier_forced_attack_count",target,4)
 
+end
+
+function Resurgence( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local mana_remain = caster:GetMana()
+	local mana_bonus = ability:GetLevelSpecialValueFor("mana_bonus", ability:GetLevel() - 1)
+	local mana_floor = ability:GetLevelSpecialValueFor("mana_floor", ability:GetLevel() - 1)
+	if mana_remain < mana_floor then
+
+		caster:SetMana(caster:GetMana() + mana_bonus)
+		ability:ApplyDataDrivenModifier(caster, caster, "modifier_resurgence_effect", {} )
+	end 
 end
 
 function Forced_Attack_Remove(keys)
@@ -417,7 +435,7 @@ end
 function TestHero( keys )
 	local caster = keys.caster
 	local target_point = keys.target_points[1]
-	CreateUnitByName("Test_Hero", target_point, true, nil, nil, 3) 
+	CreateUnitByName("Centaur", target_point, true, nil, nil, 3) 
 
 	-- body
 end
@@ -447,6 +465,54 @@ function Test()
 	ShowMessage("??????????") 
 end
 
+function Frost_Blast ( keys )
+	local ability = keys.ability
+	local caster = keys.caster
+	local point = keys.target_points[1]
+	local cp1 = caster:GetAbsOrigin() + (point - caster:GetAbsOrigin()):Normalized() * 1400
+	local blast = ParticleManager:CreateParticle("particles/skills/frost_blast/frost_blast_ice_path.vpcf", PATTACH_ABSORIGIN, caster)
+	local start_pos = caster:GetAbsOrigin() + (cp1 - caster:GetAbsOrigin()):Normalized() * 150
+	local start_pos_b = caster:GetAbsOrigin() + (cp1 - caster:GetAbsOrigin()):Normalized() * 150
+	start_pos.z = 1
+	ParticleManager:SetParticleControl(blast, 1 , cp1)
+	ParticleManager:SetParticleControl(blast, 0 , start_pos)
+	print("iceblast",cp1)
+
+	local blast_b = ParticleManager:CreateParticle("particles/skills/frost_blast/frost_blast_ice_path_shards.vpcf", PATTACH_ABSORIGIN, caster)
+	ParticleManager:SetParticleControl(blast_b, 0 , start_pos)
+	ParticleManager:SetParticleControl(blast_b, 1 , cp1)
+
+	ParticleManager:SetParticleControl(blast_b, 2 , Vector(2,0,0))
+	ParticleManager:SetParticleControl(blast, 2 , start_pos)
+	print("iceblast",cp1)
+
+	--two second to let the ice path to grow 
+	Timers:CreateTimer(3,function()
+		local blast_explo = ParticleManager:CreateParticle("particles/skills/frost_blast/frost_blast_movement_dummy.vpcf", PATTACH_ABSORIGIN, caster)
+		ParticleManager:SetParticleControl(blast_explo, 1 , start_pos_b)
+		ParticleManager:SetParticleControl(blast_explo, 2, cp1)
+		
+		return nil
+		end)
+
+	caster:EmitSound("Fast_Freeze")
+
+	Timers:CreateTimer(2,function()
+		caster:EmitSound("Hero_Jakiro.IcePath")
+		return nil
+		end)
+
+	----------------------------------------------------------------- effect -----------------------------------------------------
+
+	Timers:CreateTimer(2,function()
+		local targetsInLine = FindUnitsInLine(caster:GetTeamNumber(), start_pos, cp1, nil, 150 , ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags())
+		for _,unit in pairs(targetsInLine) do
+			ability:ApplyDataDrivenModifier(caster, unit, "modifier_frost_blast_debuff", {})
+		end
+		end)
+
+
+end
 
 function Last_Wishes_Effect( keys )
 	local targets = keys.target_entities
@@ -762,7 +828,13 @@ function Shadow_Strike(keys)
 	
 end
 
-
+function Dark_Illusion_Effect( keys )	
+	local caster = keys.caster
+	local smoke = ParticleManager:CreateParticle("particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_transform.vpcf", PATTACH_CUSTOMORIGIN, caster)
+	ParticleManager:SetParticleControlEnt( smoke, 0, caster, PATTACH_POINT, "attach_hitloc", caster:GetOrigin(), true );
+	ParticleManager:SetParticleControlEnt( smoke, 9, caster, PATTACH_POINT, "attach_hitloc", caster:GetOrigin(), true );
+	ParticleManager:SetParticleControl( smoke, 15, Vector(9,20,77));
+end
 function Dark_Form( keys )
 	local caster = keys.caster 
 	--caster:StartGestureWithPlaybackRate( ACT_DOTA_SPAWN, 0.8 )  
@@ -795,10 +867,9 @@ function Invisibility ( keys )
 	caster:AddNewModifier(caster, nil, "modifier_invisible",{})
 end
 
-function Invisibility_CD ( keys )
+function Invisibility_Remove ( keys )
 	local caster = keys.caster
 	local ability = keys.ability
-	ability:StartCooldown(10)
 	caster:RemoveModifierByName("modifier_invisible")
 end
 
@@ -1629,6 +1700,25 @@ function Ambush_trail( keys )
 
 end
 
+function Ambush_damage( keys )
+	local caster = keys.caster 
+	local ability = keys.ability 
+	local target_point = ability.target_point	
+	local max_distance = ability:GetLevelSpecialValueFor("max_distance", ability:GetLevel() - 1)
+
+
+	local targets_in_line = FindUnitsInLine(caster:GetTeamNumber(), ability.start_point, ability.target_point, nil, 100, ability:GetAbilityTargetTeam(), ability:GetAbilityDamageType(), ability:GetAbilityTargetFlags())
+	for _,unit in pairs(targets_in_line) do
+		print(unit:GetUnitName(),"untiname")
+		local damageTable = {victim=unit,
+                             attacker=caster,
+                             damage=ability:GetLevelSpecialValueFor("damage",ability:GetLevel() - 1),        
+                             damage_type=keys.ability:GetAbilityDamageType()} 
+        ApplyDamage(damageTable) 
+	end
+		
+end
+
 function Retreat_motion( keys )
 	local ability = keys.ability
 	local caster = keys.caster 
@@ -1743,7 +1833,66 @@ end
 function Network_effect_timer( keys )
 	local caster = keys.caster
 	Timers:CreateTimer(function()
+			if caster:IsAlive() then
 				ParticleManager:CreateParticle("particles/skills/network/network.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
-     		 return 2.5
-    		end)
+     			return 2.5
+			else
+				return nil
+			end
+    	end)
+end
+
+function Network_dummy_creation( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local team = caster:GetTeamNumber()
+	_G.network_dummy = CreateUnitByName("Network_dummy",caster:GetAbsOrigin(), true, caster, caster, DOTA_TEAM_NEUTRALS)
+end
+
+function Network_effect_signalsend( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local other_units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 2000, 1, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+    local other_units_in_network = {}
+	
+    for _,unit in pairs(other_units) do
+            if unit:FindModifierByName("modifier_network") ~= nil then
+                table.insert(other_units_in_network, unit)
+            end
+    end
+
+	for _,unit in pairs(other_units_in_network) do
+		local signal = ParticleManager:CreateParticle("particles/skills/network/network_tether.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
+		ParticleManager:SetParticleControl(signal, 1, caster:GetAbsOrigin())
+	end
+end
+
+function arcana_1( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local arcana = ParticleManager:CreateParticle("particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_crit_arcana_impact_model.vpcf", PATTACH_CUSTOMORIGIN, target)
+	--ParticleManager:SetParticleControlOrientation(arcana, 0, caster:GetForwardVector(), caster:GetRightVector(), caster:GetUpVector())
+	ParticleManager:SetParticleControlEnt( arcana, 0, target, PATTACH_ABSORIGIN, "attach_hitloc", target:GetOrigin(), true );
+	ParticleManager:SetParticleControlEnt( arcana, 1, target, PATTACH_ABSORIGIN, "attach_hitloc", target:GetOrigin(), true );
+	ParticleManager:SetParticleControl( arcana, 2, Vector(100, 100, 100))
+	ParticleManager:SetParticleControlEnt( arcana, 10, target, PATTACH_ABSORIGIN, "attach_hitloc", target:GetOrigin(), true );
+	--ParticleManager:SetParticleControlOrientation(arcana, 10, caster:GetForwardVector(), caster:GetRightVector(), caster:GetUpVector())
+	--ParticleManager:SetParticleControl(arcana, 1, target:GetAbsOrigin())
+	
+	--[[ParticleManager:SetParticleControl(arcana, 10, caster:GetAbsOrigin())]]--
+end
+
+function motion_1( keys)
+	local caster = keys.caster
+	local motion = ParticleManager:CreateParticle("particles/shadow_strike/shadow_strike_smoke.vpcf", PATTACH_CUSTOMORIGIN, caster)
+	ParticleManager:SetParticleControlEnt( motion, 0, caster, PATTACH_ABSORIGIN, "attach_hitloc", caster:GetOrigin(), true );
+end
+
+function Thorns_Aura_effect( keys )
+	local attacker = keys.attacker
+	local centaur = keys.caster
+	local thorn = ParticleManager:CreateParticle("particles/units/heroes/hero_centaur/centaur_return.vpcf", PATTACH_CUSTOMORIGIN, centaur)
+	print("thorn")
+	ParticleManager:SetParticleControlEnt( thorn, 0, centaur, PATTACH_POINT_FOLLOW, "attach_hitloc", centaur:GetOrigin(), true );
+	ParticleManager:SetParticleControlEnt( thorn, 1, attacker,PATTACH_POINT_FOLLOW, "attach_hitloc", attacker:GetOrigin(), true );
 end

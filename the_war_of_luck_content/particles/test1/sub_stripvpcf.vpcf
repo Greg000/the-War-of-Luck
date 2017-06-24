@@ -46,13 +46,19 @@
 			m_nControlPoint = 1
 			m_flDistance = 600.0
 		},
+		{
+			_class = "C_OP_FadeInSimple"
+		},
+		{
+			_class = "C_OP_FadeOutSimple"
+		},
 	]
 	m_Renderers = 
 	[
 		{
 			_class = "C_OP_RenderSprites"
 			m_bAdditive = true
-			m_flOverbrightFactor = 5.0
+			m_flOverbrightFactor = 4.0
 			m_hTexture = resource:"materials/particle/particle_flares/aircraft_white.vtex"
 		},
 	]
@@ -73,13 +79,13 @@
 		},
 		{
 			_class = "C_INIT_RandomRadius"
-			m_flRadiusMin = 10.0
-			m_flRadiusMax = 10.0
+			m_flRadiusMin = 12.0
+			m_flRadiusMax = 12.0
 		},
 		{
 			_class = "C_INIT_RandomLifeTime"
-			m_fLifetimeMin = 0.4
-			m_fLifetimeMax = 0.8
+			m_fLifetimeMin = 1.2
+			m_fLifetimeMax = 1.5
 		},
 		{
 			_class = "C_INIT_RandomColor"

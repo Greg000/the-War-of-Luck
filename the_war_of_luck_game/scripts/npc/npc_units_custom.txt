@@ -54,7 +54,7 @@
 		"StatusManaRegen"	"0.8"
 		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"	"315"
-		"ArmorPhysical"	"6"
+		"ArmorPhysical"	"3"
 		"MagicalResistance"	"25"
 		"SoundSet"	"Hero_Crystal"
 		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts"
@@ -297,7 +297,7 @@
 	"Dark Knight_clone"
 	{
 		"BaseClass"	"npc_dota_creature"
-		"Ability1"	""
+		"Ability1"	"Dark Illusion Effect"
 		"Ability2"	""
 		"Ability3"	""
 		"Ability4"	""
@@ -666,12 +666,12 @@
 		"ConsideredHero"	"0"
 		"Level"	"1"
 		"ModelScale"	"1"
-		"StatusHealth"	"200"
-		"StatusHealthRegen"	"200"
+		"StatusHealth"	"500"
+		"StatusHealthRegen"	"500"
 		"StatusMana"	"0"
 		"StatusManaRegen"	"0"
-		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_NO_ATTACK"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_NONE"
 		"AttackDamageMin"	"50"
 		"AttackDamageMax"	"50"
 		"AttackRate"	"0.5"
@@ -979,97 +979,6 @@
 		"ModelScale"	"1"
 	}
 
-	"Swordsman"
-	{
-		"BaseClass"	"npc_dota_creature"
-		"Ability1"	"revenge_lua"
-		"Ability2"	""
-		"Ability3"	""
-		"Ability4"	""
-		"Ability5"	""
-		"Ability6"	""
-		"Ability7"	""
-		"Ability8"	""
-		"Ability9"	""
-		"Ability10"	""
-		"Ability11"	""
-		"Ability12"	""
-		"Ability13"	""
-		"Ability14"	""
-		"Ability15"	""
-		"Ability16"	""
-		"Model"	"models\heroes\juggernaut\juggernaut.vmdl"
-		"ConsideredHero"	"0"
-		"ModelScale"	"0.85"
-		"SoundSet"	"Hero_Juggernaut"
-		"GameSoundsFile"	"soundevents\game_sounds_heroes\game_sounds_juggernaut.vsndevts"
-		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"	"37"
-		"AttackDamageMax"	"39"
-		"AttackRate"	"1.43"
-		"AttackAnimationPoint"	"0.32"
-		"AttackRange"	"128"
-		"AttackRangeBuffer"	"48"
-		"ArmorPhysical"	"2"
-		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"	"310"
-		"StatusHealth"	"550"
-		"StatusHealthRegen"	"1.3"
-		"StatusMana"	"137"
-		"StatusManaRegen"	"0.3"
-		"StatusStartingMana"	"137"
-		"VisionDaytimeRange"	"1400"
-		"VisionNighttimeRange"	"1000"
-		"Creature"
-		{
-			"AttachWearables"
-			{
-				"Wearable1"
-				{
-					"ItemDef"	"6"
-				}
-				"Wearable2"
-				{
-					"ItemDef"	"7"
-				}
-				"Wearable3"
-				{
-					"ItemDef"	"8"
-				}
-				"Wearable4"
-				{
-					"ItemDef"	"9"
-				}
-				"Wearable5"
-				{
-					"ItemDef"	"62"
-				}
-				"Wearable6"
-				{
-					"ItemDef"	"8366"
-				}
-				"Wearable7"
-				{
-					"ItemDef"	"560"
-				}
-			}
-			"DisableClumpingBehavior"	"1"
-		}
-		"MagicalResistance"	"0"
-		"HasInventory"	"0"
-		"BoundsHullName"	"DOTA_HULL_SIZE_HUGE"
-		"HealthBarOffset"	"200"
-		"RingRadius"	"30"
-		"BountyXP"	"0"
-		"BountyGoldMin"	"0"
-		"BountyGoldMax"	"0"
-		"Level"	"1"
-		"MovementTurnRate"	"0.5"
-		"HasAggressiveStance"	"1"
-		"CombatClassAttack"	"DOTA_COMBAT_CLASS_ATTACK_BASIC"
-		"CombatClassDefend"	"DOTA_COMBAT_CLASS_DEFEND_BASIC"
-	}
-
 	"Pudge"
 	{
 		"BaseClass"	"npc_dota_creature"
@@ -1333,7 +1242,7 @@
 		"VisionNighttimeRange"	"1800"
 		"SoundSet"	"Hero_Meepo"
 		"GameSoundsFile"	"soundevents/game_sounds_heroes/game_sounds_meepo.vsndevts"
-		"BoundsHullName"	"DOTA_HULL_SIZE_HUGEDOTA_HULL_SIZE_HUGE"
+		"BoundsHullName"	"DOTA_HULL_SIZE_HUGE"
 		"HasInventory"	"0"
 		"ConsideredHero"	"0"
 		"BountyXP"	"0"
@@ -2018,5 +1927,213 @@
 			}
 		}
 		"HealthBarOffset"	"200"
+	}
+
+	"Network_dummy"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Network_dummy_modifier"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"ModelScale"	"0.01"
+		"Model"	"models\creeps\neutral_creeps\n_creep_gnoll\n_creep_gnoll_frost.vmdl"
+	}
+
+	"Swordsman"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	""
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\juggernaut\juggernaut.vmdl"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"305"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"10"
+		"AttackDamageMax"	"10"
+	}
+
+	"Rhino Warrior"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Shockwave"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\magnataur\magnataur.vmdl"
+		"Level"	"1"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"BountyXP"	"0"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"HealthBarOffset"	"400"
+		"BoundsHullName"	"DOTA_HULL_SIZE_HUGE"
+		"ModelScale"	"1.2"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"280"
+		"AttackDamageMin"	"21"
+		"AttackDamageMax"	"37"
+		"AttackRate"	"1.67"
+		"AttackAnimationPoint"	"0.4"
+		"AttackRange"	"160"
+		"AttackRangeBuffer"	"0"
+		"ArmorPhysical"	"2"
+		"MagicalResistance"	"0"
+		"StatusHealth"	"600"
+		"StatusHealthRegen"	"0.8"
+		"StatusMana"	"115"
+		"StatusManaRegen"	"0.2"
+		"StatusStartingMana"	"115"
+		"VisionDaytimeRange"	"1800"
+		"VisionNighttimeRange"	"1800"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"326"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"327"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"328"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"329"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"330"
+				}
+			}
+		}
+	}
+
+	"Centaur"
+	{
+		"BaseClass"	"npc_dota_creature"
+		"Ability1"	"Thorns Aura"
+		"Ability2"	""
+		"Ability3"	""
+		"Ability4"	""
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+		"Model"	"models\heroes\centaur\centaur.vmdl"
+		"ModelScale"	"1.15"
+		"Level"	"1"
+		"HasInventory"	"0"
+		"ConsideredHero"	"0"
+		"BountyXP"	"0"
+		"BountyGoldMin"	"0"
+		"BountyGoldMax"	"0"
+		"HealthBarOffset"	"380"
+		"BoundsHullName"	"DOTA_HULL_SIZE_HUGE"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"	"19"
+		"AttackDamageMax"	"23"
+		"AttackRate"	"1.47"
+		"AttackAnimationPoint"	"0.3"
+		"AttackRange"	"160"
+		"AttackRangeBuffer"	"0"
+		"ArmorPhysical"	"5"
+		"MagicalResistance"	"0"
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"	"290"
+		"StatusHealth"	"530"
+		"StatusHealthRegen"	"1.2"
+		"StatusMana"	"0"
+		"StatusManaRegen"	"0"
+		"StatusStartingMana"	"0"
+		"VisionDaytimeRange"	"1800"
+		"VisionNighttimeRange"	"1800"
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1"
+				{
+					"ItemDef"	"358"
+				}
+				"Wearable2"
+				{
+					"ItemDef"	"359"
+				}
+				"Wearable3"
+				{
+					"ItemDef"	"360"
+				}
+				"Wearable4"
+				{
+					"ItemDef"	"361"
+				}
+				"Wearable5"
+				{
+					"ItemDef"	"362"
+				}
+				"Wearable6"
+				{
+					"ItemDef"	"363"
+				}
+				"Wearable7"
+				{
+					"ItemDef"	"364"
+				}
+			}
+		}
 	}
 }

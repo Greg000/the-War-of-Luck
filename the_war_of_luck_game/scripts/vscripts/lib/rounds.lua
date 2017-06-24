@@ -9,8 +9,9 @@ if Rounds.rounds_number == nil then
 end
 
 function Rounds:UpdateRounds()
+    Rounds.TotalRound = Voting:GetTotalRoundsNumber()
     Rounds.rounds_number = Rounds.rounds_number + 1 
-    CustomGameEventManager:Send_ServerToAllClients( "luckywar_update_rounds", {rounds_number = Rounds.rounds_number} )
+    CustomGameEventManager:Send_ServerToAllClients( "luckywar_update_rounds", {rounds_number = Rounds.rounds_number, TotalRound = Rounds.TotalRound} )
 end
 
 
