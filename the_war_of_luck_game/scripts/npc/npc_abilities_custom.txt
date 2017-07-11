@@ -2871,6 +2871,7 @@
 						"EffectAttachType"	"attach_origin"
 					}
 				}
+				"IsHidden"	"0"
 			}
 			"modifier_Frost_Aura_buff"
 			{
@@ -2880,8 +2881,8 @@
 				"States"	{}
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"	"-30"
-					"MODIFIER_PROPERTY_MOVESPEED_LIMIT"	"-50"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"	"-20"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"	"%movement_reduction"
 				}
 				"OnIntervalThink"
 				{
@@ -2900,7 +2901,12 @@
 			"01"
 			{
 				"var_type"	"FIELD_FLOAT"
-				"aura_damage_persentage"	"1.5"
+				"aura_damage_persentage"	"0.5 0.6 0.8 1"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"movement_reduction"	"-10 -15 -20 -25"
 			}
 		}
 	}
@@ -3180,7 +3186,7 @@
 							"Radius"	"%radius"
 						}
 						"ModifierName"	"modifier_Ashes_debuff"
-						"Duration"	"3"
+						"Duration"	"2"
 					}
 					"FireSound"
 					{
@@ -3873,6 +3879,7 @@
 		"precache"
 		{
 			"particle"	"particles\skills\dark_form\trace.vpcf"
+			"particle"	"particles\shadow_strike\shadow_strike_smoke.vpcf"
 			"particle"	"particles\skills\dark_form\flame.vpcf"
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts"
 			"particle"	"particles\shadow_strike\shadow_strike_smoke.vpcf"
@@ -3888,16 +3895,10 @@
 					{
 						"Target"	"CASTER"
 						"ModifierName"	"modifier_Dark_Form_buff"
-						"Duration"	"300"
+						"Duration"	"30"
 					}
 				}
 				"Delay"	"0"
-			}
-			"RunScript"
-			{
-				"Target"	"CASTER"
-				"ScriptFile"	"scripts/vscripts/Abilities.lua"
-				"Function"	"Dark_Form"
 			}
 			"FireSound"
 			{
@@ -3915,6 +3916,7 @@
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"	"%bonus_damage"
 					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"	"%bonus_movespeed"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"	"%bonus_hp"
 				}
 				"States"
 				{
@@ -3926,20 +3928,12 @@
 					"AttachEffect"
 					{
 						"Target"	"CASTER"
-						"EffectName"	"particles\shadow_strike\shadow_strike_smoke.vpcf"
-						"EffectAttachType"	"attach_origin"
-						"ControlPoints"
-						{
-							"08"	"50 0 0"
-						}
-					}
-					"AttachEffect"
-					{
-						"Target"	"CASTER"
 						"EffectName"	"particles\skills\dark_form\flame.vpcf"
 						"EffectAttachType"	"attach_origin"
 					}
 				}
+				"EffectName"	"particles\shadow_strike\shadow_strike_smoke.vpcf"
+				"EffectAttachType"	"attach_origin"
 			}
 		}
 		"AbilitySpecial"
@@ -4821,7 +4815,7 @@
 		"LevelsBetweenUpgrades"	"0"
 		"Modifiers"
 		{
-			"modifier_Charge"
+			"modifier_charge"
 			{
 				"Passive"	"1"
 				"IsBuff"	"1"
@@ -5556,6 +5550,11 @@
 				"var_type"	"FIELD_INTEGER"
 				"number"	"1 1 2 3"
 			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"attack_perc"	"20 30 40 50"
+			}
 		}
 	}
 
@@ -6158,7 +6157,7 @@
 				"States"	{}
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_PREATTACK_TARGET_CRITICALSTRIKE"	"500"
+					"MODIFIER_PROPERTY_PREATTACK_TARGET_CRITICALSTRIKE"	"%percentage"
 				}
 			}
 			"modifier_vulnerability_analysis_overhead"
@@ -6175,6 +6174,11 @@
 			{
 				"var_type"	"FIELD_INTEGER"
 				"duration"	"5 8 10 12"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"percentage"	"150 200 250 300"
 			}
 		}
 	}
@@ -6226,8 +6230,8 @@
 		{
 			"01"
 			{
-				"var_type"	"FIELD_FLOAT"
-				"reduction_ratio"	"0.5 0.5 0.5 0.5"
+				"var_type"	"FIELD_INTEGER"
+				"reduction_ratio"	"30 40 50 60"
 			}
 		}
 	}
@@ -6260,6 +6264,7 @@
 		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
 		"RequiredLevel"	"0"
 		"LevelsBetweenUpgrades"	"0"
 		"AbilityCastPoint"	"0.25"
@@ -6653,7 +6658,7 @@
 	{
 		"BaseClass"	"ability_datadriven"
 		"AbilityTextureName"	"centaur_return"
-		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_PURE"
@@ -6707,6 +6712,555 @@
 			{
 				"var_type"	"FIELD_INTEGER"
 				"damage"	"10"
+			}
+		}
+	}
+
+	"Psionic Absorption"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"oracle_fortunes_end"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"	"4"
+		"RequiredLevel"	"0"
+		"LevelsBetweenUpgrades"	"0"
+		"AbilityCastPoint"	"0.3"
+		"AbilityCooldown"	"27"
+		"AbilityManaCost"	"95"
+		"AbilityCastRange"	"1200"
+		"precache"
+		{
+			"particle"	"particles\units\heroes\hero_oracle\oracle_fortune_purge.vpcf"
+		}
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"	"TARGET"
+				"ScriptFile"	"scripts/vscripts/Abilities.lua"
+				"Function"	"Psionic_Absorption"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_psi_caster_buff"
+			{
+				"Passive"	"0"
+				"EffectName"	"particles\units\heroes\hero_oracle\oracle_fortune_purge.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+				"Duration"	"5"
+			}
+			"modifier_psi_hit"
+			{
+				"Duration"	"3"
+				"IsDebuff"	"1"
+			}
+			"modifier_psi_damage_bonus"
+			{
+				"Attributes"	"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Duration"	"%duration"
+				"IsBuff"	"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"	"%bonus"
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"jump_count"	"3"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration"	"5 7 9 11"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"bonus"	"5 10 15 20"
+			}
+		}
+	}
+
+	"Psychoshock"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"oracle_purifying_flames"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"	"4"
+		"RequiredLevel"	"0"
+		"LevelsBetweenUpgrades"	"0"
+		"AbilityCastPoint"	"0.3"
+		"AbilityCooldown"	"%cd"
+		"AbilityManaCost"	"110"
+		"AbilityCastRange"	"1000"
+		"AbilityCastRangeBuffer"	"0"
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"	"TARGET"
+				"ScriptFile"	"scripts/vscripts/Abilities.lua"
+				"Function"	"Psychoshock"
+			}
+			"AttachEffect"	{}
+		}
+		"Modifiers"
+		{
+			"modifier_psyc_hit"
+			{
+				"Duration"	"3"
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+			"modifier_psyc_caster_buff"	{}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"jump_count"	"3"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"cd"	"22 19 16 13"
+			}
+		}
+	}
+
+	"Conduction"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"oracle_fates_edict"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"	"4"
+		"RequiredLevel"	"0"
+		"LevelsBetweenUpgrades"	"0"
+		"AbilityCastPoint"	"0"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"jump_count"	"1 2 3 4"
+			}
+		}
+	}
+
+	"TestHero_2"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"buyback"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"	"POINT"
+				"ScriptFile"	"scripts/vscripts/Abilities.lua"
+				"Function"	"TestHero_2"
+			}
+		}
+	}
+
+	"Telepathy"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"obsidian_destroyer_sanity_eclipse"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"CastFilterRejectCaster"	"1"
+		"AbilityType"	"DOTA_ABILITY_TYPE_ULTIMATE"
+		"HotKeyOverride"	"R"
+		"MaxLevel"	"3"
+		"RequiredLevel"	"0"
+		"LevelsBetweenUpgrades"	"0"
+		"AbilityCastPoint"	"0.4"
+		"AbilityCooldown"	"90"
+		"AbilityManaCost"	"175 190 200"
+		"AbilityCastRange"	"1000"
+		"AbilityCastRangeBuffer"	"0"
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_oracle.vsndevts"
+			"particle"	"particles\skills\telepathy\telepathy_owner_overhead_model.vpcf"
+			"particle"	"particles\skills\telepathy\telepathy_owner.vpcf"
+			"particle"	"particles\units\heroes\hero_oracle\oracle_false_promise.vpcf"
+		}
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"	"TARGET"
+				"ModifierName"	"modifier_telepathy"
+			}
+			"RunScript"
+			{
+				"Target"	"CASTER"
+				"ScriptFile"	"scripts/vscripts/Abilities.lua"
+				"Function"	"Telepathy_vanish"
+			}
+			"ApplyModifier"
+			{
+				"Target"	"CASTER"
+				"ModifierName"	"modifier_telepathy_caster"
+			}
+			"FireSound"
+			{
+				"Target"	"CASTER"
+				"EffectName"	"Hero_Oracle.FalsePromise.Cast"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_telepathy"
+			{
+				"Passive"	"0"
+				"o"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/Abilities.lua"
+						"Function"	"Telepathy_effect"
+					}
+				}
+				"OnAttack"
+				{
+					"RunScript"
+					{
+						"Target"	"CASTER"
+						"ScriptFile"	"scripts/vscripts/Abilities.lua"
+						"Function"	"Telepathy_effect"
+					}
+				}
+				"EffectName"	"particles\skills\telepathy\telepathy_owner_overhead_model.vpcf"
+				"EffectAttachType"	"follow_overhead"
+				"Duration"	"%duration"
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"Target"	"TARGET"
+						"ModifierName"	"modifier_telepathy_ground_effect"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"	"%damage"
+				}
+			}
+			"modifier_telepathy_ground_effect"
+			{
+				"EffectName"	"particles\skills\telepathy\telepathy_owner.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Duration"	"%duration"
+				"IsHidden"	"1"
+			}
+			"modifier_telepathy_caster"
+			{
+				"Duration"	"%duration"
+				"EffectName"	"particles\units\heroes\hero_oracle\oracle_false_promise.vpcf"
+				"EffectAttachType"	"attach_hitloc"
+				"OverrideAnimation"	"ACT_DOTA_DISABLED"
+				"Properties"	{}
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"IsBuff"	"1"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration"	"15 20 25"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"30 50 75"
+			}
+		}
+	}
+
+	"Bash"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"ogre_magi_multicast"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Modifiers"
+		{
+			"modifier_bash"
+			{
+				"IsHidden"	"1"
+				"Passive"	"1"
+				"OnAttackLanded"
+				{
+					"Random"
+					{
+						"OnSuccess"
+						{
+							"ApplyModifier"
+							{
+								"Target"	"TARGET"
+								"ModifierName"	"modifier_bash_stun"
+							}
+						}
+						"Chance"	"%chance"
+					}
+				}
+			}
+			"modifier_bash_stun"
+			{
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"OnCreated"
+				{
+					"Damage"
+					{
+						"Target"	"TARGET"
+						"Type"	"DAMAGE_TYPE_PHYSICAL"
+						"Damage"	"%damage"
+					}
+				}
+				"Duration"	"%duration"
+				"IsDebuff"	"1"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration"	"0.7"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"20"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"chance"	"100"
+			}
+		}
+	}
+
+	"Critical Strike"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"alpha_wolf_critical_strike"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"Modifiers"
+		{
+			"modifier_critical_strike"
+			{
+				"Passive"	"1"
+				"OnAttackStart"
+				{
+					"RemoveModifier"
+					{
+						"Target"	"CASTER"
+						"ModifierName"	"modifier_critical_strike_bonus"
+					}
+					"Random"
+					{
+						"OnSuccess"
+						{
+							"ApplyModifier"
+							{
+								"Target"	"CASTER"
+								"ModifierName"	"modifier_critical_strike_bonus"
+							}
+						}
+						"Chance"	"%chance"
+					}
+				}
+				"IsHidden"	"1"
+			}
+			"modifier_critical_strike_bonus"
+			{
+				"States"	{}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE"	"%bonus"
+				}
+				"IsHidden"	"1"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"chance"	"25"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"bonus"	"200"
+			}
+		}
+	}
+
+	// Rewrite of the Phantom Assassin Coup de Grace ability
+	// Author: Pizzalol
+	// Date: 21.12.2014.
+	// Changed: 01.02.2015.
+	// Reason: Fixed attachment point for particle
+	// NOTE: Orientation is wrong
+	"newAbility_5"
+	{
+		// General
+		// -------------------------------------------------------------------------------------------------------------
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"phantom_assassin_coup_de_grace"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"	"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityType"	"DOTA_ABILITY_TYPE_ULTIMATE"
+		// Precache
+		// -------------------------------------------------------------------------------------------------------------
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpc"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+		}
+		"Modifiers"
+		{
+			"modifier_coup_de_grace_datadriven"
+			{
+				"Passive"	"1"
+				"IsHidden"	"1"
+				"OnAttackStart"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_coup_de_grace_crit_datadriven"
+						"Target"	"CASTER"
+					}
+					"Random"
+					{
+						"Chance"	"100"
+						"OnSuccess"
+						{
+							"ApplyModifier"
+							{
+								"ModifierName"	"modifier_coup_de_grace_crit_datadriven"
+								"Target"	"CASTER"
+							}
+						}
+					}
+				}
+			}
+			"modifier_coup_de_grace_crit_datadriven"
+			{
+				"IsHidden"	"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE"	"%crit_bonus"
+				}
+				"OnAttackLanded"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_coup_de_grace_crit_datadriven"
+						"Target"	"CASTER"
+					}
+					"FireEffect"
+					{
+						"EffectName"	"particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpc"
+						"EffectAttachType"	"start_at_customorigin"
+						"ControlPointEntities"
+						{
+							"TARGET"	"follow_origin"
+							"TARGET"	"follow_origin"
+						}
+					}
+					"FireSound"
+					{
+						"EffectName"	"Hero_PhantomAssassin.CoupDeGrace"
+						"Target"	"TARGET"
+					}
+				}
+			}
+		}
+		// Special
+		// -------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"crit_bonus"	"230 340 450"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"crit_chance"	"15"
+			}
+		}
+	}
+
+	"Research"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"tinker_rearm"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"Modifiers"
+		{
+			"modifier_Research"
+			{
+				"States"	{}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"	"%percentage"
+					"MODIFIER_PROPERTY_CAST_RANGE_BONUS"	"%range"
+				}
+				"IsBuff"	"1"
+				"Passive"	"1"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"percentage"	"-10 -15 -20 -25"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"range"	"125 150 175 210"
 			}
 		}
 	}

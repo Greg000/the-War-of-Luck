@@ -329,7 +329,7 @@ function LuckyWarGameMode:Damagafilter_network( filterTable)
 
                 local ability = victim:FindModifierByName("modifier_network"):GetAbility()
                 local caster = ability:GetCaster()
-                local reduction_ratio = ability:GetLevelSpecialValueFor("reduction_ratio", ability:GetLevel() - 1)
+                local reduction_ratio = ability:GetLevelSpecialValueFor("reduction_ratio", ability:GetLevel() - 1) / 100
                 local other_units= FindUnitsInRadius(victim:GetTeamNumber(), victim:GetAbsOrigin(), nil, 2000, 1, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
                 local other_units_in_network = {}
                 for _,unit in pairs(other_units) do
@@ -341,15 +341,15 @@ function LuckyWarGameMode:Damagafilter_network( filterTable)
                 for _,unit in pairs(other_units_in_network) do
                         local damageTable = {victim = unit,    
                                                  attacker =     dummy,        
-                                                 damage = filterTable["damage"] * (1 - reduction_ratio) / number_in_network,    
+                                                 damage = filterTable["damage"] * reduction_ratio / number_in_network,    
                                                  damage_type = DAMAGE_TYPE_PURE,
                                                  ability = ability}
                         ApplyDamage(damageTable)
                         --print("damageTable",damageTable.damage)
                 end
 
-                filterTable["damage"] = filterTable["damage"] * reduction_ratio
-
+                filterTable["damage"] = filterTable["damage"] * (1 - reduction_ratio)
+ 
                 return true
         end
 end 

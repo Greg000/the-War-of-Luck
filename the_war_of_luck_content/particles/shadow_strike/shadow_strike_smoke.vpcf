@@ -50,7 +50,7 @@
 		},
 		{
 			_class = "C_OP_FadeInSimple"
-			m_flFadeInTime = 0.3
+			m_flFadeInTime = 0.5
 		},
 		{
 			_class = "C_OP_PositionLock"
@@ -134,7 +134,7 @@
 	[
 		{
 			_class = "C_OP_ContinuousEmitter"
-			m_flEmitRate = 85.1
+			m_flEmitRate = 46.0
 		},
 	]
 	m_ForceGenerators = 

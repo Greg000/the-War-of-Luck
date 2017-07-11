@@ -435,16 +435,23 @@ end
 function TestHero( keys )
 	local caster = keys.caster
 	local target_point = keys.target_points[1]
-	CreateUnitByName("Centaur", target_point, true, nil, nil, 3) 
+	CreateUnitByName("Test_Hero", target_point, true, nil, nil, 3) 
 
 	-- body
 end
+
+function TestHero_2 ( keys )
+	local caster = keys.caster
+	local target_point = keys.target_points[1]
+	CreateUnitByName("Pudge", target_point, true, nil, nil, 3) 
+end
+
 
 function Frost_Aura( keys )
 	local caster = keys.caster
 	local target = keys.target
 	local target_hp = target:GetMaxHealth()
-	print(target_hp)
+
 	local ability = keys.ability
 	local aura_damage_persentage= ability:GetLevelSpecialValueFor("aura_damage_persentage", (ability:GetLevel() - 1))
 	local damage = target_hp * aura_damage_persentage
@@ -853,6 +860,7 @@ function Dark_Form( keys )
 		end,0.1)]]--
 	caster:SetMaxHealth(caster:GetMaxHealth() + bonus_hp)
 	caster:SetHealth(caster:GetHealth()+ bonus_hp)
+	print("darkform",bonus_hp)
 end
 
 function Dark_Form_end( keys )
@@ -1559,19 +1567,34 @@ end
 function Respawn( keys )
 	local caster = keys.caster
 	local player = PlayerResource:GetPlayer(caster:GetPlayerID())
-	local playerOwnerId = caster:GetPlayerOwnerID()
-	local creepName = caster.creepName
+	playerId =caster:GetPlayerID()
+	local creepName = player.creepName
 	local ability = keys.ability
 	local number = ability:GetLevelSpecialValueFor("number", ability:GetLevel() - 1 )
+	local nearbyUnits = FindUnitsInRadius(caster:GetTeamNumber(), Vector(0,0,0), nil, 20000, DOTA_UNIT_TARGET_TEAM_FRIENDLY	,DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, 0, false)
+	local aliveUnits = {}
+	local deadUnitCount = 7
+
+	for _,unit in pairs(nearbyUnits) do
+		if unit:IsAlive() then
+			deadUnitCount = deadUnitCount - 1 
+		end
+	end
+
+	if number > deadUnitCount then
+		number = deadUnitCount
+	end
+	print("deadUnitCount",deadUnitCount)
+	print(number)
 	print(creepName)
 	for i = 1,number do
 			local creep = CreateUnitByName(creepName, caster:GetAbsOrigin() + RandomVector(250), true, player, player, caster:GetTeamNumber())
 			ability:ApplyDataDrivenModifier(caster, creep, "modifier_respawn_ghost", {})
-			creep:SetControllableByPlayer(playerOwnerId, false)
+			creep:SetControllableByPlayer(playerId, false)
 			creep:SetForwardVector(RandomVector(1))
 			local reIncar = ParticleManager:CreateParticle("particles/skills/respawn/reincarnate.vpcf", 0, creep)
 			ParticleManager:SetParticleControl(reIncar, 1 ,  Vector(0.3,0,0))
-		end
+	end
 
 	caster:RemoveAbility("Respawn")
 	local passive = caster:AddAbility("Respawn_passive")
@@ -1895,4 +1918,163 @@ function Thorns_Aura_effect( keys )
 	print("thorn")
 	ParticleManager:SetParticleControlEnt( thorn, 0, centaur, PATTACH_POINT_FOLLOW, "attach_hitloc", centaur:GetOrigin(), true );
 	ParticleManager:SetParticleControlEnt( thorn, 1, attacker,PATTACH_POINT_FOLLOW, "attach_hitloc", attacker:GetOrigin(), true );
+end
+
+
+function Psionic_Absorption( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local radius = 200
+	local ability_conduction = caster:FindAbilityByName("Conduction")
+	local jump_count_max = ability_conduction:GetLevelSpecialValueFor("jump_count", ability_conduction:GetLevel() - 1)
+
+	print(jump_count_max,"jmx")
+
+	
+	ability.hit_count = 0 
+	local targets = {}
+	for i = 0, jump_count_max do
+		if target ~= nil then
+			targets[i+1] = Psionic_Absorption_Search(target,radius,ability).next
+			target = targets[i+1]
+			print("finisedone")
+		end
+	end
+	targets[ 0 ] = caster
+
+	local jump_count = table.getn(targets) - 1
+	print(jump_count,"jpc")
+	Timers:CreateTimer(function()
+		if jump_count >= 0 then
+			local target_1 = targets[jump_count +1 ]
+			print(target_1:GetUnitName(),"target_1")
+			local target_2 = targets[jump_count]
+			print(target_2:GetUnitName(),"target_2")
+			if target_2 ~= nil then
+				local link = ParticleManager:CreateParticle("particles/skills/psionic_absorption/psionic_absorption_link.vpcf", PATTACH_CUSTOMORIGIN, target_1)
+				ParticleManager:SetParticleControlEnt( link, 1, target_1,PATTACH_POINT_FOLLOW, "attach_hitloc", target_1:GetOrigin(), true )
+				ParticleManager:SetParticleControlEnt( link, 0, target_2,PATTACH_POINT_FOLLOW, "attach_hitloc", target_2:GetOrigin(), true )
+				jump_count = jump_count -1
+
+				target_2:EmitSound("Ability.static.start")
+				if caster:FindModifierByName("modifier_psi_damage_bonus" ) == nil then
+					ability:ApplyDataDrivenModifier(caster, caster, "modifier_psi_damage_bonus", {})
+					caster:SetModifierStackCount("modifier_psi_damage_bonus", caster, 1)
+				else
+					caster:SetModifierStackCount("modifier_psi_damage_bonus", caster, caster:GetModifierStackCount("modifier_psi_damage_bonus", caster) + 1)
+				end
+				return 0.25
+			else
+				ability:ApplyDataDrivenModifier(caster, caster, "modifier_psi_caster_buff", {})
+			end
+		else
+			ability:ApplyDataDrivenModifier(caster, caster, "modifier_psi_caster_buff", {})
+			return nil
+		end
+
+	end)
+
+
+
+end
+function Psionic_Absorption_Search( unit, radius,ability)
+	local targets = FindUnitsInRadius(unit:GetTeamNumber(), unit:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+	local closest = radius
+	local group = {}
+	for _,target in pairs(targets) do
+		if target ~= nil then
+			local distance = (target:GetAbsOrigin() - unit:GetAbsOrigin()):Length2D()
+			if distance < closest  and target:FindModifierByName("modifier_psi_hit") == nil  then
+				closest = distance
+				group.next = target
+			end	
+		end
+	end
+	ability:ApplyDataDrivenModifier(group.next, group.next,"modifier_psi_hit", {})
+	ability.hit_count = ability.hit_count + 1
+	return group
+end
+
+function Psychoshock( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local radius = 200
+	local ability_conduction = caster:FindAbilityByName("Conduction")
+	print(jump_count_max,"jmx")
+	local jump_count_max = ability_conduction:GetLevelSpecialValueFor("jump_count", ability_conduction:GetLevel() - 1)
+	ability.hit_count = 0 
+	local targets = {}
+	for i = 0, jump_count_max do
+		if target ~= nil then
+			targets[i+1] = Psychoshock_Search(target,radius,ability).next
+			target = targets[i+1]
+		end
+	end
+	targets[ 0 ] = caster
+
+	local jump_count = table.getn(targets) - 1
+	print(jump_count,"jpc")
+	Timers:CreateTimer(function()
+		if jump_count >= 0 then
+			local target_1 = targets[jump_count +1 ]
+			if target_1 ~= nil then
+				local halo = ParticleManager:CreateParticle("particles/skills/psychoshock/psychoshock_halo.vpcf", PATTACH_CUSTOMORIGIN, target_1)
+				ParticleManager:SetParticleControlEnt( halo, 0 , target_1,PATTACH_POINT_FOLLOW, "attach_head", target_1:GetOrigin(), true )
+				ParticleManager:SetParticleControl(halo, 1, target_1:GetAbsOrigin())
+				jump_count = jump_count -1
+				target_1:EmitSound("Hero_Oracle.PurifyingFlames.Damage")
+				print("finisedone")
+				return 0.25
+			else
+				ability:ApplyDataDrivenModifier(caster, caster, "modifier_psyc_caster_buff", {})
+			end
+		else
+			ability:ApplyDataDrivenModifier(caster, caster, "modifier_psyc_caster_buff", {})
+			return nil
+		end
+	end)
+
+
+
+end
+function Psychoshock_Search( unit, radius,ability)
+	local targets = FindUnitsInRadius(unit:GetTeamNumber(), unit:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+	local closest = radius
+	local group = {}
+	for _,target in pairs(targets) do
+		if target ~= nil then
+			local distance = (target:GetAbsOrigin() - unit:GetAbsOrigin()):Length2D()
+			if distance < closest  and target:FindModifierByName("modifier_psyc_hit") == nil  then
+				closest = distance
+				group.next = target
+			end	
+		end
+	end
+	ability:ApplyDataDrivenModifier(group.next, group.next,"modifier_psyc_hit", {})
+	ability.hit_count = ability.hit_count + 1
+	return group
+end
+
+function Telepathy_effect( keys) 
+	local caster = keys.caster
+	local phantom = ParticleManager:CreateParticle("particles/skills/telepathy/telepathy_oracle_body.vpcf",PATTACH_CUSTOMORIGIN,caster)
+	ParticleManager:SetParticleControlEnt( phantom, 0 , caster, PATTACH_POINT_FOLLOW, "attach_hitloc", caster:GetOrigin(), true )
+	Timers:CreateTimer(0.2,function()
+		ParticleManager:SetParticleControlEnt( phantom, 0 , caster, PATTACH_POINT, "attach_hitloc", caster:GetOrigin(), true )
+		return nil
+		end)
+end
+
+function Telepathy_ground( keys )
+	local target = keys.target
+	ParticleManager:CreateParticle("particles/skills/telepathy/telepathy_owner.vpcf",PATTACH_ABSORIGIN_FOLLOW,caster)
+end
+
+function Telepathy_vanish( keys )
+	local caster = keys.caster
+	local sphere = ParticleManager:CreateParticle("particles/units/heroes/hero_oracle/oracle_false_promise_cast.vpcf",PATTACH_CUSTOMORIGIN,caster)
+	ParticleManager:SetParticleControlEnt(sphere, 0, caster, PATTACH_POINT, "attach_hitloc", caster:GetOrigin(), true)
+	ParticleManager:SetParticleControlEnt(sphere, 2, caster, PATTACH_ABSORIGIN, "", caster:GetOrigin(), true)
 end

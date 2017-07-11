@@ -21,32 +21,28 @@ function SummonUnits:Precache()
 	}
 				 
 
-	--[[self.UnitsTable = {
+	self.UnitsTable = {
 				[1] = "Dark Spirit",
 				[2] = "Bounty Hunter",
 				[3] = "Rock",
 				[4] = "Warrior",
-				[5] = "Swordsman",
-				[6] = "Pudge",
-				[7] = "Earth",
-				[8] = "Clockwerk",
-				[9] = "Satyr",
-				[10] = "Jade",
-				[11] = "Ursa",
-				[12] = "Slark",
-				[13] = "Phantom Assassin",
-				[14] = "Fighter of Madness",
-				[15] = "Jade"
+				[5] = "Pudge",
+				[6] = "Earth",
+				[7] = "Clockwerk",
+				[8] = "Satyr",
+				[9] = "Jade",
+				[10] = "Ursa",
+				[11] = "Slark",
+				[12] = "Phantom Assassin",
+				[13] = "Fighter of Madness",
+				[14] = "Rhino Warrior",
+				[15] = "Centaur",
+				[16] = "Ogre Thug",
+				[17] = "Ogre Bruiser",
+				[18] = "Giant Wolf",
+				[19] = "Ghost"
+		
 				
-		
-
-
-				}]]--
-	
-	self.UnitsTable = {
-				[1] = "Rhino Warrior"
-		
-
 
 				}
 
@@ -90,8 +86,10 @@ function SummonUnits:Precache()
 		[6] = "npc_dota_hero_windrunner",	
 		[7] = "npc_dota_hero_abyssal_underlord",
 		[8] = "npc_dota_hero_templar_assassin",
-		[9] = "npc_dota_hero_tinker"	
+		[9] = "npc_dota_hero_tinker",
+		[10] = "npc_dota_hero_oracle"
 	}
+
 
 	
 end
@@ -195,6 +193,7 @@ function SummonUnits:SummonCreepsWithHero (Index,team,keys)
 	local pID = keys.player_id 
 	local passedid = keys.player_id
 	local player = PlayerResource:GetPlayer(pID)
+	player.creepName = unitToSummon
 	if team == 2 then
 		CreepEntities = self.r_Ent[Index] -- gets 6 entities(which represents the position).
 		for _,ent in pairs(CreepEntities) do
