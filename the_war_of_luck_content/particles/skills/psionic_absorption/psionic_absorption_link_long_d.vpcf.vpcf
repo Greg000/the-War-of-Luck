@@ -10,10 +10,10 @@
 	[
 		{
 			_class = "C_OP_RenderDeferredLight"
-			m_flRadiusScale = 3.0
+			m_flRadiusScale = 0.5
 			m_flAlphaScale = 12.0
 			m_flStartFalloff = 0.1
-			m_ColorScale = [ 0, 85, 255 ]
+			m_ColorScale = [ 255, 0, 110 ]
 			m_hTexture = resource:"materials/particle/particle_flares/particle_flare_004b_mod.vtex"
 		},
 		{

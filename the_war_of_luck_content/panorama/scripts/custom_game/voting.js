@@ -7,6 +7,7 @@ GameEvents.Subscribe( "luckywar_update_vote", CreateYellowSquare );
 GameEvents.Subscribe( "luckywar_start_timer", Timer);
 GameEvents.Subscribe( "luckywar_final_result", FinalResult);
 
+$("#PlayerContainer").style.opacity = 0;
 
 
 function SetLevel(buttonID){

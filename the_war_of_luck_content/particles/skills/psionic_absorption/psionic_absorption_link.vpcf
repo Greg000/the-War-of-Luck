@@ -20,6 +20,7 @@
 	[
 		{
 			m_ChildRef = resource:"particles/skills/psionic_absorption/psionic_absorption_link_d.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/skills/psionic_absorption/psionic_absorption_link_long.vpcf"

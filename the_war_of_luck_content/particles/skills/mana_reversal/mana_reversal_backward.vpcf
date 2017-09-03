@@ -1,0 +1,195 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 1
+	m_flConstantRadius = 1.0
+	m_bShouldSort = false
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderModels"
+			m_bSuppressTint = true
+			m_ModelList = 
+			[
+				{
+					m_model = resource:"models/items/zeus/lightning_weapon/zuus_lightning_weapon_particle.vmdl"
+				},
+			]
+			m_bAnimated = true
+			m_nLOD = 1
+		},
+	]
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_BasicMovement"
+		},
+		{
+			_class = "C_OP_SetControlPointsToParticle"
+			m_nFirstControlPoint = 3
+			m_bSetOrientation = true
+		},
+		{
+			_class = "C_OP_Decay"
+			m_nOpEndCapState = 1
+		},
+		{
+			_class = "C_OP_MaxVelocity"
+			m_nOverrideCP = 2
+		},
+		{
+			_class = "C_OP_RemapVelocityToVector"
+			m_bDisableOperator = true
+			m_bNormalize = true
+			m_nFieldOutput = 21
+		},
+		{
+			_class = "C_OP_DampenToCP"
+			m_nControlPointNumber = 1
+			m_flRange = 32.0
+		},
+		{
+			_class = "C_OP_DistanceToCP"
+			m_flInputMin = 16.0
+			m_flInputMax = 32.0
+			m_bScaleInitialRange = true
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_CPOffsetToPercentageBetweenCPs"
+			m_flInputBias = 0.15
+			m_flInputMax = 0.0
+			m_flInputMin = 1.0
+			m_nOffsetCP = 1
+			m_vecOffset = [ 0.0, 0.0, 0.4 ]
+			m_bScaleOffset = true
+		},
+		{
+			_class = "C_OP_AlphaDecay"
+			m_flMinAlpha = 0.1
+		},
+		{
+			_class = "C_OP_SetSingleControlPointPosition"
+			m_nCP1 = 5
+			m_vecCP1Pos = [ 0.0, 0.0, 0.0 ]
+		},
+		{
+			_class = "C_OP_SetChildControlPoints"
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMax = 0.2
+			m_fLifetimeMin = 0.2
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_CreateWithinSphere"
+			m_nControlPointNumber = 5
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegrees = 270.0
+			m_flDegreesMax = 0.0
+			m_bRandomlyFlipDirection = false
+			m_nFieldOutput = 12
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_RemapInitialDirectionToCPToVector"
+			m_flOffsetRot = 180.0
+			m_bNormalize = true
+			m_nFieldOutput = 21
+			m_nCP = 1
+		},
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 1.7
+			m_flRadiusMax = 1.7
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 1
+		},
+	]
+	m_ForceGenerators = 
+	[
+		{
+			_class = "C_OP_AttractToControlPoint"
+			m_nControlPointNumber = 1
+			m_fFalloffPower = 0.0
+			m_fForceAmount = 100000.0
+		},
+	]
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 2
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 1.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 4
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 8
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/skills/mana_reversal/mana_reversal_backward_spark.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/skills/mana_reversal/mana_reversal_backward_sprite.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/skills/mana_reversal/mana_reversal_backward_trail.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/skills/mana_reversal/mana_reversal_backward_glow.vpcf"
+		},
+	]
+}

@@ -5,6 +5,8 @@ require("rune_system")
 require("SummonUnits")
 require("lib/Voting")
 require("lib/rounds")
+require("lib/score")
+require("lib/test_mode")
 if LuckyWarGameMode == nil then
 	LuckyWarGameMode = class({})
 end
@@ -46,19 +48,43 @@ function Precache( context )
         PrecacheResource( "particle", "particles/units/heroes/hero_brewmaster/brewmaster_hurl_boulder.vpcf", context )
         PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_weapon_runed_scythe/phantom_assassin_attack_blur_crit_runed_scythe.vpcf", context )
         PrecacheResource( "particle", "particles/skills/rain_of_arrows/rain_of_arrows_flag.vpcf", context )
-        PrecacheResource( "particle", "particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", context )
-        PrecacheResource( "particle", "particles/units/heroes/hero_morphling/morphling_base_attack.vpcf", context )
-        
-       
+        PrecacheResource( "particle", "particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", context )     
+        PrecacheResource( "particle", "particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf", context )
+        PrecacheResource( "particle", "particles/skills/hammer/hammer_skeletonking_hellfireblast.vpcf", context )
+        PrecacheResource( "particle", "particles/skills/entangling_shot/entangling_shot.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_nyx_assassin/nyx_assassin_impale.vpcf", context )
+        PrecacheResource( "particle_folder", "particles/skills", context )
+
 
         PrecacheResource( "particle", "particles/skills/mechanical_armor/70percent.vpcf", context )
         PrecacheResource( "soundfile", "sounds/weapons/hero/beastmaster/attack02.vsnd", context )
         PrecacheResource( "particle", "particles/basic_effects/teleport/tepelport.vpcf", context )
+        PrecacheResource( "particle", "particles/basic_effects/teleport/flash.vpcf", context )
+        
+        PrecacheResource( "particle", "particles/units/heroes/hero_crystalmaiden/maiden_base_attack.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_batrider/batrider_base_attack.vpcf", context )
         PrecacheResource( "particle", "particles/econ/items/shadow_fiend/sf_desolation/sf_base_attack_desolation.vpcf", context )
         PrecacheResource( "particle", "particles/units/heroes/hero_huskar/huskar_base_attack.vpcf", context )
-        PrecacheResource( "particle", "particles/basic_effects/teleport/flash.vpcf", context )
-    
-         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_morphling/morphling_base_attack.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_oracle/oracle_base_attack.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_windrunner/windrunner_base_attack.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_templar_assassin/templar_assassin_base_attack.vpcf", context )
+        PrecacheResource( "particle", "particles/units/heroes/hero_tinker/tinker_base_attack.vpcf", context )
+        PrecacheResource( "particle", "particles/neutral_fx/gnoll_base_attack.vpcf", context )  
+        PrecacheResource( "particle", "particles/units/heroes/hero_brewmaster/brewmaster_hurl_boulder.vpcf", context )  
+        PrecacheResource( "particle", "particles/neutral_fx/ghost_frost_attack.vpcf", context )  
+        PrecacheResource( "particle", "particles/units/heroes/hero_sniper/sniper_base_attack.vpcf", context )  
+        PrecacheResource( "particle", "particles/units/heroes/hero_visage/visage_familiar_base_attack.vpcf", context )  
+        PrecacheResource( "particle", "particles/units/heroes/hero_furion/furion_base_attack.vpcf", context )  
+        PrecacheResource( "particle", "particles/units/heroes/hero_dragon_knight/dragon_knight_elder_dragon_fire.vpcf", context )  
+        PrecacheResource( "particle", "particles/skills/arrow_of_light/arrow_of_light.vpcf", context )  
+        PrecacheResource( "particle", "particles/units/heroes/hero_rubick/rubick_base_attack.vpcf", context )
+        
+        
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_troll_warlord.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_lina.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts", context )
@@ -93,8 +119,26 @@ function Precache( context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_bane.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_terrorblade.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_ogre_magi.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_ursa.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_slark.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_nyx_assassin.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_oracle.vsndevts", context )
         PrecacheResource( "soundfile", "soundevents/fast_freeze.vsndevts", context )
-
+        PrecacheResource( "soundfile", "soundevents/mana_void_modified.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/magic_well_cast.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_furion.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_rubick.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts", context )
+        PrecacheResource( "soundfile", "soundevents/magic_sphere_cast.vsndevts", context )
         PrecacheResource( "model", "models/heroes/morphling/morphling.vmdl", context )
 end
 
@@ -132,26 +176,28 @@ function PrecacheEveryThingFromKV( context )
 
 -- Create the game mode when we activate
 function Activate()
+        
 	GameRules.Event = LuckyWarGameMode()
 	GameRules.Event:InitGameMode()
-        CustomGameEventManager:RegisterListener("LevelUp",Dynamic_Wrap(LuckyWarGameMode, 'LevelUp1'))--UIUIUIUIUI
-        event = CustomGameEventManager:RegisterListener("SetLevel",Dynamic_Wrap(LuckyWarGameMode,'SetLevel'))
+        
 end
 
 function LuckyWarGameMode:InitGameMode()
 	print( "Template addon is loaded." )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
-
+        
+        ListenToGameEvent("player_chat", Dynamic_Wrap(LuckyWarGameMode, "OnPlayerChat"), self)
 	ListenToGameEvent("entity_killed", Dynamic_Wrap(LuckyWarGameMode, "OnEntityKilled"), self)
         ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(LuckyWarGameMode,"OnGameRulesStateChange"), self)--listen to game state
         ListenToGameEvent("player_spawn", Dynamic_Wrap(LuckyWarGameMode,"OnPlayerSpawn"), self)
         ListenToGameEvent("dota_player_pick_hero",Dynamic_Wrap(LuckyWarGameMode,"OnPlayerPickHero"),self)
-
+        CustomGameEventManager:RegisterListener("testmode_hero_selected",Dynamic_Wrap(LuckyWarGameMode,'testmode_hero_selected'))
+        CustomGameEventManager:RegisterListener("testmode_creep_selected",Dynamic_Wrap(LuckyWarGameMode,'testmode_creep_selected'))
+        event = CustomGameEventManager:RegisterListener("SetLevel",Dynamic_Wrap(LuckyWarGameMode,'SetLevel'))
         
-
+        GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap(LuckyWarGameMode, "FilterExecuteOrder" ), self )
-        GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap(LuckyWarGameMode, "Damagafilter_heroic" ), self )
-        GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap(LuckyWarGameMode, "Damagafilter_network" ), self )
+        GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap(LuckyWarGameMode, "Damagefilter_main" ), self )
         GameRules:GetGameModeEntity():SetCameraDistanceOverride(1800)
 	--Initialize OrderFilter
 
@@ -180,123 +226,49 @@ end
 
 function LuckyWarGameMode:OnEntityKilled( keys )
         local deadUnit = EntIndexToHScript(keys.entindex_killed)
-        if deadHeroCount == nil then deadHeroCount = {} end
-        if deadHeroCount[deadUnit:GetTeamNumber()] == nil then deadHeroCount[deadUnit:GetTeamNumber()] = 0 end
-        if deadUnit:IsHero() then
-                deadHeroCount[deadUnit:GetTeamNumber()] = deadHeroCount[deadUnit:GetTeamNumber()] +1 
-                if deadHeroCount[deadUnit:GetTeamNumber()] == PlayerResource:GetPlayerCountForTeam(deadUnit:GetTeamNumber()) then --check whether all heroes in the team have died.
-                        --[[for i = 0,10 do
-                                if PlayerResource:IsValidPlayer(i) then
-                                		--firstly kills all remnant of the losing team, and freezes other units. 
-                                        SummonUnits:Invulnerability(deadUnit)
-                                        SummonUnits:KillRemnant(deadUnit)
 
-                                        --  the next round starts after the delay
-                                        Timers:CreateTimer(5, function()
-                                                local pID = deadUnit:GetPlayerID()
-                                                SummonUnits:Precache()
-                                                --new heroes/creeps
-                                                for pID = 0,10 do
-                                                        print(pID, PlayerResource:IsValidPlayer(pID))
-                                                        if PlayerResource:IsValidPlayer(pID) then
-                                                                DeepPrintTable( keys )
-                                                                SummonUnits:ReAllocate( keys )
-                                                        end
-                                                end
-                                                --new heroes and creeps have been respawned. Restore all previous data.
-                                                deadHeroCount = nil
-                                        return nil
-                                        end)
-                                        --check if all rounds have run over, if not , update rounds number on UI.
-                                        if Rounds:CheckAllRoundsOver() then
-                                                Timers:CreateTimer(5, function()
-                                                        Rounds:UpdateRounds()
-                                                return nil
-                                                end)
-                                        end
-                                end
-                        end]]--
-                        --check if all rounds have run over, if not , update rounds number on UI.
-                        if Rounds:CheckAllRoundsOver() then
-                                Timers:CreateTimer(5, function()
-                                        Rounds:UpdateRounds()
-                                return nil
-                                end)
-                                SummonUnits:Invulnerability(deadUnit)
-                                SummonUnits:KillRemnant(deadUnit)
-                                --all units have been removed, now start a new round.
-                                SummonUnits:Precache()
-                                for i = 0, DOTA_MAX_TEAM_PLAYERS do
-                                        if PlayerResource:IsValidPlayer(i) then
-                                                Timers:CreateTimer(5, function()
-                                                        keys.player_id = i
-                                                        SummonUnits:Allocate(keys)
-                                                        --[[Timers:CreateTimer(1,function()
-                                                                for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-                                                                        unit:SetAbilityPoints(10)
-                                                                        unit:SetRespawnsDisabled(true)
-                                                                        return nil
-                                                                end
-                                                        end)]]--
-                                                        --new heroes and creeps have been respawned. Restore all previous data.
-                                                        deadHeroCount = nil
-                                                return nil
-                                                end)
-                                        end
-                                end
-                                
-
-                        end
-                end
+        if TestMode:IsTestMode() == true then
+                return
         end
 
-        if deadUnit:GetUnitName() == "Test_Hero" then
-                        if Rounds:CheckAllRoundsOver() then
-                                Timers:CreateTimer(5, function()
-                                        Rounds:UpdateRounds()
-                                return nil
-                                end)
-                                SummonUnits:Invulnerability(deadUnit)
-                                SummonUnits:KillRemnant(deadUnit)
-                                --all units have been removed, now start a new round.
-                                SummonUnits:Precache()
-                                for i = 0, DOTA_MAX_TEAM_PLAYERS do
-                                        if PlayerResource:IsValidPlayer(i) then
-                                                Timers:CreateTimer(5, function()
-                                                        keys.player_id = i
-                                                        SummonUnits:Allocate(keys)
-                                                        Timers:CreateTimer(1,function()
-                                                                for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-                                                                        unit:SetAbilityPoints(10)
-                                                                        unit:SetRespawnsDisabled(true)
-                                                                        return nil
-                                                                end
-                                                        end)
-                                                        --new heroes and creeps have been respawned. Restore all previous data.
-                                                        deadHeroCount = nil
+        if Rounds:ShouldStartNewRound( keys) ==  true then
+                SummonUnits:Invulnerability(deadUnit)
+                SummonUnits:KillRemnant(deadUnit)
+                --all units have been removed, now start a new round.
+                        for i = 0, DOTA_MAX_TEAM_PLAYERS do
+                                if PlayerResource:IsValidPlayer(i) then
+                                        Timers:CreateTimer(5, function()
+                                                --keys.player_id = i
+                                                SummonUnits:SummonHeroesandCreeps(i)
                                                 return nil
                                                 end)
-                                        end
                                 end
-                                
-
-                        end
-
-        end      
+                        end     
+        end  
 end
 
-function LuckyWarGameMode:Damagafilter_heroic( filterTable)
-        local attackerIndex = filterTable["entindex_attacker_const"]
-		local victimIndex = filterTable["entindex_victim_const"]
-        if attackerIndex then
-                local attacker = EntIndexToHScript(attackerIndex)
+function LuckyWarGameMode:Damagefilter_main( filterTable)
+        if LuckyWarGameMode:Damagefilter_heroic(filterTable) and LuckyWarGameMode:Damagefilter_network(filterTable) then
+                return true
+        else
+                return false
         end
+end
+function LuckyWarGameMode:Damagefilter_heroic( filterTable)
+        local attackerIndex = filterTable["entindex_attacker_const"]
+	local victimIndex = filterTable["entindex_victim_const"]
+        if attackerIndex == nil then
+                return true
+        end 
+        local attacker = EntIndexToHScript(attackerIndex)
         local victim = EntIndexToHScript(victimIndex)
-        if victim:GetUnitName() == "Commander" then
-                if attacker:FindModifierByName("modifier_HeroFlag") ~= nil  then
+        if victim:GetUnitName() == "npc_dota_hero_legion_commander" then
+ 
+                if attacker:IsHero() == true   then
                         return true
                 else
-                        if victim:GetHealthPercent() < 17 then
+                        local ability = victim:FindAbilityByName("Heroic")
+                        if victim:GetHealthPercent() < ability:GetLevelSpecialValueFor("percentage", ability:GetLevel() - 1) then
                                 return false
                         else 
                                 return true
@@ -307,7 +279,8 @@ function LuckyWarGameMode:Damagafilter_heroic( filterTable)
         end
 end 
 
-function LuckyWarGameMode:Damagafilter_network( filterTable)
+function LuckyWarGameMode:Damagefilter_network( filterTable)
+        
 
         local dummy = _G.network_dummy
         local attackerIndex = filterTable["entindex_attacker_const"]
@@ -394,17 +367,9 @@ function LuckyWarGameMode:OnGameRulesStateChange( keys )
         
         for i = 0, DOTA_MAX_TEAM_PLAYERS  do
                 if PlayerResource:IsValidPlayer(i) then
-                        --local player = EntIndexToHScript(i) -- +- 1?
-                        
-                        --newHero = PlayerResource:ReplaceHeroWith(i, heroName, 0, 0)
-                        keys.player_id = i
-                        --keys.heroindex = newHero:entindex()
-                        --sasaSummonUnits:TestPID( keys )
-                        SummonUnits:Allocate(keys)
-                        --new heroes and creeps have been respawned. Restore all previous data
+                        SummonUnits:SummonHeroesandCreeps(i)
                 end
         end
-
 
         GameRules:GetGameModeEntity():SetTopBarTeamValue(DOTA_TEAM_GOODGUYS,10)
         GameRules:GetGameModeEntity():SetTopBarTeamValuesOverride(true)
@@ -437,15 +402,9 @@ function LuckyWarGameMode:OnGameRulesStateChange( keys )
         LinkLuaModifier( "modifier_invulneral_lua", LUA_MODIFIER_MOTION_NONE )
         
         --regists necessary modifiers
-        
-
-      	Allunits = FindUnitsInRadius(2, Vector(0,0,0), nil, 20000, 3, 63, 0, 0, false)
-      	print("1..", table.getn(Allunits))
-      	for _,unit in pairs(Allunits) do
-      		print(unit:GetUnitName())
-      	end 	
-
-        StartVotingTimer(15)
+        SummonUnits:Allocate()
+              
+        --StartVotingTimer(15)
 
               
     end
@@ -630,4 +589,31 @@ function  StartVotingTimer(maxTime)
     end
   )
 
+end
+
+function LuckyWarGameMode:testmode_hero_selected(data)
+        SummonUnits:New_Hero_Testmode(data.hero_index,data.player_id)
+end
+
+function LuckyWarGameMode:testmode_creep_selected(data)
+        SummonUnits:New_Creep_Testmode(data.creep_index,data.player_id)
+end
+
+function LuckyWarGameMode:OnPlayerChat( data )
+        if TestMode:IsTestMode() ~= true then
+                print(data.text)
+                if data.text == "enabletestmode" or data.text == "郭神牛逼" then
+                        Notifications:TopToAll(
+    		        {
+    			        text = "Testmode Enabled",
+    			        duration = 5,
+    			        class = nil, 
+    			        style={color="white", ["font-size"]="30px"},
+    			        continue= false
+    		        })
+                        TestMode:InitializeTestMode();
+                        CustomGameEventManager:Send_ServerToAllClients( "luckywar_test_mode_enabled", {} )
+                end
+                
+        end    
 end

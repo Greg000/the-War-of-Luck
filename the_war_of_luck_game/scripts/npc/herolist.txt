@@ -10,4 +10,6 @@
 	"npc_dota_hero_templar_assassin"	"1"
 	"npc_dota_hero_tinker"				"1"
 	"npc_dota_hero_oracle"				"1"
+	"npc_dota_hero_dragon_knight"		"1"
+	"npc_dota_hero_dragon_rubick"		"1"
 }

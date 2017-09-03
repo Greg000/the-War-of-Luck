@@ -2,11 +2,11 @@ if Voting == nil then
 	Voting = class({})
 end
 local Table_Button_To_Rounds = {
-    [1] = 10,
-    [2] = 20,
-    [3] = 30,
-    [4] = 40,
-    [5] = 50
+    [1] = 9,
+    [2] = 19,
+    [3] = 29,
+    [4] = 39,
+    [5] = 49
 }
 Voting.VoteCount = {}
 

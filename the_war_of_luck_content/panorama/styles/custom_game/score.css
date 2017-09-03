@@ -1,0 +1,46 @@
+.baseHud
+{
+    position: 44% 0 0;
+    width: 12%;
+    height: 5%;
+    
+}
+#RadiantScoreLabel {
+    position: 0 0 0; 
+    width: 100%;
+    height: 200px;
+    margin-top: 6px;
+    font-family: RadianceM;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    z-index: 5;
+    font-size: 22px;
+}
+
+#RadiantScore {
+    position: 0 0 0; 
+    width: 30%;
+    height: 200px;
+    
+}
+
+#DireScoreLabel {
+    position: 0 0 0; 
+    width: 100%;
+    height: 200px;
+    margin-top: 6px;
+    font-family: RadianceM;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    z-index: 5;
+    font-size: 22px;
+}
+
+#DireScore {
+    position: 70% 0 0; 
+    width: 30%;
+    height: 200px;
+    
+}

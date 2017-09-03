@@ -755,37 +755,27 @@ function Suicide (keys)
 	local ability = keys.ability
 	local caster = keys.caster
 	local particle = keys.particle
+	local point = caster:GetAbsOrigin()
 	local suicide_effect = ParticleManager:CreateParticle(particle,PATTACH_WORLDORIGIN,caster)
-	ParticleManager:SetParticleControl(suicide_effect,0,caster:GetAbsOrigin())
+	local delay = ability:GetLevelSpecialValueFor("delay", ability:GetLevel() - 1)
+	ParticleManager:SetParticleControl(suicide_effect,0,point)
 	--particle
-	local times = 0
-	GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("Suicide_timer"),
-		function()
-			if times < 1 then
-				print("11111")
-				times = times +1
-
-				return 1
-			else
-				local targets = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 200, 2, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
-				for _,unit in pairs(targets) do
-					local currentHp = unit:GetHealth()
-					print(currentHp)
-					local damageTable = {victim=unit,    
+	EmitSoundOn("n_creep_blackdragon.Death",caster)
+	
+	Timers:CreateTimer(delay, function()
+		local targets = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 200, 2, ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), 0, false)
+		for _,unit in pairs(targets) do
+			local currentHp = unit:GetHealth()
+			print(currentHp)
+			local damageTable = {victim=unit,    
                              attacker=caster,        
                              damage = currentHp * 0.3333333,
                              damage_type=keys.ability:GetAbilityDamageType()}   
-        			ApplyDamage(damageTable)
-        		end
-
-        		return nil
-       		end
-       	end,1)
-
-
-
-	
-
+        	ApplyDamage(damageTable)
+        end
+		EmitSoundOn("Hero_Nevermore.Shadowraze",caster)
+        return nil
+	end)
 end
 
 function Suicide_damage (keys)
@@ -1000,44 +990,16 @@ function Desprado ( keys )
 end
 
 function Heroic (keys)
-	print("Added")
-	LinkLuaModifier( "modifier_heroic_lua", LUA_MODIFIER_MOTION_NONE )
 	local caster = keys.caster
-	caster:AddNewModifier(caster, nil, "modifier_heroic_lua", {})
-end
-lock = 0
-function Heroic_particle(keys)
-	local caster = keys.caster
-	local healthPercent = caster:GetHealthPercent()
-
-	if healthPercent < 17 then
-		if lock == 0 then
-			press = ParticleManager:CreateParticle("particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", 1, caster)
-			Timers:CreateTimer(function()
-				ParticleManager:SetParticleControlOrientation(press, 1, caster:GetForwardVector(),caster:GetRightVector(), caster:GetUpVector())
-     		 return 0.03
-    		end)
-
-			lock =  lock + 1
-		end
+	local ability = keys.ability
+	local hp_floor = ability:GetLevelSpecialValueFor("percentage", ability:GetLevel() - 1 )
+	if caster:GetHealthPercent() < hp_floor then
+		local heroic =	ParticleManager:CreateParticle("particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, caster)
+		ParticleManager:SetParticleControlEnt( heroic, 0, caster, PATTACH_POINT_FOLLOW, "", caster:GetOrigin(), true )
+		caster:RemoveModifierByName("modifier_heroic")
+		caster:RemoveAbility("Heroic")
+		local clone = caster:AddAbility("Heroic_clone")
 	end
-end
-
-function Heroic_particle_2(keys)
-	local caster = keys.caster
-	local healthPercent = caster:GetHealthPercent()
-
-			press = ParticleManager:CreateParticle("particles/econ/items/legion/legion_fallen/legion_fallen_press.vpcf", 1, caster)
-			Timers:CreateTimer(function()
-				ParticleManager:SetParticleControlOrientation(press, 1, caster:GetForwardVector(),caster:GetRightVector(), caster:GetUpVector())
-     		 return 0.03
-    		end)
-end
-
-
-function Heroic_particle_Removal(keys)
-	print("Removal")
-	ParticleManager:DestroyParticle(press, false)
 end
 
 function Take_the_Head( keys )
@@ -1471,7 +1433,7 @@ function Entangling_shot ( keys )
 	
 	local projectileTable =
 	{
-		EffectName = keys.particle,
+		EffectName = "particles/skills/entangling_shot/entangling_shot.vpcf",
 		Ability = ability,
 		vSpawnOrigin = caster:GetAbsOrigin(),
 		vVelocity = direction * speed,
@@ -1599,6 +1561,7 @@ function Respawn( keys )
 	caster:RemoveAbility("Respawn")
 	local passive = caster:AddAbility("Respawn_passive")
 	passive:UpgradeAbility(false)
+
 end
 
 function Ambush_hide( keys )
@@ -2058,11 +2021,11 @@ function Psychoshock_Search( unit, radius,ability)
 end
 
 function Telepathy_effect( keys) 
-	local caster = keys.caster
-	local phantom = ParticleManager:CreateParticle("particles/skills/telepathy/telepathy_oracle_body.vpcf",PATTACH_CUSTOMORIGIN,caster)
-	ParticleManager:SetParticleControlEnt( phantom, 0 , caster, PATTACH_POINT_FOLLOW, "attach_hitloc", caster:GetOrigin(), true )
+	local target = keys.target
+	local phantom = ParticleManager:CreateParticle("particles/skills/telepathy/telepathy_oracle_body.vpcf",PATTACH_CUSTOMORIGIN,target)
+	ParticleManager:SetParticleControlEnt( phantom, 0 , target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetOrigin(), true )
 	Timers:CreateTimer(0.2,function()
-		ParticleManager:SetParticleControlEnt( phantom, 0 , caster, PATTACH_POINT, "attach_hitloc", caster:GetOrigin(), true )
+		ParticleManager:SetParticleControlEnt( phantom, 0 , target, PATTACH_POINT, "attach_hitloc", target:GetOrigin(), true )
 		return nil
 		end)
 end
@@ -2077,4 +2040,342 @@ function Telepathy_vanish( keys )
 	local sphere = ParticleManager:CreateParticle("particles/units/heroes/hero_oracle/oracle_false_promise_cast.vpcf",PATTACH_CUSTOMORIGIN,caster)
 	ParticleManager:SetParticleControlEnt(sphere, 0, caster, PATTACH_POINT, "attach_hitloc", caster:GetOrigin(), true)
 	ParticleManager:SetParticleControlEnt(sphere, 2, caster, PATTACH_ABSORIGIN, "", caster:GetOrigin(), true)
+end
+
+function Mana_Break( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local mana_burn = ability:GetLevelSpecialValueFor("mana_burn", ability:GetLevel() - 1 )
+	if target:GetMana() >= mana_burn then
+		target: ReduceMana(mana_burn)
+	end
+end
+
+function Blossom( keys )
+	local point = keys.target_points[1]
+	local caster = keys.caster 
+	local blossom = ParticleManager:CreateParticle("particles/skills/blossom/blossom_end_team_sufferwood.vpcf", PATTACH_POINT, caster)
+	ParticleManager:SetParticleControl(blossom, 1, point)
+end
+
+
+
+function dragon_model( keys )
+	LinkLuaModifier("modifier_elder_dragon_form_model_lua", "modifier_elder_dragon_form_model_lua.lua", LUA_MODIFIER_MOTION_NONE)
+	local caster = keys.caster
+	local ability = keys.ability
+	caster:AddNewModifier(caster,ability,"modifier_elder_dragon_form_model_lua",{0})
+	caster:NotifyWearablesOfModelChange(false)
+end
+
+function Sharp_Claw( keys)
+	local caster = keys.caster
+	local sweep = ParticleManager:CreateParticle("particles/skills/sharp_claw/sweep_cross.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, caster)
+	ParticleManager:SetParticleControlEnt(sweep, 0, caster, PATTACH_ABSORIGIN, "", caster:GetOrigin(), true)
+
+	local projectile_table = {
+		Ability = keys.ability,
+		Source = keys.caster,
+		EffectName = "",
+		vSpawnOrigin = keys.caster:GetAbsOrigin(),
+		vVelocity = caster:GetForwardVector()*2000,
+		fDistance = 200,
+		fStartRadius = 10, --divide by 2?
+		fEndRadius = 150, --divide by 2?
+		bHasFrontalCone = true,
+		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+		iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+		bProvidesVision = false,
+	}
+	ProjectileManager:CreateLinearProjectile(projectile_table)
+end
+
+function Rage_cooldown( keys )
+	local ability = keys.ability
+	local caster = keys.caster
+	local cd = ability:GetLevelSpecialValueFor("cd", ability:GetLevel() - 1)
+	ability:StartCooldown(cd)
+	Timers:CreateTimer(cd, function()
+		ability:ApplyDataDrivenModifier(caster, caster, "modifier_rage", {})
+	end)
+end
+
+function Grow( keys )
+	local caster = keys.caster
+	local gap = 3
+	local ability = keys.ability
+
+	Timers:CreateTimer(3,function()
+		if caster:GetModifierStackCount("modifier_grow", caster) < 60 / gap then
+			caster:SetModifierStackCount("modifier_grow",caster,caster:GetModifierStackCount("modifier_grow", caster) + 1)
+
+			local perc = caster:GetHealth() / caster:GetMaxHealth()
+			local bonus = ability:GetLevelSpecialValueFor("health_bonus", ability:GetLevel() - 1)
+			caster:SetMaxHealth(caster:GetMaxHealth() + bonus)
+			local new_health = caster:GetMaxHealth() * perc
+			caster:ModifyHealth(math.floor(new_health) , ability, false, 0)
+
+			ParticleManager:CreateParticle("particles/units/heroes/hero_leshrac/leshrac_pulse_nova.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
+			return gap
+		else 
+			return nil
+		end
+	end)
+end
+	
+function Magic_Well(keys)
+	local point = keys.target_points[1]
+	local caster = keys.caster
+	local ability = keys.ability
+	local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() - 1)
+	local magic_well = CreateUnitByName("magic_well", point, true, caster, caster, caster:GetTeamNumber())
+	Timers:CreateTimer(duration,function()
+		magic_well:RemoveModifierByName("modifier_magic_well_aura")
+		magic_well:ForceKill(false)
+	end)
+
+	magic_well:EmitSound("Magic_well_cast")
+
+end
+
+function Arrow_of_Light( keys )
+	local point = keys.target_points[1]
+	local caster = keys.caster
+	local target_point = caster:GetAbsOrigin() + (point - caster:GetAbsOrigin()):Normalized() *1000
+	local arrow = ParticleManager:CreateParticle("particles/skills/arrow_of_light/arrow_of_light.vpcf", PATTACH_ABSORIGIN, caster)
+	ParticleManager:SetParticleControl(arrow, 1, target_point)
+	ParticleManager:SetParticleControl(arrow,2,Vector(1000,0,0))
+
+	local projectile_table = {
+		Ability = keys.ability,
+		Source = keys.caster,
+		EffectName = "",
+		vSpawnOrigin = keys.caster:GetAbsOrigin() + (point - caster:GetAbsOrigin()):Normalized() *100 ,
+		vVelocity = (point - caster:GetAbsOrigin()):Normalized() *1000,
+		fDistance = 1000,
+		fStartRadius = 100, --divide by 2?
+		fEndRadius = 100, --divide by 2?
+		bHasFrontalCone = false,
+		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+		iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+		bProvidesVision = false,
+	}
+	ProjectileManager:CreateLinearProjectile(projectile_table)
+
+end
+
+function Arrow_of_Light_Lift( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() - 1)
+	local lift = ParticleManager:CreateParticle("particles/skills/arrow_of_light/lift/lift.vpcf", PATTACH_ABSORIGIN, target)
+	ParticleManager:SetParticleControl(lift, 0, target:GetAbsOrigin())
+	ParticleManager:SetParticleControl(lift, 1, target:GetAbsOrigin())
+	ParticleManager:SetParticleControl(lift, 2, Vector(2,0,0))
+	ability:ApplyDataDrivenModifier(caster, target, "modifier_arrow_of_light_lift", {})
+	keys.distance = 200
+	keys.ticks = 20
+	local tick = 0
+	Timers:CreateTimer(function()
+		if tick < 7 then
+			tick = tick + 1
+			AOL_Motion_Lift( keys )
+			return 0.03
+		else
+			return nil
+		end
+	end)
+
+	Timers:CreateTimer(duration,function()
+		if tick  > 0 then
+			tick = tick - 1
+			AOL_Motion_Drop( keys )
+			return 0.03
+		else
+			return nil
+		end
+	end)
+
+end
+
+function Lift_Motion_Control( keys )
+	local target = keys.target
+	target.original_posi = target:GetAbsOrigin()
+	local distance = keys.distance
+	local ticks = keys.ticks
+	local time = ticks*0.03
+	local acc_stage = 5
+	local dec_stage = 5
+	local max_speed = distance / ( ticks - acc_stage ) --assume acc stage is as long as dec stage
+	local tick = 0
+	Timers:CreateTimer(function()
+		if tick <= acc_stage then
+			speed = max_speed * ( tick / acc_stage )
+		elseif tick < acc_stage and tick < (ticks - dec_stage) then
+			speed = max_speed
+		elseif tick >= (ticks - dec_stage) and tick <= ticks then
+			speed = max_speed * ((ticks - tick) / dec_stage)
+		elseif tick > ticks then
+			return nil
+		end
+		local current_posi = target:GetAbsOrigin()
+		target:SetAbsOrigin(Vector(current_posi.x,current_posi.y,current_posi.z + speed))	
+		tick = tick + 1
+		return 0.03
+	end)
+	
+end
+
+function Drop_Motion_Control( keys )
+	local target = keys.target
+	local distance = keys.distance
+	local ticks = keys.ticks
+	local time = ticks*0.03
+	local acc_stage = ticks
+	local dec_stage = 0
+	local max_speed = 2 * distance / ticks
+	local tick = 0
+	Timers:CreateTimer(function()
+		if tick <= acc_stage then
+			speed = max_speed * ( tick / acc_stage )
+		elseif tick < acc_stage and tick < (ticks - dec_stage) then
+			speed = max_speed
+		elseif tick >= (ticks - dec_stage) and tick <= ticks then
+			speed = max_speed * ((ticks - tick) / dec_stage)
+		elseif tick > ticks then
+			return nil
+		end
+		local current_posi = target:GetAbsOrigin()
+		if (current_posi.z - speed) < target.original_posi.z then
+			speed = current_posi.z - target.original_posi.z
+		end
+
+		target:SetAbsOrigin(Vector(current_posi.x,current_posi.y,current_posi.z - speed))	
+		tick = tick + 1
+		return 0.03
+	end)
+end
+
+function AOL_Motion_Lift( keys)
+	local target = keys.target
+	local original_posi = target:GetAbsOrigin()
+	target:SetAbsOrigin(Vector(original_posi.x, original_posi.y, original_posi.z +25))
+end
+
+function AOL_Motion_Drop( keys)
+	local target = keys.target
+	local original_posi = target:GetAbsOrigin()
+	target:SetAbsOrigin(Vector(original_posi.x, original_posi.y, original_posi.z -25))
+end
+
+function Arrow_of_Light_Hit( keys )
+	local target = keys.target
+	local lift = ParticleManager:CreateParticle("particles/skills/arrow_of_light/arrow_of_light_unit_hit.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
+	target:EmitSound("Mana_void_modified")
+end
+
+function Mana_Reversal( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local target = keys.target
+ 	local forward =	ParticleManager:CreateParticle("particles/skills/mana_reversal/mana_reversal.vpcf", PATTACH_ABSORIGIN_FOLLOW,caster)
+	ParticleManager:SetParticleControlEnt( forward, 0, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetOrigin(), true );
+	ParticleManager:SetParticleControlEnt( forward, 1, caster, PATTACH_POINT_FOLLOW, "attach_attack1", caster:GetOrigin(), true );
+	ParticleManager:SetParticleControl(forward,2,Vector(1000,0,0))
+
+	Timers:CreateTimer(0.7,function()
+		caster:StartGesture(ACT_DOTA_ATTACK)
+	end)
+end
+
+function Mana_Reversal_back( keys )
+	local  caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local projTable = {
+            EffectName = "",
+            Ability = ability,
+            Target = target,
+            Source = caster,
+            bDodgeable = true,
+            bProvidesVision = false,
+            vSpawnOrigin = caster:GetAbsOrigin(),
+            iMoveSpeed = 9999,
+            iVisionRadius = 0,
+            iVisionTeamNumber = caster:GetTeamNumber(),
+            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1
+        }
+    ProjectileManager:CreateTrackingProjectile(projTable)
+
+	local mana_caster = caster:GetManaPercent()
+	local mana_target = target:GetManaPercent()
+	ability.caster_mana_before = caster:GetMana()
+	print(mana_target,"manatarget")
+	caster:SetMana(caster:GetMaxMana() * mana_target / 100)
+    target:SetMana(target:GetMaxMana() * mana_caster / 100)
+	ability.caster_mana_after = caster:GetMana()
+end
+
+function Mana_Reversal_damage( keys )
+	local target = keys.target
+	local caster = keys.caster
+	local ability = keys.ability
+	local damage_ratio = ability:GetLevelSpecialValueFor("ratio", ability:GetLevel() - 1)
+	print(math.abs(ability.caster_mana_before - ability.caster_mana_after)*damage_ratio,"damage")
+	local damageTable = {victim=target,
+                        attacker=caster,
+                        damage=math.abs(ability.caster_mana_before - ability.caster_mana_after)*damage_ratio,        
+                        damage_type=keys.ability:GetAbilityDamageType()} 
+    ApplyDamage(damageTable) 
+end
+
+function Magicsphere( keys )
+	local ability = keys.ability
+	local caster = keys.caster
+	local sphere = ParticleManager:CreateParticle("particles/skills/magic_sphere/magic_sphere.vpcf",PATTACH_ABSORIGIN_FOLLOW,caster)
+	ParticleManager:SetParticleControl(sphere, 1, Vector(300,0,0))
+	ability.effect = sphere
+	ability:StartCooldown(2)
+end
+
+function Magicsphere_destroy( keys )
+	local ability = keys.ability
+	ParticleManager:DestroyParticle(ability.effect,false)
+end
+
+function Magicsphere_check( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local magic_floor = ability:GetLevelSpecialValueFor("mana",ability:GetLevel() - 1)
+	if caster:GetMana() < magic_floor then
+		caster:RemoveModifierByName("modifier_magicsphere")
+		ability:ToggleAbility()
+	end
+end
+
+function Magicsphere_sound( keys )
+	local caster = keys.caster
+	caster:EmitSound("Magicsphere_cast")
+end
+
+function RemoveWeareable( event )
+	print(".....")
+    local hero = event.caster
+    local model_name = "models/heroes/brewmaster/barrel.vmdl"
+
+    -- Iterate and remove
+    local wearables = {}
+    local model = hero:FirstMoveChild()
+    while model ~= nil do
+		print("class", model:GetClassname())
+		print("Name" .. model:GetModelName())
+        if model:GetClassname() ~= "" and model:GetClassname() == "dota_item_wearable" then
+        	model:RemoveSelf()
+            break
+        end
+        --model = model:NextMovePeer()
+		--print("Next Peer:" .. model:GetModelName())
+	end
 end

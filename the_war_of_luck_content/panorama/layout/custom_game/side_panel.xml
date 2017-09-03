@@ -1,0 +1,173 @@
+<root>
+    <styles>
+       <include src="file://{resources}/styles/custom_game/side_panel.css" />
+    </styles>   
+
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/side_panel.js" />
+    </scripts>
+        
+     <Panel hittest="false" class="baseHud">
+            <Panel id="side_panel">
+                <Panel id="side_panel_button_panel" >
+                    <Button id="side_panel_button" class="switch" onactivate="eject()">
+                        <Image src="file://{images}/custom_game/side_panel/button.png" />
+                    </Button>
+                </Panel>
+
+                <Panel id="page_panel" >
+                    <Button id="page_button" class="class_to_right" onactivate="page()">
+                    </Button>
+                </Panel>
+
+                <Panel id="hero_icon_container" >
+                    <Button id="hero_1" class="hero_icon" onactivate="hero(1)">
+                    </Button>
+
+                    <Button id="hero_2" class="hero_icon" onactivate="hero(2)">
+                    </Button>
+
+                    <Button id="hero_3" class="hero_icon" onactivate="hero(3)">
+                    </Button>
+
+                    <Button id="hero_4" class="hero_icon" onactivate="hero(4)">
+                    </Button>
+
+                    <Button id="hero_5" class="hero_icon" onactivate="hero(5)">
+                    </Button>
+
+                    <Button id="hero_6" class="hero_icon" onactivate="hero(6)">
+                    </Button>
+
+                    <Button id="hero_7" class="hero_icon" onactivate="hero(7)">
+                    </Button>
+
+                    <Button id="hero_8" class="hero_icon" onactivate="hero(8)">
+                    </Button>
+
+                    <Button id="hero_9" class="hero_icon" onactivate="hero(9)">
+                    </Button>
+
+                    <Button id="hero_10" class="hero_icon" onactivate="hero(10)">
+                    </Button>
+
+                    <Button id="hero_11" class="hero_icon" onactivate="hero(11)">
+                    </Button>
+
+                    <Button id="hero_12" class="hero_icon" onactivate="hero(12)">
+                    </Button>
+                </Panel>
+
+                <Panel id="creep_container" >
+                    <Button id="creep_unfold_button" onactivate="creep_unfold()">
+                    </Button>
+
+                    <Panel id="creep_0" >
+                        <Label class="creep_name_label" text="" />
+                    </Panel>
+                    <Button id="creep_1" class="creep_name" onactivate="creep(1)">
+                         <Label class="creep_name_label" text="Dark Spirit" />
+                    </Button>
+
+                    <Button id="creep_2" class="creep_name" onactivate="creep(2)">
+                        <Label class="creep_name_label" text="Bounty Hunter" />
+                    </Button>
+
+                    <Button id="creep_3" class="creep_name" onactivate="creep(3)">
+                        <Label class="creep_name_label" text="Rock" />
+                    </Button>
+
+                    <Button id="creep_4" class="creep_name" onactivate="creep(4)">
+                        <Label class="creep_name_label" text="Warrior" />
+                    </Button>
+
+                    <Button id="creep_5" class="creep_name" onactivate="creep(5)">
+                        <Label class="creep_name_label" text="Pudge" />
+                    </Button>
+
+                    <Button id="creep_6" class="creep_name" onactivate="creep(6)">
+                        <Label class="creep_name_label" text="Earth" />
+                    </Button>
+
+                    <Button id="creep_7" class="creep_name" onactivate="creep(7)">
+                        <Label class="creep_name_label" text="Clockwerk" />
+                    </Button>
+
+                    <Button id="creep_8" class="creep_name" onactivate="creep(8)">
+                        <Label class="creep_name_label" text="Satyr" />
+                    </Button>
+
+                    <Button id="creep_9" class="creep_name" onactivate="creep(9)">
+                        <Label class="creep_name_label" text="Jade" />
+                    </Button>  
+
+                    <Button id="creep_10" class="creep_name" onactivate="creep(10)">
+                        <Label class="creep_name_label" text="Ursa" />
+                    </Button>
+
+                    <Button id="creep_11" class="creep_name" onactivate="creep(11)">
+                        <Label class="creep_name_label" text="Slark" />
+                    </Button>
+
+                    <Button id="creep_12" class="creep_name" onactivate="creep(12)">
+                        <Label class="creep_name_label" text="Phantom Assassin" />
+                    </Button>
+
+                    <Button id="creep_13" class="creep_name" onactivate="creep(13)">
+                        <Label class="creep_name_label" text="Fighter of Madness" />
+                    </Button>
+
+                    <Button id="creep_14" class="creep_name" onactivate="creep(14)">
+                        <Label class="creep_name_label" text="Rhino Warrior" />
+                    </Button>
+
+                    <Button id="creep_15" class="creep_name" onactivate="creep(15)">
+                        <Label class="creep_name_label" text="Centaur" />
+                    </Button>
+
+                    <Button id="creep_16" class="creep_name" onactivate="creep(16)">
+                        <Label class="creep_name_label" text="Ogre Thug" />
+                    </Button>
+
+                    <Button id="creep_17" class="creep_name" onactivate="creep(17)">
+                        <Label class="creep_name_label" text="Ogre Bruiser" />
+                    </Button>
+
+                    <Button id="creep_18" class="creep_name" onactivate="creep(18)">
+                        <Label class="creep_name_label" text="Giant Wolf" />
+                    </Button>
+
+                    <Button id="creep_19" class="creep_name" onactivate="creep(19)">
+                        <Label class="creep_name_label" text="Ghost" />
+                    </Button>
+
+                    <Button id="creep_20" class="creep_name" onactivate="creep(20)">
+                        <Label class="creep_name_label" text="Tusk" />
+                    </Button>
+
+                    <Button id="creep_21" class="creep_name" onactivate="creep(21)">
+                        <Label class="creep_name_label" text="Rifleman" />
+                    </Button>
+
+                    <Button id="creep_22" class="creep_name" onactivate="creep(22)">
+                        <Label class="creep_name_label" text="Gargoyle" />
+                    </Button>
+
+                    <Button id="creep_23" class="creep_name" onactivate="creep(23)">
+                        <Label class="creep_name_label" text="Nyx Assassin" />
+                    </Button>
+
+                    <Button id="creep_24" class="creep_name" onactivate="creep(24)">
+                        <Label class="creep_name_label" text="Satyr_b" />
+                    </Button>
+
+                    <Button id="creep_25" class="creep_name" onactivate="creep(25)">
+                        <Label class="creep_name_label" text="Nature's Prophet" />
+                    </Button>
+
+
+                </Panel>
+            </Panel>
+            
+     </Panel>
+</root>

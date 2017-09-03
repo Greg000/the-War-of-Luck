@@ -1,0 +1,319 @@
+.baseHud {
+    position: 0 25% 0; 
+    width: 600px;
+    height: 400px;
+}
+
+
+#side_panel {
+    position: -570px 0 0; 
+    width: 600px;
+    height: 400px;
+    opacity: 0.97;
+    background-image:url("file://{images}/custom_game/side_panel/side_panel.png");
+    visibility: collapse;
+    transition: position 1s ease-in-out 0.0s;
+}
+
+#side_panel_button_panel {
+    transform: rotateZ( 0deg );
+    width:20px;
+    height: 20px;
+    position: 570px 10px 1px;
+}
+
+#page_panel{
+    width:30px;
+    height:30px;
+    position:525px 355px 1px;
+}
+
+#page_button {
+    width:30px;
+    height:30px;
+    background-image:url("file://{images}/custom_game/side_panel/next_page.png");
+}
+
+#page_button:hover{
+    brightness:1.5;
+}
+
+#side_panel_button_panel:hover {
+    brightness:1.5;
+}
+
+#hero_icon_container{
+    width:550px;
+    height:350px;
+    position:50px 100px 0;
+    transition: opacity 0.5s ease-in-out 0.0s, position 0.5s ease-in-out 0.0s;
+}
+
+.hero_icon{
+    box-shadow: inset #000000ff 0px 0px 5px 0px;
+    saturation:0.4;
+    transition: saturation 0.1s ease-in-out 0.0s;
+    background-size: 100% 100%;
+}
+
+.hero_icon:hover{
+    saturation:1;
+}
+#hero_1{
+    position: 0 0 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/crystal_maiden_hphover.png");
+}
+
+#hero_2{
+    position: 120px 0 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/legion_commander_hphover.png");
+}
+
+#hero_3{
+    position: 240px 0 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/ember_spirit_hphover.png");
+}
+
+#hero_4{
+    position: 360px 0 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/abaddon_hphover.png");
+}
+
+#hero_5{
+    position: 0 80px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/kunkka_hphover.png");
+}
+
+#hero_6{
+    position: 120px 80px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/windrunner_hphover.png");
+}
+
+#hero_7{
+    position: 240px 80px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/abyssal_underlord_hphover.png");
+}
+
+#hero_8{
+    position: 360px 80px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/templar_assassin_hphover.png");
+}
+
+#hero_9{
+    position: 0px 160px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/tinker_hphover.png");
+}
+
+#hero_10{
+    position: 120px 160px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/oracle_hphover.png");
+}
+
+#hero_11{
+    position: 240px 160px 0;
+    width:80px;
+    height:45px;
+    background-image:url("file://{images}/custom_game/side_panel/dragon_knight_hphover.png");
+}
+
+.hero_icon{
+    visibility: visible;
+}
+
+
+#creep_container {
+    width:210px;
+    height:40px;
+    position:280px 100px 0;
+    opacity: 0;
+    overflow: scroll;
+    background-color:#232828ff;
+    border: 1px solid #444c4cff;
+    transition: height 0.5s ease-in-out 0.0s, opacity 0.5s ease-in-out 0.0s, position 0.5s ease-in-out 0.0s;
+}
+
+#creep_unfold_button {
+    position:0 0 2px;
+    width:20px;
+    height:20px;
+    margin-left:175px;
+    margin-top:8px;
+    transform: rotateZ( 0deg );
+    background-size: 100% 100%;
+    background-image: url("file://{images}/custom_game/side_panel/unfold_button.png");
+}
+
+.creep_name{
+    width:210px;
+    height:40px;
+    background-size: 100% 100%;
+    border: 1px solid #2f3438ff;
+    background-color:#3d4448ff;
+}
+
+.creep_name:hover{
+    brightness:1.5;
+}
+
+.creep_name_label {
+    color:#868f91ff;
+    font-size:20px;
+    font-family:Radiance,FZLanTingHei-R-GBK,TH Sarabun New,YDYGO 540,Gulim,MingLiU;
+    text-align: center;
+    width:210px;
+    height:40px;
+    margin-top:8px;
+}
+
+#creep_0 {
+    position: 0px 0px 0;
+    width:210px;
+    height:40px;
+    background-size: 100% 100%;
+    border: 1px solid #2f3438ff;
+    background-color:#3d4448ff;
+}
+
+#creep_1 {
+    position: 0px 40px 0;
+    
+}
+
+#creep_2 {
+    position: 0px 80px 0;
+    
+}
+
+#creep_3 {
+    position: 0px 120px 0;
+    
+}
+
+#creep_4 {
+    position: 0px 160px 0;
+    
+}
+
+#creep_5 {
+    position: 0px 200px 0;
+    
+}
+
+#creep_6 {
+    position: 0px 240px 0;
+    
+}
+
+#creep_7 {
+    position: 0px 280px 0;
+    
+}
+
+#creep_8 {
+    position: 0px 320px 0;
+    
+}
+
+#creep_9 {
+    position: 0px 360px 0;
+    
+}
+
+#creep_10 {
+    position: 0px 400px 0;
+    
+}
+
+#creep_11{
+    position: 0px 440px 0;
+    
+}
+
+#creep_12{
+    position: 0px 480px 0;
+    
+}
+
+#creep_13{
+    position: 0px 520px 0;
+    
+}
+
+#creep_14{
+    position: 0px 560px 0;
+    
+}
+
+#creep_15{
+    position: 0px 600px 0;
+    
+}
+
+#creep_16{
+    position: 0px 640px 0;
+    
+}
+
+#creep_17{
+    position: 0px 680px 0;
+    
+}
+
+#creep_18{
+    position: 0px 720px 0;
+    
+}
+
+#creep_19{
+    position: 0px 760px 0;
+    
+}
+
+#creep_20{
+    position: 0px 800px 0;
+    
+}
+
+#creep_21{
+    position: 0px 840px 0;
+    
+}
+#creep_22{
+    position: 0px 880px 0;
+    
+}
+
+#creep_23{
+    position: 0px 920px 0;
+    
+}
+
+#creep_24{
+    position: 0px 960px 0;
+    
+}
+
+#creep_25{
+    position: 0px 1000px 0;
+    
+}
